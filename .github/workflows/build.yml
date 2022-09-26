@@ -33,6 +33,3 @@ jobs:
       - name: Build
         working-directory: ./build
         run: cmake --build . -j --config ${{ matrix.config.config }}
-      - name: Test
-        working-directory: ./build
-        run: ctest -j -C ${{ matrix.config.config }}
