@@ -11,16 +11,16 @@ jobs:
       matrix:
         config: 
           - {
-            name: "Windows/Static/X64/Release",
+            name: "Windows/X64/Release",
             os: windows-2019,
             config: Release,
             args: -G "Visual Studio 16 2019" -A x64,
           }
           - {
-            name: "Ubuntu/18.04/Static/X64/Release",
-            os: ubuntu-18.04,
+            name: "Windows/X86/Release",
+            os: windows-2019,
             config: Release,
-            cmake_extra_args: "-DCMAKE_C_COMPILER=/usr/bin/gcc-14 -DCMAKE_CXX_COMPILER=/usr/bin/g++-14",
+            args: -G "Visual Studio 16 2019" -A x86,
           }
     steps:
       - uses: actions/checkout@v3
