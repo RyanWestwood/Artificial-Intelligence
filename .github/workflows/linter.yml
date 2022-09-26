@@ -1,4 +1,4 @@
-name: Cpp Line Codebase
+name: Cpp Lint Codebase
 on: [push]
 jobs:
   cpplint:
