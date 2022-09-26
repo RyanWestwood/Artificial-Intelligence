@@ -1,6 +1,6 @@
 name: Build Tests
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   Build:
@@ -11,10 +11,16 @@ jobs:
       matrix:
         config: 
           - {
-            name: "Windows/Static/X64/Release",
+            name: "Windows/X64/Release",
             os: windows-2019,
             config: Release,
             args: -G "Visual Studio 16 2019" -A x64,
+          }
+          - {
+            name: "Windows/X86/Release",
+            os: windows-2019,
+            config: Release,
+            args: -G "Visual Studio 16 2019" -A x86,
           }
     steps:
       - uses: actions/checkout@v3
@@ -27,6 +33,3 @@ jobs:
       - name: Build
         working-directory: ./build
         run: cmake --build . -j --config ${{ matrix.config.config }}
-      - name: Test
-        working-directory: ./build
-        run: ctest -j -C ${{ matrix.config.config }}

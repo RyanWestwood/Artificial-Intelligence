@@ -9,6 +9,10 @@ const int SCREEN_HEIGHT = 480;
 
 int main(int argc, char* args[])
 {
+#ifdef LOGGING
+	std::cout << "Debug Mode\n";
+#endif
+
 	SDL_Window* window = NULL;
 	SDL_Surface* screenSurface = NULL;
 
