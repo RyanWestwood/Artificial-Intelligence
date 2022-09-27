@@ -2,8 +2,13 @@
 
 namespace Renderer {
 
-	SDL_Window* g_Window = nullptr;
-	SDL_Renderer* g_Renderer = nullptr;
+	namespace {
+		extern SDL_Window* g_Window = nullptr;
+		extern SDL_Renderer* g_Renderer = nullptr;
+
+		constexpr int SCREEN_WIDTH = 1536;
+		constexpr int SCREEN_HEIGHT = 864;
+	}
 	
 	bool InitalizeSDL()
 	{

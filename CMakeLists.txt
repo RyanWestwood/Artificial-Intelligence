@@ -22,6 +22,8 @@ include_directories(${SDL2_INCLUDE_DIRS})
 file(GLOB SOURCE
     "src/*.h"
     "src/*.cpp"
+    "src/**/*.h"
+    "src/**/*.cpp"
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
