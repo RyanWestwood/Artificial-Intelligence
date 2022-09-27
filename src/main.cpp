@@ -1,42 +1,39 @@
 #include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
-
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include "Engine.h"
 
 int main(int argc, char* args[])
 {
 #ifdef LOGGING
-	std::cout << "Debug Mode\n";
+	std::cout << "Logging Enabled:\n";
 #endif
 
-	SDL_Window* window = NULL;
-	SDL_Surface* screenSurface = NULL;
+	Engine g_App = Engine();
+	if (!g_App.Initialize()) {
+		std::cout << "Error could not init SDL!" << "\n";
+	}
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		std::cout << "SDL could not initialize! SDL_Error: %s\n," << SDL_GetError();
-	}
-	else
-	{
-		window = SDL_CreateWindow("Artificial-Intelligence", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		if (window == NULL)
-		{
-			std::cout << "Window could not be created! SDL_Error: %s\n" << SDL_GetError();
+#ifdef LOGGING
+	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n";
+#endif
+
+	unsigned int g_CurrentTime = SDL_GetPerformanceCounter();;
+	unsigned int g_LastTime = 0;
+
+	while (g_App.IsRunning()) {
+		if (!g_App.IsPaused()) {
+			g_LastTime = g_CurrentTime;
+			g_CurrentTime = SDL_GetPerformanceCounter();
+			double deltaTime = ((g_CurrentTime - g_LastTime) / (double)SDL_GetPerformanceFrequency());
+
+			g_App.Input();
+			g_App.Update(deltaTime);
+			g_App.Draw();
 		}
-		else
-		{
-			screenSurface = SDL_GetWindowSurface(window);
-			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x66, 0x66, 0x66));
-			SDL_UpdateWindowSurface(window);
-			SDL_Event e; bool quit = false; while (quit == false) { while (SDL_PollEvent(&e)) { if (e.type == SDL_QUIT) quit = true; } }
+		else {
+			g_App.Resume();
 		}
 	}
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+	g_App.Unintialize();
 
 	return 0;
 }
