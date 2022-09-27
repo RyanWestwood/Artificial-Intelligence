@@ -1,8 +1,11 @@
 #include "Engine.h"
+#include "Texture.h"
 
 bool Engine::Initialize()
 {
-	return Renderer::InitalizeSDL();
+	bool renderer = Renderer::InitalizeSDL();
+
+	return renderer; 
 }
 
 void Engine::Unintialize()
@@ -37,5 +40,7 @@ void Engine::Update(double delta_time)
 
 void Engine::Draw()
 {
+	SDL_RenderClear(Renderer::GetRenderer());
 
+	SDL_RenderPresent(Renderer::GetRenderer());
 }
