@@ -5,7 +5,7 @@
 
 namespace Renderer {
 
-	bool InitalizeRenderer();
+	bool InitializeRenderer();
 	void UninitalizeRenderer();
 
 	SDL_Renderer* GetRenderer();

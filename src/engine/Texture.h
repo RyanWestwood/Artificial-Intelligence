@@ -8,8 +8,12 @@ namespace Texture {
 		const char* what() const throw() { return "Texture Loading Error!"; }
 	};
 
-	SDL_Texture* LoadTexture(const char* filename);
-	SDL_Rect LoadTextureRect(const char* filename);
+	struct TextureData {
+		SDL_Texture* m_Texture;
+		SDL_Rect m_Source;
+	};
+
+	TextureData LoadTexture(const char* filename);
 	void Draw(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dest);
 }
 

@@ -8,7 +8,7 @@ namespace Texture {
 		const std::string g_TextureDirectory = "C:/Users/Ryan/Documents/Git/Artificial-Intelligence/assets/textures/";
 	}
 
-	SDL_Texture* LoadTexture(const char* filename)
+	TextureData LoadTexture(const char* filename)
 	{
 #ifdef LOGGING
 		std::cout << "Loading texture: " << filename << "\n";
@@ -18,32 +18,14 @@ namespace Texture {
 			if (surface == nullptr) throw TextureError();
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(Renderer::GetRenderer(), surface);
 			if (texture == nullptr) throw TextureError();
-			SDL_FreeSurface(surface);
-			return texture;
-		}
-		catch (std::exception& e) {
-			std::cout << "An exception was thrown." << "\n";
-			std::cout << "\t" << e.what() << ": " << "\t" << IMG_GetError();
-			return nullptr;
-		}
-	}
-
-	SDL_Rect LoadTextureRect(const char* filename)
-	{
-#ifdef LOGGING
-		std::cout << "Loading texture rect: " << filename << "\n";
-#endif
-		try {
-			SDL_Surface* surface = IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
 			SDL_Rect source = { 0,0,surface->w,surface->h };
-			if (surface == nullptr) throw TextureError();
 			SDL_FreeSurface(surface);
-			return source;
+			return { texture, source };
 		}
 		catch (std::exception& e) {
 			std::cout << "An exception was thrown." << "\n";
 			std::cout << "\t" << e.what() << ": " << "\t" << IMG_GetError();
-			return { 0,0,0,0 };
+			return {};
 		}
 	}
 
@@ -62,8 +44,9 @@ Sprite::Sprite()
 
 void Sprite::Initialize(const char* filename)
 {
-	m_Texture = Texture::LoadTexture(filename);
-	m_Source = Texture::LoadTextureRect(filename);
+	auto texture = Texture::LoadTexture(filename);
+	m_Texture = texture.m_Texture;
+	m_Source = texture.m_Source;
 	m_Destination = { 0,0,32,32 };
 }
 

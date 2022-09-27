@@ -1,7 +1,8 @@
 #pragma once
-#include "Renderer.h"
 #include "Texture.h"
+#include "Renderer.h"
 #include "Sound.h"
+#include "Font.h"
 
 class Engine {
 public:
@@ -19,7 +20,10 @@ public:
 private:
 
 public:
-
+	Text text;
+	Sprite sprite;
+	Music music;
+	SoundEffect sfx;
 private:
 
 };

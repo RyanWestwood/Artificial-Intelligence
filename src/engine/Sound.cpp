@@ -7,12 +7,15 @@ namespace Sound {
 		const std::string g_MusicDirectory = "C:/Users/Ryan/Documents/Git/Artificial-Intelligence/assets/music/";
 	}
 
-	bool InitalizeSound()
+	bool InitializeSound()
 	{
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-			std::cout << "SDL_Mix could not init! SDL_Mix error: " << Mix_GetError() << "\n";
+			std::cout << "SDL_Mix could not initialize! SDL_Mix error: " << Mix_GetError() << "\n";
 			return false;
 		}
+#ifdef LOGGING
+		std::cout << "Sound Initialized!\n";
+#endif
 		return true;
 	}
 

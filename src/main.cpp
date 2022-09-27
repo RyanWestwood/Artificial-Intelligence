@@ -1,5 +1,7 @@
 #include <iostream>
+#include <SDL.h>
 #include "engine/Engine.h"
+#include "engine/Renderer.h"
 
 int main(int argc, char* args[])
 {
