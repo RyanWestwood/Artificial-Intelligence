@@ -9,7 +9,7 @@ namespace Sound {
 		const char* what() const throw(){ return "Sound Loading Error!\n"; }		
 	};
 
-	bool InitalizeSound();
+	bool InitializeSound();
 	void UninitalizeSound();
 
 	Mix_Chunk* LoadSfx(const char* filename);

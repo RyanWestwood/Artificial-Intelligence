@@ -10,7 +10,7 @@ namespace Renderer {
 		constexpr int SCREEN_HEIGHT = 864;
 	}
 	
-	bool InitalizeRenderer()
+	bool InitializeRenderer()
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 			std::cout << "SDL could not be initialized! SDL Error: " << SDL_GetError() << "\n";
@@ -45,6 +45,9 @@ namespace Renderer {
 				}
 			}
 		}
+#ifdef LOGGING
+		std::cout << "Renderer Initialized!\n";
+#endif
 		return true;
 	}
 

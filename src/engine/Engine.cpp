@@ -1,16 +1,27 @@
 #include "Engine.h"
-#include "Texture.h"
 
 bool Engine::Initialize()
 {
-	bool renderer = Renderer::InitalizeRenderer();
-	bool sound = Sound::InitalizeSound();
+	bool renderer = Renderer::InitializeRenderer();
+	bool sound = Sound::InitializeSound();
+	bool font = Font::InitializeFont();
 
-	return renderer && sound; 
+	text.Initalize("font.ttf", "HELLO WORLD!");
+	sprite.Initialize("tilemap.png");
+	music.Initialize("music.wav");
+	sfx.Initialize("temp.wav");
+	sprite.m_Destination = sprite.m_Source;
+	sprite.m_Destination.y += 64;
+
+	music.PlayMusic();
+	sfx.PlaySound();
+
+	return renderer && sound && font; 
 }
 
 void Engine::Unintialize()
 {
+	Font::UnInitializeFont();
 	Sound::UninitalizeSound();
 	Renderer::UninitalizeRenderer();
 }
@@ -43,6 +54,9 @@ void Engine::Update(double delta_time)
 void Engine::Draw()
 {
 	SDL_RenderClear(Renderer::GetRenderer());
+
+	text.Draw();
+	sprite.Draw();
 
 	SDL_RenderPresent(Renderer::GetRenderer());
 }
