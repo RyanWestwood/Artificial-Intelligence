@@ -3,14 +3,16 @@
 
 bool Engine::Initialize()
 {
-	bool renderer = Renderer::InitalizeSDL();
+	bool renderer = Renderer::InitalizeRenderer();
+	bool sound = Sound::InitalizeSound();
 
-	return renderer; 
+	return renderer && sound; 
 }
 
 void Engine::Unintialize()
 {
-	Renderer::UninitalizeSDL();
+	Sound::UninitalizeSound();
+	Renderer::UninitalizeRenderer();
 }
 
 bool Engine::IsRunning()

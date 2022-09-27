@@ -10,6 +10,9 @@ namespace Texture {
 
 	SDL_Texture* LoadTexture(const char* filename)
 	{
+#ifdef LOGGING
+		std::cout << "Loading texture: " << filename << "\n";
+#endif
 		try {
 			SDL_Surface* surface = IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
 			if (surface == nullptr) throw TextureError();
@@ -27,6 +30,9 @@ namespace Texture {
 
 	SDL_Rect LoadTextureRect(const char* filename)
 	{
+#ifdef LOGGING
+		std::cout << "Loading texture rect: " << filename << "\n";
+#endif
 		try {
 			SDL_Surface* surface = IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
 			SDL_Rect source = { 0,0,surface->w,surface->h };

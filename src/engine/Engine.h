@@ -1,6 +1,7 @@
 #pragma once
 #include "Renderer.h"
 #include "Texture.h"
+#include "Sound.h"
 
 class Engine {
 public:
