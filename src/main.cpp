@@ -35,7 +35,7 @@ int main(int argc, char* args[])
 			g_App.Resume();
 		}
 	}
-	g_App.Unintialize();
+	g_App.UnInitialize();
 
 	return 0;
 }
