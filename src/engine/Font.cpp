@@ -24,7 +24,7 @@ namespace Font {
 		TTF_Quit();
 	}
 
-	Font::FontData LoadFont(const char* filename, int fontsize, const char* message, const SDL_Color& color, const SDL_Point& position)
+	FontData LoadFont(const char* filename, int fontsize, const char* message, const SDL_Color& color, const SDL_Point& position)
 	{
 #ifdef LOGGING
 		std::cout << "Loading font: " << filename << "\n";

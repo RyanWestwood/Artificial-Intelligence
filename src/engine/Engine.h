@@ -1,10 +1,10 @@
 #pragma once
-#include <vector>
-
 #include "Texture.h"
 #include "Renderer.h"
 #include "Sound.h"
 #include "Font.h"
+
+#include "Tilemap.h"
 
 class Engine {
 public:
@@ -27,6 +27,7 @@ public:
 	Music music;
 	SoundEffect sfx;
 	bool m_IsPaused;
+	Tilemap tilemap;
 
 private:
 

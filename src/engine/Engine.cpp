@@ -12,6 +12,8 @@ bool Engine::Initialize()
 	sprite.Initialize("tilemap.png");
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
+
+	tilemap.Initialize();
 	
 	sprite.m_Destination = sprite.m_Source;
 	sprite.m_Destination.y += 64;
@@ -110,6 +112,7 @@ void Engine::Draw()
 {
 	SDL_RenderClear(Renderer::GetRenderer());
 
+	tilemap.Draw();
 	text.Draw();
 	sprite.Draw();
 
