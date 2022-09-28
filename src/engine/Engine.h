@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "Texture.h"
 #include "Renderer.h"
 #include "Sound.h"
@@ -7,7 +9,7 @@
 class Engine {
 public:
 	bool Initialize();
-	void Unintialize();
+	void UnInitialize();
 
 	bool IsRunning();
 	bool IsPaused();
@@ -24,6 +26,8 @@ public:
 	Sprite sprite;
 	Music music;
 	SoundEffect sfx;
+	bool m_IsPaused;
+
 private:
 
 };
