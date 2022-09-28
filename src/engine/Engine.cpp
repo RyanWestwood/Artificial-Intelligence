@@ -9,12 +9,10 @@ bool Engine::Initialize()
 	bool input = Input::InitialzieInput();
 
 	text.Initalize("font.ttf", "HELLO WORLD!");
-	sprite.Initialize("tilemap.png");
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
+	tilemap.Initialize("tilemap.png", {32,32}, {48,27}, 16, 32);
 	
-	sprite.m_Destination = sprite.m_Source;
-	sprite.m_Destination.y += 64;
 	music.PlayMusic();
 	sfx.PlaySound();
 	m_IsPaused = false;
@@ -110,8 +108,8 @@ void Engine::Draw()
 {
 	SDL_RenderClear(Renderer::GetRenderer());
 
+	tilemap.Draw();
 	text.Draw();
-	sprite.Draw();
 
 	SDL_RenderPresent(Renderer::GetRenderer());
 }

@@ -1,5 +1,6 @@
 #include "Font.h"
 #include "Renderer.h"
+#include <string.h>
 
 namespace Font {
 
@@ -24,7 +25,7 @@ namespace Font {
 		TTF_Quit();
 	}
 
-	Font::FontData LoadFont(const char* filename, int fontsize, const char* message, const SDL_Color& color, const SDL_Point& position)
+	FontData LoadFont(const char* filename, int fontsize, const char* message, const SDL_Color& color, const SDL_Point& position)
 	{
 #ifdef LOGGING
 		std::cout << "Loading font: " << filename << "\n";
@@ -54,7 +55,7 @@ namespace Font {
 
 Text::Text()
 {
-	m_Colour = { 60,60,60,255 };
+	m_Colour = { 255, 255, 255,255 };
 	m_Position = { 0,0 };
 	m_FontSize = 18;
 	m_Dimensions = { 0,0,0,0 };
