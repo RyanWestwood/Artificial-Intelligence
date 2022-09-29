@@ -3,7 +3,8 @@
 
 Tile::Tile(Texture::TextureData spritesheet)
 {
-	m_Texture = spritesheet;
+	m_TextureData = spritesheet;
+	m_Destination = { 0,0,0,0 };
 }
 
 Tile::~Tile()
@@ -13,7 +14,7 @@ Tile::~Tile()
 
 void Tile::Draw()
 {
-	SDL_RenderCopy(Renderer::GetRenderer(), m_Texture.m_Texture, &m_Texture.m_Source, &m_Destination);
+	SDL_RenderCopy(Renderer::GetRenderer(), m_TextureData.m_Texture, &m_TextureData.m_Source, &m_Destination);
 }
 
 //	TODO; @RyanWestwood - Make this read in from a file or assign the array manually

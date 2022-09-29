@@ -11,7 +11,7 @@ public:
 	void Draw();
 
 public:
-	Texture::TextureData m_Texture;
+	Texture::TextureData m_TextureData;
 	SDL_Rect m_Destination;
 };
 
