@@ -55,7 +55,7 @@ void Sprite::Initialize(const char* filename)
 	m_Destination = { 0,0,32,32 };
 }
 
-void Sprite::Draw()
+void Sprite::Draw(SDL_RendererFlip flip)
 {
-	SDL_RenderCopy(Renderer::GetRenderer(), m_Texture, &m_Source, &m_Destination);
+	SDL_RenderCopyEx(Renderer::GetRenderer(), m_Texture, &m_Source, &m_Destination, NULL, NULL, flip);
 }

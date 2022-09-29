@@ -12,9 +12,9 @@ bool Engine::Initialize()
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
 	tilemap.Initialize("tilemap.png", {32,32}, {48,27}, 16, 32);
-	player.Initialize("tilemap.png");
-	player.m_Source = { (9 * 16), (13 * 16), 16, 16 };
-	player.m_Destination = { 128, 128, 32,32 };
+	player.Initialize();
+	//player.m_Source = { (9 * 16), (13 * 16), 16, 16 };
+	//player.m_Destination = { 128, 128, 32,32 };
 
 	music.PlayMusic();
 	sfx.PlaySound();
@@ -100,11 +100,12 @@ void Engine::Input()
 #endif
 		}
 	}
+	player.Input();
 }
 
 void Engine::Update(double delta_time)
 {
-
+	player.Update(delta_time);
 }
 
 void Engine::Draw()

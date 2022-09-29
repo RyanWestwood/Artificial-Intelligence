@@ -1,5 +1,5 @@
 #include "Tilemap.h"
-#include "Renderer.h"
+#include "engine/Renderer.h"
 
 Tile::Tile(Texture::TextureData spritesheet)
 {
@@ -24,7 +24,7 @@ Tilemap::Tilemap()
 	{
 		for (int x = 0; x < 48; x++)
 		{
-			MAP_DATA[y][x] = (2) + (3 * 32); // x = 0-31, y = 0-31
+			MAP_DATA[y][x] = (1) + (4 * 32); // x = 0-31, y = 0-31
 		}
 	}
 }
