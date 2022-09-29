@@ -47,7 +47,7 @@ void Tilemap::Initialize(const char* filename, SDL_Point spriteTiles, SDL_Point 
 		{
 			Tile tile = { m_TextureData };
 			tile.m_Destination = { dstTileSize * x, dstTileSize * y, dstTileSize, dstTileSize };
-			tile.m_Texture.m_Source = { (MAP_DATA[y][x] % spriteTiles.x) * srcTileSize, (MAP_DATA[y][x] / spriteTiles.y) * srcTileSize, srcTileSize, srcTileSize };
+			tile.m_TextureData.m_Source = { (MAP_DATA[y][x] % spriteTiles.x) * srcTileSize, (MAP_DATA[y][x] / spriteTiles.y) * srcTileSize, srcTileSize, srcTileSize };
 			m_Tiles.push_back(tile);
 		}
 	}
