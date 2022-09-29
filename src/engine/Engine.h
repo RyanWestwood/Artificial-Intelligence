@@ -4,7 +4,8 @@
 #include "Sound.h"
 #include "Font.h"
 
-#include "Tilemap.h"
+#include "../Tilemap.h"
+#include "../Player.h"
 
 class Engine {
 public:
@@ -25,8 +26,8 @@ public:
 	Text text;
 	Music music;
 	SoundEffect sfx;
-	Sprite player;
 	Tilemap tilemap;
+	Player player;
 	bool m_IsPaused;
 
 private:
