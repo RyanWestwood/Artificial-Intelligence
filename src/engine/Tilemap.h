@@ -19,7 +19,7 @@ public:
 	Tilemap();
 	~Tilemap();
 
-	void Initialize();
+	void Initialize(const char* filename, SDL_Point spriteTiles, SDL_Point dimensons, int srcTileSize, int dstTileSize);
 	void Draw();
 
 public:

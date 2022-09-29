@@ -1,6 +1,6 @@
 #pragma once
-#include "Texture.h"
 #include "Renderer.h"
+#include "Texture.h"
 #include "Sound.h"
 #include "Font.h"
 
@@ -23,7 +23,6 @@ private:
 
 public:
 	Text text;
-	Sprite sprite;
 	Music music;
 	SoundEffect sfx;
 	bool m_IsPaused;

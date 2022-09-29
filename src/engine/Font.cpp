@@ -1,5 +1,6 @@
 #include "Font.h"
 #include "Renderer.h"
+#include <string.h>
 
 namespace Font {
 
@@ -54,7 +55,7 @@ namespace Font {
 
 Text::Text()
 {
-	m_Colour = { 60,60,60,255 };
+	m_Colour = { 255, 255, 255,255 };
 	m_Position = { 0,0 };
 	m_FontSize = 18;
 	m_Dimensions = { 0,0,0,0 };
