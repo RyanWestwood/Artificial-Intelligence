@@ -1,17 +1,18 @@
 #pragma once
+#include <array>
 #include <vector>
 #include "Texture.h"
-#include <array>
 
 class Tile {
 public:
-	Tile(Sprite spritesheet);
+	Tile(Texture::TextureData spritesheet);
 	~Tile();
 
 	void Draw();
 
 public:
-	Sprite m_Sprite;
+	Texture::TextureData m_TextureData;
+	SDL_Rect m_Destination;
 };
 
 class Tilemap {
@@ -25,5 +26,6 @@ public:
 public:
 	std::array<std::array<int, 48>, 27 > MAP_DATA;
 	std::vector<Tile> m_Tiles;
-	Sprite m_Spritesheet;
+	Texture::TextureData m_TextureData;	
+	SDL_Rect m_Destination;
 };

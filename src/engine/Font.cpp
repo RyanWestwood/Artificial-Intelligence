@@ -64,6 +64,12 @@ Text::Text()
 	m_Texture = nullptr;
 }
 
+Text::~Text()
+{
+	if(m_Texture) SDL_DestroyTexture(m_Texture);
+	if(m_Font) TTF_CloseFont(m_Font);
+}
+
 void Text::Initalize(const char* filename, const char* message)
 {
 	auto font_data = Font::LoadFont(filename, m_FontSize, message, m_Colour, m_Position);
