@@ -20,6 +20,7 @@ namespace Texture {
 class Sprite {
 public: 
 	Sprite();
+	~Sprite();
 
 	void Initialize(const char* filename);
 	void Draw();
