@@ -3,8 +3,12 @@
 #include "engine/Engine.h"
 #include "engine/Renderer.h"
 
+#include "Dll.h"
+
 int main(int argc, char* args[])
 {
+	AI::HelloWorld();
+
 #ifdef LOGGING
 	std::cout << "Logging Enabled:\n";
 #endif

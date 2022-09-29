@@ -10,13 +10,10 @@ find_package(SDL2_MIXER REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6
 find_package(SDL2_TTF REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1)
 find_package(SDL2 REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2-2.24.0)
 
-set(SDL2_IMAGE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2/include")
-set(SDL2_MIXER_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/include")
-set(SDL2_TTF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/include")
-
-include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
-include_directories(${SDL2_MIXER_INCLUDE_DIRS})
-include_directories(${SDL2_TTF_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/libs/ai/include)
+include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2/include)
+include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/include)
+include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/include)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 file(GLOB SOURCE
@@ -29,23 +26,13 @@ file(GLOB SOURCE
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     file(GLOB DLLS
         "dlls/x64/*.dll"
+        "libs/ai/lib/Release/*.dll"
     )
     set(SDL2_IMAGE_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2/lib/x64/SDL2_image.lib")
     set(SDL2_MIXER_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/lib/x64/SDL2_mixer.lib")
     set(SDL2_TTF_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/lib/x64/SDL2_ttf.lib")
-
-    file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Release)
-    file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Debug)
-    file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/MinSizeRel)
-    file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/RelWithDebInfo)
-elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    file(GLOB DLLS
-        "dlls/x86/*.dll"
-    )
-    set(SDL2_IMAGE_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2/lib/x86/SDL2_image.lib")
-    set(SDL2_MIXER_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/lib/x86/SDL2_mixer.lib")
-    set(SDL2_TTF_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/lib/x86/SDL2_ttf.lib")
-
+    set(AI_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/ai/lib/Release/ArtificialIntelligenceDLL.lib")   
+    
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Release)
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Debug)
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/MinSizeRel)
@@ -58,3 +45,4 @@ target_link_libraries(ArtificialIntelligence ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_MIXER_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_TTF_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_LIBRARIES})
+target_link_libraries(ArtificialIntelligence ${AI_LIBRARIES})
