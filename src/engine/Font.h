@@ -24,6 +24,7 @@ namespace Font {
 class Text {
 public:
 	Text();
+	~Text();
 
 	void Initalize(const char* filename, const char* message);
 	void Draw();

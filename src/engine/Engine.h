@@ -25,8 +25,9 @@ public:
 	Text text;
 	Music music;
 	SoundEffect sfx;
-	bool m_IsPaused;
+	Sprite player;
 	Tilemap tilemap;
+	bool m_IsPaused;
 
 private:
 

@@ -63,6 +63,11 @@ SoundEffect::SoundEffect()
 	m_Sound = nullptr;
 }
 
+SoundEffect::~SoundEffect()
+{
+	if(m_Sound) Mix_FreeChunk(m_Sound);
+}
+
 void SoundEffect::Initialize(const char* filename)
 {
 	m_Sound = Sound::LoadSfx(filename);
@@ -76,6 +81,11 @@ void SoundEffect::PlaySound()
 Music::Music()
 {
 	m_Music = nullptr;
+}
+
+Music::~Music()
+{
+	if(m_Music) Mix_FreeMusic(m_Music);
 }
 
 void Music::Initialize(const char* filename)

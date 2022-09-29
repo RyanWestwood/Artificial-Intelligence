@@ -42,6 +42,11 @@ Sprite::Sprite()
 	m_Destination = { 0,0,0,0 };
 }
 
+Sprite::~Sprite()
+{
+	if(m_Texture) SDL_DestroyTexture(m_Texture);
+}
+
 void Sprite::Initialize(const char* filename)
 {
 	auto texture = Texture::LoadTexture(filename);

@@ -17,10 +17,7 @@ include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/include)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 file(GLOB SOURCE
-    "src/*.h"
-    "src/*.cpp"
-    "src/**/*.h"
-    "src/**/*.cpp"
+    "src/*" "src/*/*"
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)

@@ -19,6 +19,7 @@ namespace Sound {
 class SoundEffect {
 public:
 	SoundEffect();
+	~SoundEffect();
 
 	void Initialize(const char* filename);
 	void PlaySound();
@@ -30,6 +31,7 @@ public:
 class Music {
 public:
 	Music();
+	~Music();
 
 	void Initialize(const char* filename);
 	void PlayMusic();
