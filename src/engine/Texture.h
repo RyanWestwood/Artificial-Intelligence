@@ -23,7 +23,7 @@ public:
 	~Sprite();
 
 	void Initialize(const char* filename);
-	void Draw();
+	void Draw(SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 public:
 	SDL_Texture* m_Texture;
