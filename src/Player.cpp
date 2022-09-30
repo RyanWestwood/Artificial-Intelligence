@@ -35,6 +35,10 @@ void Player::Input()
 		m_Velocity.y = SPEED;
 	}
 
+	if (Input::GetKeyDown(SDL_SCANCODE_SPACE)) {
+		m_Sword.Swing();
+	}
+
 	if (Input::GetKeyUp(SDL_SCANCODE_LEFT)) {
 #ifdef LOGGING
 		std::cout << "Key Up: Left!\n";
@@ -74,8 +78,7 @@ void Player::Update(float delta_time)
 	m_Sprite.m_Destination.x = m_Position.x;
 	m_Sprite.m_Destination.y = m_Position.y;
 
-	m_Sword.m_Sprite.m_Destination.x = m_Position.x + ((!m_FlipSprite << 5) - 14);
-	m_Sword.m_Sprite.m_Destination.y = m_Position.y + 2;
+	m_Sword.Update(delta_time, { m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Position.y + 2 });
 }
 
 void Player::UpdateAnimation()
@@ -87,5 +90,5 @@ void Player::UpdateAnimation()
 void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
-	m_Sword.m_Sprite.Draw();
+	m_Sword.Draw();
 }
