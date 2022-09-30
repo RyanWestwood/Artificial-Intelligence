@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <algorithm>
 #include "engine/Input.h"
 
 constexpr int SPEED = 128;
@@ -62,10 +63,11 @@ void Player::Input()
 	}
 }
 
-void Player::Update(double delta_time)
+void Player::Update(float delta_time)
 {
-	m_Position.x += static_cast<float>(m_Velocity.x) * delta_time;
-	m_Position.y += static_cast<float>(m_Velocity.y) * delta_time;
+	
+	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, 1536.f - 32.f);
+	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, 864.f - 64.f);
 
 	m_Sprite.m_Destination.x = m_Position.x;
 	m_Sprite.m_Destination.y = m_Position.y;
