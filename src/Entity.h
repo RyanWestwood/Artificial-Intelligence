@@ -7,7 +7,7 @@ public:
 	Entity();
 
 	virtual void Input() {};
-	virtual void Update(double delta_time) {};
+	virtual void Update(float delta_time) {};
 	virtual void UpdateAnimation() {};
 	virtual void Draw() {};
 

@@ -8,7 +8,7 @@ public:
 	void Initialize();
 
 	void Input() override;
-	void Update(double delta_time) override;
+	void Update(float delta_time) override;
 	void UpdateAnimation() override;
 	void Draw() override;
 };
