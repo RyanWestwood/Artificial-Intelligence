@@ -1,11 +1,19 @@
-#include "Texture.h"
-#include "Renderer.h"
+﻿#include "Texture.h"
 #include <string.h>
+#include "Renderer.h"
+#include "Globals.h"
 
 namespace Texture {
 
 	namespace {
-		const std::string g_TextureDirectory = "C:/Users/Ryan/Documents/Git/Artificial-Intelligence/assets/textures/";
+		std::string g_TextureDirectory = "Not yet initialized!\n";
+	}
+
+	bool Initialize()
+	{
+		g_TextureDirectory = Globals::GetAssetDirectory();
+		g_TextureDirectory += "textures/";
+		return true;
 	}
 
 	TextureData LoadTexture(const char* filename)
@@ -24,7 +32,7 @@ namespace Texture {
 		}
 		catch (std::exception& e) {
 			std::cout << "An exception was thrown." << "\n";
-			std::cout << "\t" << e.what() << ": " << "\t" << IMG_GetError();
+			std::cout << "\t" << e.what() << "\t" << IMG_GetError() << "\n";
 			return {};
 		}
 	}
@@ -33,7 +41,7 @@ namespace Texture {
 	{
 		SDL_RenderCopy(Renderer::GetRenderer(), texture, &src, &dest);
 	}
-}
+} // namespace Texture
 
 Sprite::Sprite()
 {

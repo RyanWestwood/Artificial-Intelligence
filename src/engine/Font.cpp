@@ -1,15 +1,18 @@
 #include "Font.h"
-#include "Renderer.h"
 #include <string.h>
+#include "Renderer.h"
+#include "Globals.h"
 
 namespace Font {
 
 	namespace {
-		const std::string g_FontDirectory = "C:/Users/Ryan/Documents/Git/Artificial-Intelligence/assets/font/";
+		std::string g_FontDirectory = "Not yet initialized!\n";
 	}
 
 	bool InitializeFont()
 	{
+		g_FontDirectory = Globals::GetAssetDirectory();
+		g_FontDirectory += "font/";
 		if (TTF_Init() < 0) {
 			std::cout << "SDL_TTF could not initialize! SDL_TTF error: " << TTF_GetError() << "\n";
 			return false;
@@ -42,7 +45,7 @@ namespace Font {
 		}
 		catch (std::exception& e) {
 			std::cout << "An exception was thrown." << "\n";
-			std::cout << "\t" << e.what() << ": " << "\t" << TTF_GetError();
+			std::cout << "\t" << e.what() << "\t" << TTF_GetError() << "\n";
 			return {};
 		}
 	}
