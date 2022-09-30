@@ -5,7 +5,7 @@ class Sword{
 public:
 	Sword() {};
 
-	void Initialize();
+	void Initialize(const char* filename);
 
 public:
 	Sprite m_Sprite;
