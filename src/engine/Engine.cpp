@@ -1,4 +1,4 @@
-#include "Engine.h"
+﻿#include "Engine.h"
 #include "Input.h"
 #include "Globals.h"
 
@@ -13,6 +13,7 @@ bool Engine::Initialize()
 
 #ifdef LOGGING
 	std::cout << "\n";
+	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n\nLoading...\n";
 #endif
 
 	text.Initalize("font.ttf", "HELLO WORLD!");
@@ -20,8 +21,10 @@ bool Engine::Initialize()
 	sfx.Initialize("temp.wav");
 	tilemap.Initialize("tilemap.png", {32,32}, {48,27}, 16, 32);
 	player.Initialize();
-	//player.m_Source = { (9 * 16), (13 * 16), 16, 16 };
-	//player.m_Destination = { 128, 128, 32,32 };
+
+#ifdef LOGGING
+	std::cout << "\n";
+#endif
 
 	music.PlayMusic();
 	sfx.PlaySound();
@@ -32,9 +35,7 @@ bool Engine::Initialize()
 
 void Engine::UnInitialize()
 {
-	Font::UnInitializeFont();
-	Sound::UninitalizeSound();
-	Renderer::UninitalizeRenderer();
+
 }
 
 bool Engine::IsRunning()
