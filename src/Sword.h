@@ -7,8 +7,8 @@ public:
 
 	void Initialize(const char* filename);
 
-	void Update(float delta_time, const SDL_FPoint position);
-	void Draw();
+	void Update(const float& delta_time, const SDL_FPoint position);
+	void Draw(const SDL_RendererFlip& flip = SDL_FLIP_NONE);
 	void Swing();
 
 public:
@@ -17,4 +17,8 @@ public:
 private:
 	float m_Timer;
 	float m_Cooldown;
+	float m_Rotation;
+	SDL_Point m_Center;
+	bool m_Swing;
+	SDL_RendererFlip m_Flip;
 };

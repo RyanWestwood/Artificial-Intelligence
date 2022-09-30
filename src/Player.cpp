@@ -69,7 +69,7 @@ void Player::Input()
 	}
 }
 
-void Player::Update(float delta_time)
+void Player::Update(const float delta_time)
 {
 	
 	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, 1536.f - 32.f);
@@ -90,5 +90,5 @@ void Player::UpdateAnimation()
 void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
-	m_Sword.Draw();
+	m_Sword.Draw(m_FlipSprite);
 }

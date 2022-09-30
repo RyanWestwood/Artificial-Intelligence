@@ -1,10 +1,14 @@
 #include "Sword.h"
 #include <iostream>
+#include <algorithm>
 
 Sword::Sword()
 {
-	m_Cooldown = 2.5f;
+	m_Cooldown = 1.f;
 	m_Timer = 2.5f;
+	m_Rotation = 0;
+	m_Center = { 12,40 };
+	m_Swing = false;
 }
 
 void Sword::Initialize(const char* filename) {
@@ -16,23 +20,33 @@ void Sword::Initialize(const char* filename) {
 	m_Sprite.m_Destination = { 128,128,24,48 };
 }
 
-void Sword::Update(float delta_time, const SDL_FPoint position)
+void Sword::Update(const float& delta_time, const SDL_FPoint position)
 {
 	m_Timer += delta_time;
 
 	m_Sprite.m_Destination.x = position.x;
 	m_Sprite.m_Destination.y = position.y;
+
+	if (m_Swing) {
+		m_Rotation = std::clamp(m_Rotation + ((!m_Flip << 11) - 1024) * delta_time, -90.f, 90.f);
+		if (m_Rotation >= 90 || m_Rotation <= -90) {
+			m_Swing = false;
+			m_Rotation = 0.f;
+		}
+	}
 }
 
-void Sword::Draw()
+void Sword::Draw(const SDL_RendererFlip& flip)
 {
-	m_Sprite.Draw();
+	m_Flip = flip;
+	m_Sprite.Draw(m_Flip, m_Rotation, m_Center);
 }
 
 void Sword::Swing()
 {
 	if (m_Timer > m_Cooldown) {
-		std::cout << "boom!\n";
-		m_Timer = 0;
+		m_Rotation = 0.f;
+		m_Swing = true;
+		m_Timer = 0.f;
 	}
 }

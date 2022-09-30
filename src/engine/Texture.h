@@ -24,7 +24,7 @@ public:
 	~Sprite();
 
 	void Initialize(const char* filename);
-	void Draw(SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void Draw(const SDL_RendererFlip& flip = SDL_FLIP_NONE, const float& angle = 0.f, const SDL_Point& point = {});
 
 public:
 	SDL_Texture* m_Texture;
