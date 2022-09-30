@@ -14,6 +14,11 @@ void Player::Initialize()
 	m_Sprite.Initialize("player.png");
 	m_Sprite.m_Source = { 0,0,16,32 };
 	m_Sprite.m_Destination = { 128,128,32,64 };
+
+	m_Sword.Initialize();
+	m_Sword.m_Sprite.Initialize("tilemap.png");
+	m_Sword.m_Sprite.m_Source = { 336,16,16,32 };
+	m_Sword.m_Sprite.m_Destination = { 128,128,24,48 };
 }
 
 void Player::Input()
@@ -71,6 +76,9 @@ void Player::Update(float delta_time)
 
 	m_Sprite.m_Destination.x = m_Position.x;
 	m_Sprite.m_Destination.y = m_Position.y;
+
+	m_FlipSprite ? m_Sword.m_Sprite.m_Destination.x = m_Position.x - 12: m_Sword.m_Sprite.m_Destination.x = m_Position.x + 16;
+	m_Sword.m_Sprite.m_Destination.y = m_Position.y + 2;
 }
 
 void Player::UpdateAnimation()
@@ -82,4 +90,5 @@ void Player::UpdateAnimation()
 void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
+	m_Sword.m_Sprite.Draw();
 }

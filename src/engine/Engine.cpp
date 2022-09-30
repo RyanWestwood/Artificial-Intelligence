@@ -30,7 +30,7 @@ bool Engine::Initialize()
 	sfx.PlaySound();
 	m_IsPaused = false;
 
-	return renderer && sound && font && input && globals; 
+	return renderer && sound && font && input && globals && texture; 
 }
 
 void Engine::UnInitialize()
