@@ -46,5 +46,9 @@ int main(int argc, char* args[])
 	Sound::UninitalizeSound();
 	Renderer::UninitalizeRenderer();
 
+#if LOGGING
+	std::cout << "Application Shutdown!\n";
+#endif
+
 	return 0;
 }
