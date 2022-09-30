@@ -7,4 +7,5 @@ Entity::Entity() {
 	m_Direction = 0;
 	m_Velocity = { 0, 0 };
 	m_FlipSprite = SDL_FLIP_NONE;
+	m_AnimStep = 0;
 }

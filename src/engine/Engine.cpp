@@ -108,6 +108,16 @@ void Engine::Update(double delta_time)
 	player.Update(delta_time);
 }
 
+void Engine::UpdateAnimation(double* num)
+{
+#ifdef LOGGING
+		std::cout << "AnimStep: " << *num << "\n";
+#endif
+		*num = 0.0;
+
+		player.UpdateAnimation();
+}
+
 void Engine::Draw()
 {
 	SDL_RenderClear(Renderer::GetRenderer());
