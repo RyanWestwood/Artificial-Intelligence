@@ -1,12 +1,19 @@
 #include "Engine.h"
 #include "Input.h"
+#include "Globals.h"
 
 bool Engine::Initialize()
 {
+	bool globals = Globals::Initialize();
 	bool renderer = Renderer::InitializeRenderer();
+	bool texture = Texture::Initialize();
 	bool sound = Sound::InitializeSound();
 	bool font = Font::InitializeFont();
 	bool input = Input::InitialzieInput();
+
+#ifdef LOGGING
+	std::cout << "\n";
+#endif
 
 	text.Initalize("font.ttf", "HELLO WORLD!");
 	music.Initialize("music.wav");
@@ -20,7 +27,7 @@ bool Engine::Initialize()
 	sfx.PlaySound();
 	m_IsPaused = false;
 
-	return renderer && sound && font && input; 
+	return renderer && sound && font && input && globals; 
 }
 
 void Engine::UnInitialize()

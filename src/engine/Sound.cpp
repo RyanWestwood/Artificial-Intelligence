@@ -1,14 +1,21 @@
 #include "Sound.h"
+#include "Globals.h"
 
 namespace Sound {
 
 	namespace {
-		const std::string g_SoundDirectory = "C:/Users/Ryan/Documents/Git/Artificial-Intelligence/assets/sfx/";
-		const std::string g_MusicDirectory = "C:/Users/Ryan/Documents/Git/Artificial-Intelligence/assets/music/";
+		std::string g_SoundDirectory = "Not yet initialized!\n";
+		std::string g_MusicDirectory = "Not yet initialized!\n";
 	}
 
 	bool InitializeSound()
 	{
+		g_SoundDirectory = Globals::GetAssetDirectory();
+		g_SoundDirectory += "sfx/";
+
+		g_MusicDirectory = Globals::GetAssetDirectory();
+		g_MusicDirectory += "music/";
+
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 			std::cout << "SDL_Mix could not initialize! SDL_Mix error: " << Mix_GetError() << "\n";
 			return false;
@@ -36,7 +43,7 @@ namespace Sound {
 		}
 		catch (std::exception& e) {
 			std::cout << "An exception was thrown." << "\n";
-			std::cout << "\t" << e.what() << ": " << "\t" << Mix_GetError();
+			std::cout << "\t" << e.what() << "\t" << Mix_GetError() << "\n";
 			return nullptr;
 		}
 	}
@@ -52,7 +59,7 @@ namespace Sound {
 		}
 		catch (std::exception& e) {
 			std::cout << "An exception was thrown." << std::endl;
-			std::cout << e.what() << ": " << "\t" << Mix_GetError();
+			std::cout << "\t" << e.what() << "\t" << Mix_GetError() << "\n";
 			return nullptr;
 		}
 	}

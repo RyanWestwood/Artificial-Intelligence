@@ -10,7 +10,7 @@ int main(int argc, char* args[])
 	AI::HelloWorld();
 
 #ifdef LOGGING
-	std::cout << "Logging Enabled:\n";
+	std::cout << "\nLogging Enabled:\n\n";
 #endif
 
 	Engine g_App = Engine();
