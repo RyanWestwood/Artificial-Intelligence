@@ -35,9 +35,7 @@ bool Engine::Initialize()
 
 void Engine::UnInitialize()
 {
-	Font::UnInitializeFont();
-	Sound::UninitalizeSound();
-	Renderer::UninitalizeRenderer();
+
 }
 
 bool Engine::IsRunning()
