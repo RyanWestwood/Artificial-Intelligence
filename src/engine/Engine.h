@@ -19,6 +19,7 @@ public:
 	void Input();
 	void Draw();
 	void Update(double);
+	void UpdateAnimation(double*);
 
 private:
 

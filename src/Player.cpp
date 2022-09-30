@@ -71,6 +71,12 @@ void Player::Update(double delta_time)
 	m_Sprite.m_Destination.y = m_Position.y;
 }
 
+void Player::UpdateAnimation()
+{
+	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
+	m_Sprite.m_Source = { 16 * m_AnimStep, 0,16,32 };
+}
+
 void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
