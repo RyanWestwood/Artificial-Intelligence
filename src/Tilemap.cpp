@@ -52,7 +52,7 @@ void Tilemap::Initialize(const char* filename, SDL_Point spriteTiles, SDL_Point 
 		}
 	}
 #ifdef LOGGING
-	std::cout << "Tiles created: " << dimensons.x * dimensons.y << "\n";
+	std::cout << "Loading tiles: " << dimensons.x * dimensons.y << "\n";
 #endif
 }
 

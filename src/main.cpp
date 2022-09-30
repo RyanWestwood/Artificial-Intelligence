@@ -18,10 +18,6 @@ int main(int argc, char* args[])
 		std::cout << "Error could not init SDL!" << "\n";
 	}
 
-#ifdef LOGGING
-	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n";
-#endif
-
 	unsigned int g_CurrentTime = SDL_GetPerformanceCounter();;
 	unsigned int g_LastTime = 0;
 	double g_LastAnimStep = 0.0;
