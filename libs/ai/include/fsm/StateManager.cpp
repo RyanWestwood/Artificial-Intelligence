@@ -7,18 +7,13 @@
 
 namespace AI {
 	namespace FSM {
-		State::State(std::shared_ptr<StateManager> manager, std::function<void()> function)
+		State::State(ManagerPtr manager, std::function<void()> function)
 		{
 			m_Manager = manager;
 			m_Func = function;
 		}
 
-		AttackState::AttackState(std::shared_ptr<StateManager> manager, std::function<void()> function) : State(manager, function)
-		{
-
-		}
-
-		AttackState::AttackState()
+		AttackState::AttackState(ManagerPtr manager, Function function) : State(manager, function)
 		{
 
 		}
@@ -33,14 +28,14 @@ namespace AI {
 			m_CurrentState = std::make_unique<State>();
 		}
 
-		void StateManager::SetState(std::shared_ptr<State> state)
+		void StateManager::SetState(StatePtr state)
 		{
-			m_CurrentState = state;
+			m_CurrentState = std::move(state);
 		}
 
 		StatePtr StateManager::GetState()
 		{
-			return m_CurrentState;
+			return std::move(m_CurrentState);
 		}
 
 		void StateManager::Update()
@@ -50,15 +45,14 @@ namespace AI {
 			}
 		}
 
-		std::shared_ptr<StateManager> GetStateManager()
+		ManagerPtr GetStateManager()
 		{
 			return std::make_shared<StateManager>();
 		}
 
-		std::shared_ptr<AttackState> CreateAttackState(ManagerPtr m, Function f)
+		StatePtr CreateAttackState(ManagerPtr m, Function f)
 		{
-			std::cout << "Attack State!\n";
-			return std::make_shared<AttackState>(m,f);
+			return std::move(std::make_unique<AttackState>(m,f));
 		}
 
 	} // namespace FSM

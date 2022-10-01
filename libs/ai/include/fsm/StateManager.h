@@ -9,7 +9,7 @@ namespace AI {
 		class State;
 
 		typedef std::shared_ptr<StateManager> ManagerPtr;
-		typedef std::shared_ptr<State> StatePtr;
+		typedef std::unique_ptr<State> StatePtr;
 		typedef std::function<void()> Function;
 
 
@@ -32,7 +32,6 @@ namespace AI {
 		class AttackState : public State
 		{
 		public:
-			AttackState();
 			AttackState(ManagerPtr manager, Function function);
 			void Update();
 		};
@@ -57,8 +56,8 @@ namespace AI {
 			StatePtr m_CurrentState;
 		};
 
-		extern "C++" AI_API std::shared_ptr<StateManager> GetStateManager();
-		extern "C++" AI_API std::shared_ptr<AttackState> CreateAttackState(ManagerPtr, Function);
+		extern "C++" AI_API ManagerPtr GetStateManager();
+		extern "C++" AI_API StatePtr CreateAttackState(ManagerPtr, Function);
 
 	} // namespace FSM
 } // namespace AI

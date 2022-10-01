@@ -7,7 +7,7 @@ Enemy::Enemy()
 	m_Timer = 1.f;
 	m_Cooldown = 1.f;
 
-	Function attack = [&]() {
+	AI::FSM::Function attack = [&]() {
 		if (m_Timer >= m_Cooldown) {
 			if (m_Ammo <= 0) {
 				std::cout << "Out of ammo, changing state to null..." << std::endl;
@@ -24,8 +24,8 @@ Enemy::Enemy()
 		}
 	};
 
-	StatePtr attackstate = AI::FSM::CreateAttackState(m_FiniteStateMachine, attack);
-	m_FiniteStateMachine->SetState(attackstate);
+	AI::FSM::StatePtr attackstate = AI::FSM::CreateAttackState(m_FiniteStateMachine, attack);
+	m_FiniteStateMachine->SetState(std::move(attackstate));
 }
 
 void Enemy::Update(float delta_time)
@@ -36,9 +36,4 @@ void Enemy::Update(float delta_time)
 void Enemy::UpdateAnimation()
 {
 	m_FiniteStateMachine->Update();
-}
-
-void Enemy::Draw() 
-{
-
 }
