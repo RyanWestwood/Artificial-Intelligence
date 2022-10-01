@@ -11,14 +11,12 @@ namespace Globals {
 	bool Initialize() 
 	{
 		g_AssetDirectory = SDL_GetBasePath();
-		for (char i = 0; i < 2; i++) {
-			char currentChar = 'a';
-			while (currentChar != '\\') {
-				g_AssetDirectory.pop_back();
-				currentChar = g_AssetDirectory.back();
-			}
+		std::size_t pos = g_AssetDirectory.find("Artificial");
+		while (g_AssetDirectory[pos] != 92) {
+			pos++;
 		}
-		g_AssetDirectory += "assets/";
+		g_AssetDirectory.erase(begin(g_AssetDirectory) + pos, end(g_AssetDirectory));
+		g_AssetDirectory += "\\assets\\";
 #ifdef LOGGING
 		std::cout << "Globals Initialized!\n";
 #endif
