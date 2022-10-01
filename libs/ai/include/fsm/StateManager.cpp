@@ -7,18 +7,13 @@
 
 namespace AI {
 	namespace FSM {
-		State::State(ManagerPtr manager, std::function<void()> function)
+		State::State(ManagerPtr manager, Function function)
 		{
 			m_Manager = manager;
 			m_Func = function;
 		}
 
-		AttackState::AttackState(ManagerPtr manager, Function function) : State(manager, function)
-		{
-
-		}
-
-		void AttackState::Update()
+		void State::Update()
 		{
 			m_Func();
 		}
@@ -50,9 +45,9 @@ namespace AI {
 			return std::make_shared<StateManager>();
 		}
 
-		StatePtr CreateAttackState(ManagerPtr m, Function f)
+		StatePtr CreateState(ManagerPtr manager, Function function)
 		{
-			return std::move(std::make_unique<AttackState>(m,f));
+			return std::move(std::make_unique<State>(manager, function));
 		}
 
 	} // namespace FSM

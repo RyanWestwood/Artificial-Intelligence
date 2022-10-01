@@ -12,7 +12,6 @@ namespace AI {
 		typedef std::unique_ptr<State> StatePtr;
 		typedef std::function<void()> Function;
 
-
 		class IState {
 			virtual void Update() = 0;
 		};
@@ -23,17 +22,10 @@ namespace AI {
 			State(ManagerPtr manager, Function function);
 			virtual ~State() {};
 
-			void Update() { m_Func(); };
+			void Update();
 		protected:
 			ManagerPtr m_Manager;
 			Function m_Func;
-		};
-
-		class AttackState : public State
-		{
-		public:
-			AttackState(ManagerPtr manager, Function function);
-			void Update();
 		};
 
 		class IStateManager {
@@ -57,7 +49,7 @@ namespace AI {
 		};
 
 		extern "C++" AI_API ManagerPtr GetStateManager();
-		extern "C++" AI_API StatePtr CreateAttackState(ManagerPtr, Function);
+		extern "C++" AI_API StatePtr CreateState(ManagerPtr, Function);
 
 	} // namespace FSM
 } // namespace AI

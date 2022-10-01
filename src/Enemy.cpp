@@ -24,7 +24,7 @@ Enemy::Enemy()
 		}
 	};
 
-	AI::FSM::StatePtr attackstate = AI::FSM::CreateAttackState(m_FiniteStateMachine, attack);
+	AI::FSM::StatePtr attackstate = AI::FSM::CreateState(m_FiniteStateMachine, attack);
 	m_FiniteStateMachine->SetState(std::move(attackstate));
 }
 
