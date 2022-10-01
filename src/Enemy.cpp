@@ -24,8 +24,8 @@ Enemy::Enemy()
 		}
 	};
 
-	auto attackstate = AI::FSM::CreateAttackState(m_FiniteStateMachine, attack);
-	m_FiniteStateMachine->SetState(attackstate);
+	AI::FSM::StatePtr attackstate = AI::FSM::CreateState(m_FiniteStateMachine, attack);
+	m_FiniteStateMachine->SetState(std::move(attackstate));
 }
 
 void Enemy::Update(float delta_time)
@@ -36,9 +36,4 @@ void Enemy::Update(float delta_time)
 void Enemy::UpdateAnimation()
 {
 	m_FiniteStateMachine->Update();
-}
-
-void Enemy::Draw() 
-{
-
 }

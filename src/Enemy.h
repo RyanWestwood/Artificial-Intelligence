@@ -10,10 +10,10 @@ public:
 
 	void Update(float delta_time);
 	void UpdateAnimation();
-	void Draw();
+	void Draw() {};
 
 public:
-	std::shared_ptr<AI::FSM::StateManager> m_FiniteStateMachine;
+	AI::FSM::ManagerPtr m_FiniteStateMachine;
 	int m_Ammo;
 	float m_Timer;
 	float m_Cooldown;
