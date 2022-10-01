@@ -4,6 +4,10 @@
 #include "Dll.h"
 #include "Entity.h"
 
+typedef AI::FSM::Function  Function;
+typedef std::shared_ptr<AI::FSM::StateManager> FsmPtr;
+typedef std::shared_ptr<AI::FSM::State> StatePtr;
+
 class Enemy : public Entity {
 public:
 	Enemy();
@@ -13,7 +17,7 @@ public:
 	void Draw();
 
 public:
-	std::shared_ptr<AI::FSM::StateManager> m_FiniteStateMachine;
+	FsmPtr m_FiniteStateMachine;
 	int m_Ammo;
 	float m_Timer;
 	float m_Cooldown;

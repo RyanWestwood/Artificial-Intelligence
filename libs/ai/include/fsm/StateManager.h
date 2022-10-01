@@ -35,8 +35,6 @@ namespace AI {
 			AttackState();
 			AttackState(ManagerPtr manager, Function function);
 			void Update();
-		private:
-			int m_Ammo;
 		};
 
 		class IStateManager {

@@ -15,7 +15,7 @@ namespace AI {
 
 		AttackState::AttackState(std::shared_ptr<StateManager> manager, std::function<void()> function) : State(manager, function)
 		{
-			m_Ammo = 0;
+
 		}
 
 		AttackState::AttackState()
