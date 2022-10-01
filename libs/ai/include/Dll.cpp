@@ -3,6 +3,9 @@
 #include <iostream>
 #include "Dll.h"
 
-void AI::HelloWorld() {
-	std::cout << "Hello World! From a DLL\n";
+namespace AI {
+	void HelloWorld() 
+	{
+		std::cout << "Hello World! From a DLL\n";
+	}
 }
