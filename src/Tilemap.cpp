@@ -29,7 +29,7 @@ Tilemap::Tilemap()
 	}
 #ifdef LOGGING
 	m_Nodes = AI::PATH::CreateNodeMap(48, 27);
-#endif
+#endif // LOGGING
 }
 
 Tilemap::~Tilemap()
@@ -65,9 +65,8 @@ void Tilemap::Initialize(const char* filename, SDL_Point spriteTiles, SDL_Point 
 			m_DebugTiles.push_back(tile);
 		}
 	}
-
 	std::cout << "Loading tiles: " << dimensons.x * dimensons.y << "\n";
-#endif
+#endif // LOGGING
 }
 
 void Tilemap::Draw()
@@ -76,8 +75,22 @@ void Tilemap::Draw()
 		tile.Draw();
 	}
 #ifdef LOGGING
-	for (auto& tile : m_DebugTiles) {
-		tile.Draw();
+	if (m_DebugActivate) {
+		for (auto& tile : m_DebugTiles) {
+			tile.Draw();
+		}
 	}
-#endif
+#endif // LOGGING
 }
+
+#ifdef LOGGING
+#include "engine/Input.h"
+
+void Tilemap::Input()
+{
+	if (Input::GetKeyUp(SDL_SCANCODE_F2)) {
+		m_DebugActivate = !m_DebugActivate;
+		Input::SetKeyUp(SDL_SCANCODE_F2, false);
+	}
+}
+#endif // LOGGING
