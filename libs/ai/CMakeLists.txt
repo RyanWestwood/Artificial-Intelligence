@@ -2,8 +2,7 @@ cmake_minimum_required (VERSION 3.8)
 project (ArtificialIntelligenceDLL)
 set (CMAKE_CXX_STANDARD 14)
 file(GLOB SOURCE
-    "include/*.h"
-    "include/*.cpp"
+        "include/*" "include/*/*"
 )
 add_library(ArtificialIntelligenceDLL SHARED ${SOURCE})
 set_target_properties(  ArtificialIntelligenceDLL
