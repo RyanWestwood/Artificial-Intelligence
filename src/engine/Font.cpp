@@ -50,6 +50,27 @@ namespace Font {
 		}
 	}
 
+	FontData UpdateMessage(const char* message, TTF_Font* font, const SDL_Color& color, const SDL_Point& position)
+	{
+#ifdef LOGGING
+		std::cout << "Updating font message: " << message<< "\n";
+#endif
+		try {
+			SDL_Surface* surface = TTF_RenderText_Solid(font, message, color);
+			if (surface == nullptr) throw FontError();
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(Renderer::GetRenderer(), surface);
+			SDL_Rect dimensions = { position.x, position.y, surface->w, surface->h };
+			SDL_FreeSurface(surface);
+			return {font, texture, dimensions};
+
+		}
+		catch (std::exception& e) {
+			std::cout << "An exception was thrown." << "\n";
+			std::cout << "\t" << e.what() << ": " << "\t" << TTF_GetError();
+			return {};
+		}
+	}
+
 	void Draw(SDL_Texture* texture, const SDL_Rect& dimensions)
 	{
 		SDL_RenderCopy(Renderer::GetRenderer(), texture, 0, &dimensions);
@@ -80,6 +101,14 @@ void Text::Initalize(const char* filename, const char* message)
 	m_Font = font_data.m_Font;
 	m_Texture = font_data.m_Texture;
 	m_Dimensions = font_data.m_Dimensions;
+}
+
+void Text::UpdateMessage(const char* message)
+{
+	SDL_DestroyTexture(m_Texture);
+	auto updated_message = Font::UpdateMessage(message, m_Font, m_Colour, m_Position);
+	m_Texture = updated_message.m_Texture;
+	m_Dimensions = updated_message.m_Dimensions;
 }
 
 void Text::Draw()
