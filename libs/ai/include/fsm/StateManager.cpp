@@ -23,14 +23,14 @@ namespace AI {
 			m_CurrentState = std::make_unique<State>();
 		}
 
-		void StateManager::SetState(StatePtr state)
+		void StateManager::SetState(StatePtr& state)
 		{
-			m_CurrentState = std::move(state);
+			m_CurrentState = state;
 		}
 
 		StatePtr StateManager::GetState()
 		{
-			return std::move(m_CurrentState);
+			return m_CurrentState;
 		}
 
 		void StateManager::Update()
@@ -47,7 +47,7 @@ namespace AI {
 
 		StatePtr CreateState(ManagerPtr manager, Function function)
 		{
-			return std::move(std::make_unique<State>(manager, function));
+			return std::make_shared<State>(manager, function);
 		}
 
 	} // namespace FSM

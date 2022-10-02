@@ -9,7 +9,7 @@ namespace AI {
 		class State;
 
 		typedef std::shared_ptr<StateManager> ManagerPtr;
-		typedef std::unique_ptr<State> StatePtr;
+		typedef std::shared_ptr<State> StatePtr;
 		typedef std::function<void()> Function;
 
 		class IState {
@@ -30,7 +30,7 @@ namespace AI {
 
 		class IStateManager {
 		public:
-			virtual void SetState(StatePtr state) = 0;
+			virtual void SetState(StatePtr& state) = 0;
 			virtual StatePtr GetState() = 0;
 			virtual void Update() = 0;
 		};
@@ -40,7 +40,7 @@ namespace AI {
 		public:
 			StateManager();
 
-			void SetState(StatePtr state);
+			void SetState(StatePtr& state);
 			StatePtr GetState();
 			void Update();
 
