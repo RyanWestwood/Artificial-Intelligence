@@ -1,6 +1,8 @@
 #pragma once
-#include "engine/Texture.h"
+#include <iostream>
+#include <string>
 #include "engine/Font.h"
+#include "engine/Texture.h"
 
 class Cooldown {
 public:
@@ -17,4 +19,5 @@ public:
 	float m_Distance;
 	float m_Timer;
 	float m_Cooldown;
+	std::string m_Message;
 };
