@@ -7,7 +7,9 @@ namespace AI {
 	namespace PATH{
 
 		class Node;
+		class NodeMap;
 		typedef std::shared_ptr<Node> NodePtr;
+		typedef std::shared_ptr<NodeMap> NodeMapPtr;
 
 		struct Vector {
 			int x, y;
@@ -69,7 +71,7 @@ namespace AI {
 			NodeMap(int, int);
 			std::vector<NodePtr> GetMap();
 
-		public:
+		private:
 			std::vector<NodePtr> m_Map;
 		};
 

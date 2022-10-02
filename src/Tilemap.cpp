@@ -27,6 +27,9 @@ Tilemap::Tilemap()
 			MAP_DATA[y][x] = (1) + (4 * 32); // x = 0-31, y = 0-31
 		}
 	}
+#ifdef LOGGING
+	m_Nodes = AI::PATH::CreateNodeMap(48, 27);
+#endif
 }
 
 Tilemap::~Tilemap()
@@ -52,6 +55,17 @@ void Tilemap::Initialize(const char* filename, SDL_Point spriteTiles, SDL_Point 
 		}
 	}
 #ifdef LOGGING
+	m_DebugTextureData = Texture::LoadTexture("ui_foredrop.png");
+	for (int y = 0; y < dimensons.y; y++)
+	{
+		for (int x = 0; x < dimensons.x; x++)
+		{
+			Tile tile = { m_DebugTextureData };
+			tile.m_Destination = { dstTileSize * x + 8, dstTileSize * y + 8, dstTileSize / 2, dstTileSize / 2 };
+			m_DebugTiles.push_back(tile);
+		}
+	}
+
 	std::cout << "Loading tiles: " << dimensons.x * dimensons.y << "\n";
 #endif
 }
@@ -61,4 +75,9 @@ void Tilemap::Draw()
 	for (auto& tile : m_Tiles) {
 		tile.Draw();
 	}
+#ifdef LOGGING
+	for (auto& tile : m_DebugTiles) {
+		tile.Draw();
+	}
+#endif
 }

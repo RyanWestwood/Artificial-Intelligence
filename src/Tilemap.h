@@ -3,6 +3,9 @@
 #include <vector>
 #include "engine/Texture.h"
 
+#ifdef LOGGING
+	#include "pathfinding/Pathfinding.h"
+#endif
 class Tile {
 public:
 	Tile(Texture::TextureData spritesheet);
@@ -28,4 +31,10 @@ public:
 	std::vector<Tile> m_Tiles;
 	Texture::TextureData m_TextureData;	
 	SDL_Rect m_Destination;
+
+#ifdef LOGGING
+	Texture::TextureData m_DebugTextureData;
+	std::vector<Tile> m_DebugTiles;
+	AI::PATH::NodeMapPtr m_Nodes;
+#endif
 };
