@@ -8,6 +8,8 @@ class Cooldown {
 public:
 	Cooldown() {}
 
+	void Start();
+
 	void Initialize(SDL_Point position);
 	void Update(float delta_time);
 	void Draw();
@@ -20,4 +22,5 @@ public:
 	float m_Timer;
 	float m_Cooldown;
 	std::string m_Message;
+	bool m_IsCountingDown;
 };
