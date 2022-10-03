@@ -17,6 +17,7 @@ public:
 public:
 	Texture::TextureData m_TextureData;
 	SDL_Rect m_Destination;
+	SDL_Point m_Position;
 };
 
 class Tilemap {
@@ -37,7 +38,9 @@ public:
 	void Input();
 	bool m_DebugActivate = false;
 	Texture::TextureData m_DebugTextureData;
+	Texture::TextureData m_DebugTextureExploredData;
 	std::vector<Tile> m_DebugTiles;
-	AI::PATH::NodeMapPtr m_Nodes;
+	AI::PATH::NodeMapPtr m_NodeMap;
+	std::vector<AI::PATH::NodePtr> m_Nodes;
 #endif // LOGGING
 };

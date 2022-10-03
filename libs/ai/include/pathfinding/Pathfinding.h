@@ -16,7 +16,7 @@ namespace AI {
 		};
 
 		struct Costs {
-			float g, h, f;
+			float m_FromCost, m_ToCost, m_TotalCost;
 		};
 
 		class INode {
@@ -52,13 +52,14 @@ namespace AI {
 			void SetCosts(Costs costs) { m_Costs = costs; }
 			void SetParent(NodePtr parent) { m_Parent = parent; }
 			void AddNeighbours(NodePtr neighbours) { m_Neighbours.push_back(neighbours); }
+		public:
+			Costs m_Costs;
+			Vector m_Position;
+			NodePtr m_Parent;
 		private:
 			bool m_Obstacle;
 			bool m_Visited;
-			Costs m_Costs;
-			Vector m_Position;
 			std::vector<NodePtr> m_Neighbours;
-			NodePtr m_Parent;
 		};
 		
 		class INodeMap {
@@ -66,15 +67,15 @@ namespace AI {
 			virtual std::vector<NodePtr> GetMap() = 0;
 		};
 
-		class NodeMap {
+		class NodeMap : public INodeMap{
 		public:
 			NodeMap(int, int);
-			std::vector<NodePtr> GetMap();
-
+			std::vector<NodePtr> GetMap() { return m_Map; }
 		private:
 			std::vector<NodePtr> m_Map;
 		};
 
-		extern "C++" AI_API std::shared_ptr<NodeMap> CreateNodeMap(int,int);
+		extern "C++" AI_API std::shared_ptr<NodeMap> CreateNodeMap(int, int);
+		extern "C++" AI_API std::vector<NodePtr> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 	} // namespace PATH
 } // namespace AI
