@@ -18,7 +18,7 @@ bool Engine::Initialize()
 
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
-	tilemap.Initialize("tilemap.png", {32,32}, {48,27}, 16, 32);
+	tilemap.Initialize("tilemap.png", 16, 32);
 	player.Initialize();
 
 #ifdef LOGGING

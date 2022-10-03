@@ -11,4 +11,6 @@ namespace Globals {
 	};
 	Vector GetScreenDimensions();
 	Vector GetTileDimensions();
+	Vector GetTileMapDimensions();
+
 } // namespace Globals
