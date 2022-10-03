@@ -38,6 +38,7 @@ int main(int argc, char* args[])
 			}
 			else {
 				g_App.Resume();
+				g_CurrentTime = SDL_GetPerformanceCounter();
 			}
 		}
 		g_App.UnInitialize();

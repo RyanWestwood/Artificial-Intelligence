@@ -70,6 +70,7 @@ void Engine::Resume()
 			}
 		}
 	}	
+	player.Resume();
 }
 
 void Engine::Input()

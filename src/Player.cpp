@@ -90,6 +90,16 @@ void Player::Update(const float delta_time)
 	m_RangedCooldown.Update(delta_time);
 }
 
+void Player::Resume()
+{
+	Input::SetKeyDown(SDL_SCANCODE_LEFT, false);
+	Input::SetKeyDown(SDL_SCANCODE_RIGHT, false);
+	Input::SetKeyDown(SDL_SCANCODE_UP, false);
+	Input::SetKeyDown(SDL_SCANCODE_DOWN, false);
+	Input::SetKeyDown(SDL_SCANCODE_SPACE, false);
+	m_Velocity = {0,0};
+}
+
 void Player::UpdateAnimation()
 {
 	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
