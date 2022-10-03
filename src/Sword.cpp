@@ -2,6 +2,9 @@
 #include <iostream>
 #include <algorithm>
 
+constexpr float SWING_SPEED = 512.f;
+constexpr float SWING_ROTATION = 90.f;
+
 Sword::Sword()
 {
 	m_Cooldown = 1.f;
@@ -28,8 +31,8 @@ void Sword::Update(const float& delta_time, const SDL_FPoint position)
 	m_Sprite.m_Destination.y = position.y;
 
 	if (m_Swing) {
-		m_Rotation = std::clamp(m_Rotation + ((!m_Flip << 11) - 1024) * delta_time, -90.f, 90.f);
-		if (m_Rotation >= 90 || m_Rotation <= -90) {
+		m_Rotation = std::clamp(m_Rotation + ((!m_Flip << 1) - 1) * delta_time * SWING_SPEED, -SWING_ROTATION, SWING_ROTATION);
+		if (m_Rotation >= SWING_ROTATION || m_Rotation <= -SWING_ROTATION) {
 			m_Swing = false;
 			m_Rotation = 0.f;
 		}

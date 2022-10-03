@@ -22,6 +22,7 @@ int main(int argc, char* args[])
 		unsigned int g_CurrentTime = SDL_GetPerformanceCounter();;
 		unsigned int g_LastTime = 0;
 		float g_LastAnimStep = 0.0;
+		float g_UpdateAnimTimer = 1.f / 8;
 
 		while (g_App.IsRunning()) {
 			if (!g_App.IsPaused()) {
@@ -29,7 +30,7 @@ int main(int argc, char* args[])
 				g_CurrentTime = SDL_GetPerformanceCounter();
 				float deltaTime = ((g_CurrentTime - g_LastTime) / (float)SDL_GetPerformanceFrequency());
 
-				g_LastAnimStep > 0.125 ? g_App.UpdateAnimation(&g_LastAnimStep) : g_LastAnimStep += deltaTime;
+				g_LastAnimStep > g_UpdateAnimTimer ? g_App.UpdateAnimation(&g_LastAnimStep) : g_LastAnimStep += deltaTime;
 
 				g_App.Input();
 				g_App.Update(deltaTime);
