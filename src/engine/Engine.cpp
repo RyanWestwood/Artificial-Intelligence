@@ -30,7 +30,7 @@ bool Engine::Initialize()
 	sfx.PlaySound();
 	m_IsPaused = false;
 
-	return renderer && sound && font && input && globals; 
+	return renderer && sound && font && input && globals && texture; 
 }
 
 void Engine::UnInitialize()
@@ -111,12 +111,12 @@ void Engine::Input()
 	player.Input();
 }
 
-void Engine::Update(double delta_time)
+void Engine::Update(const float& delta_time)
 {
 	player.Update(delta_time);
 }
 
-void Engine::UpdateAnimation(double* num)
+void Engine::UpdateAnimation(float* num)
 {
 #ifdef LOGGING
 		std::cout << "AnimStep: " << *num << "\n";

@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Sword.h"
 
 class Player : public Entity {
 public: 
@@ -11,4 +12,8 @@ public:
 	void Update(float delta_time) override;
 	void UpdateAnimation() override;
 	void Draw() override;
+
+public:
+	Sword m_Sword;
+
 };

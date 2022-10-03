@@ -3,6 +3,8 @@
 #include "engine/Input.h"
 
 constexpr int SPEED = 128;
+constexpr float SCREEN_WIDTH = 1536.f;
+constexpr float SCREEN_HEIGHT = 1536.f;
 
 Player::Player() : Entity()
 {
@@ -14,6 +16,8 @@ void Player::Initialize()
 	m_Sprite.Initialize("player.png");
 	m_Sprite.m_Source = { 0,0,16,32 };
 	m_Sprite.m_Destination = { 128,128,32,64 };
+
+	m_Sword.Initialize("tilemap.png");
 }
 
 void Player::Input()
@@ -31,6 +35,10 @@ void Player::Input()
 	}	
 	if (Input::GetKeyDown(SDL_SCANCODE_DOWN)) {
 		m_Velocity.y = SPEED;
+	}
+
+	if (Input::GetKeyDown(SDL_SCANCODE_SPACE)) {
+		m_Sword.Swing();
 	}
 
 	if (Input::GetKeyUp(SDL_SCANCODE_LEFT)) {
@@ -63,14 +71,17 @@ void Player::Input()
 	}
 }
 
-void Player::Update(float delta_time)
+void Player::Update(const float delta_time)
 {
 	
-	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, 1536.f - 32.f);
-	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, 864.f - 64.f);
+	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, SCREEN_WIDTH - 32.f); // Offsetting image size
+	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, SCREEN_HEIGHT - 64.f); // Offsetting image size
 
 	m_Sprite.m_Destination.x = m_Position.x;
 	m_Sprite.m_Destination.y = m_Position.y;
+
+	SDL_FPoint sword_position = { m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Position.y + 2 }; // Sets the sword left or right of the player
+	m_Sword.Update(delta_time, sword_position);
 }
 
 void Player::UpdateAnimation()
@@ -82,4 +93,5 @@ void Player::UpdateAnimation()
 void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
+	m_Sword.Draw(m_FlipSprite);
 }
