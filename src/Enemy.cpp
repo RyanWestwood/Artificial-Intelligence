@@ -38,7 +38,7 @@ Enemy::Enemy()
 	m_FiniteStateMachine->SetState(m_AttackState);
 }
 
-void Enemy::Update(float delta_time)
+void Enemy::Update(const float delta_time)
 {
 	m_Timer += delta_time;
 	m_FiniteStateMachine->Update();

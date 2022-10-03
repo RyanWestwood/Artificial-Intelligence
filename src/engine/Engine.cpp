@@ -18,8 +18,9 @@ bool Engine::Initialize()
 
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
-	tilemap.Initialize("tilemap.png", 16, 32);
+	tilemap.Initialize("tilemap.png", 16);
 	player.Initialize();
+	m_NodeGrid.Initialize();
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -110,13 +111,14 @@ void Engine::Input()
 	}
 	player.Input();
 #ifdef LOGGING
-	tilemap.Input();
+	m_NodeGrid.Input();
 #endif // LOGGING
 }
 
 void Engine::Update(const float& delta_time)
 {
 	player.Update(delta_time);
+	m_Enemy.Update(delta_time);
 }
 
 void Engine::UpdateAnimation(float* num)
@@ -136,6 +138,11 @@ void Engine::Draw()
 	tilemap.Draw();
 	text.Draw();
 	player.Draw();
+
+#ifdef LOGGING
+	m_NodeGrid.Draw();
+#endif // LOGGING
+
 
 	SDL_RenderPresent(Renderer::GetRenderer());
 }

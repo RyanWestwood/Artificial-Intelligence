@@ -3,9 +3,11 @@
 #include "Texture.h"
 #include "Sound.h"
 #include "Font.h"
+#include "Nodemap.h"
 
 #include "../Tilemap.h"
 #include "../Player.h"
+#include "../Enemy.h"
 
 class Engine {
 public:
@@ -30,6 +32,8 @@ public:
 	Tilemap tilemap;
 	Player player;
 	bool m_IsPaused;
+	Enemy m_Enemy;
+	NodeGrid m_NodeGrid;
 
 private:
 

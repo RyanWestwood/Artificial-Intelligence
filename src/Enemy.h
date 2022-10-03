@@ -8,7 +8,7 @@ class Enemy : public Entity {
 public:
 	Enemy();
 
-	void Update(float delta_time);
+	void Update(const float delta_time);
 	void UpdateAnimation();
 	void Draw() {}
 
