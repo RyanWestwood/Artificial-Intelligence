@@ -7,4 +7,4 @@ namespace Input {
 	bool GetKeyUp(int keycode);
 	void SetKeyDown(int keyCode, bool value);
 	bool GetKeyDown(int keyCode);
-}
+} // namespace Input

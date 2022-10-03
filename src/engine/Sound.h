@@ -14,7 +14,7 @@ namespace Sound {
 
 	Mix_Chunk* LoadSfx(const char* filename);
 	Mix_Music* LoadMusic(const char* filename);
-}
+} // namespace Sound
 
 class SoundEffect {
 public:

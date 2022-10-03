@@ -14,7 +14,7 @@ bool Engine::Initialize()
 #ifdef LOGGING
 	std::cout << "\n";
 	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n\nLoading...\n";
-#endif
+#endif // LOGGING
 
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
@@ -23,7 +23,7 @@ bool Engine::Initialize()
 
 #ifdef LOGGING
 	std::cout << "\n";
-#endif
+#endif // LOGGING
 
 	music.PlayMusic();
 	sfx.PlaySound();
@@ -63,10 +63,10 @@ void Engine::Resume()
 				m_IsPaused = !m_IsPaused;
 				Input::SetKeyUp(SDL_SCANCODE_ESCAPE, true);
 				Input::SetKeyDown(SDL_SCANCODE_ESCAPE, false);
-				SDL_ShowCursor(!m_IsPaused);
+				SDL_ShowCursor(m_IsPaused);
 #ifdef LOGGING
 				std::cout << "Resumed\n";
-#endif
+#endif // LOGGING
 			}
 		}
 	}	
@@ -83,16 +83,16 @@ void Engine::Input()
 			}
 			if (Input::GetKeyDown(SDL_SCANCODE_ESCAPE)) {
 				m_IsPaused = !m_IsPaused;		
-				SDL_ShowCursor(!m_IsPaused);
+				SDL_ShowCursor(m_IsPaused);
 #ifdef LOGGING
 				std::cout << "Paused\n";
-#endif
+#endif // LOGGING
 			}
 #ifdef LOGGING
 			if (Input::GetKeyDown(SDL_SCANCODE_F1)) {
 				std::cout << "Key Down: F1!\n";
 			}
-#endif
+#endif // LOGGING
 		}
 		else if (e.type == SDL_KEYUP) {
 			if (e.key.keysym.scancode < 512) {
@@ -104,7 +104,7 @@ void Engine::Input()
 				std::cout << "Key Up: F1!\n";
 				Input::SetKeyUp(e.key.keysym.scancode, false);
 			}
-#endif
+#endif // LOGGING
 		}
 	}
 	player.Input();
@@ -120,7 +120,7 @@ void Engine::UpdateAnimation(float* num)
 {
 #ifdef LOGGING
 		std::cout << "AnimStep: " << *num << "\n";
-#endif
+#endif // LOGGING
 		*num = 0.0;
 
 		player.UpdateAnimation();

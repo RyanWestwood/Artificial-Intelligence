@@ -10,4 +10,4 @@ namespace Renderer {
 
 	SDL_Renderer* GetRenderer();
 	SDL_Window* GetWindow();
-}
+} // namespace Renderer

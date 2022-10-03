@@ -45,7 +45,7 @@ void Cooldown::Update(float delta_time)
 		if (m_Timer <= 0.f) {
 #ifdef LOGGING
 			std::cout << "Cooldown!\n";
-#endif
+#endif // LOGGING
 			m_Timer = m_Cooldown;
 			m_IsCountingDown = false;
 		}

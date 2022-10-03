@@ -20,7 +20,7 @@ namespace Texture {
 	{
 #ifdef LOGGING
 		std::cout << "Loading texture: " << filename << "\n";
-#endif
+#endif // LOGGING
 		try {
 			SDL_Surface* surface = IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
 			if (surface == nullptr) throw TextureError();

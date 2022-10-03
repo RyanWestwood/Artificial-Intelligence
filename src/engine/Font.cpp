@@ -19,7 +19,7 @@ namespace Font {
 		}
 #ifdef LOGGING
 		std::cout << "Font Initialized!\n";
-#endif
+#endif // LOGGING
 		return true;
 	}
 
@@ -32,7 +32,7 @@ namespace Font {
 	{
 #ifdef LOGGING
 		std::cout << "Loading font: " << filename << "\n";
-#endif
+#endif // LOGGING
 		try {
 			TTF_Font* font = TTF_OpenFont((g_FontDirectory + std::string(filename)).c_str(), fontsize);
 			if (font == nullptr) throw FontError();
@@ -54,7 +54,7 @@ namespace Font {
 	{
 #ifdef LOGGING
 		std::cout << "Updating font message: " << message<< "\n";
-#endif
+#endif // LOGGING
 		try {
 			SDL_Surface* surface = TTF_RenderText_Solid(font, message, color);
 			if (surface == nullptr) throw FontError();
@@ -75,7 +75,7 @@ namespace Font {
 	{
 		SDL_RenderCopy(Renderer::GetRenderer(), texture, 0, &dimensions);
 	}
-}
+} // namespace Font
 
 Text::Text()
 {

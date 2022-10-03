@@ -22,7 +22,7 @@ namespace Sound {
 		}
 #ifdef LOGGING
 		std::cout << "Sound Initialized!\n";
-#endif
+#endif // LOGGING
 		return true;
 	}
 
@@ -35,7 +35,7 @@ namespace Sound {
 	{
 #ifdef LOGGING
 		std::cout << "Loading sound: " << filename << "\n";
-#endif
+#endif // LOGGING
 		try {
 			Mix_Chunk* result = Mix_LoadWAV((g_SoundDirectory + std::string(filename)).c_str());
 			if (result == nullptr) throw SoundError();
@@ -51,7 +51,7 @@ namespace Sound {
 	Mix_Music* LoadMusic(const char* filename) {
 #ifdef LOGGING
 		std::cout << "Loading music: " << filename << "\n";
-#endif
+#endif // LOGGING
 		try {
 			Mix_Music* result = Mix_LoadMUS((g_MusicDirectory + std::string(filename)).c_str());
 			if (result == nullptr) throw SoundError();
@@ -63,7 +63,7 @@ namespace Sound {
 			return nullptr;
 		}
 	}
-}
+} // namespace Sound
 
 SoundEffect::SoundEffect()
 {

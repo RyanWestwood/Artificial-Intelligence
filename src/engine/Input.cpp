@@ -15,7 +15,7 @@ namespace Input {
 
 #ifdef LOGGING
 		std::cout << "Input Initialized!\n";
-#endif
+#endif // LOGGING
 		return true;
 	}
 	
@@ -44,4 +44,4 @@ namespace Input {
 		}
 		return false;
 	}
-}
+} // namespace Input
