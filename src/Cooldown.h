@@ -10,7 +10,7 @@ public:
 
 	void Start();
 
-	void Initialize(SDL_Point position);
+	void Initialize(SDL_Point position, float timer);
 	void Update(float delta_time);
 	void Draw();
 

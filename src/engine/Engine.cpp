@@ -16,7 +16,6 @@ bool Engine::Initialize()
 	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n\nLoading...\n";
 #endif
 
-	text.Initalize("font.ttf", "HELLO WORLD!");
 	music.Initialize("music.wav");
 	sfx.Initialize("temp.wav");
 	tilemap.Initialize("tilemap.png", {32,32}, {48,27}, 16, 32);
@@ -109,6 +108,7 @@ void Engine::Input()
 		}
 	}
 	player.Input();
+	tilemap.Input();
 }
 
 void Engine::Update(const float& delta_time)

@@ -11,7 +11,7 @@ void Cooldown::Start()
 	m_IsCountingDown = true;
 }
 
-void Cooldown::Initialize(SDL_Point position)
+void Cooldown::Initialize(SDL_Point position, float timer)
 {
 	m_IsCountingDown = false;
 
@@ -26,8 +26,8 @@ void Cooldown::Initialize(SDL_Point position)
 	m_Text.m_Dimensions.y = position.y - TYO + (TILE_SIZE - m_Text.m_Dimensions.h / 2) / 2;
 	
 	m_Distance = 100.f;
-	m_Timer = 2.f;
-	m_Cooldown = 2.f;
+	m_Timer = timer;
+	m_Cooldown = timer;
 }
 
 void Cooldown::Update(float delta_time)

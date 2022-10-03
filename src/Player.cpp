@@ -17,7 +17,9 @@ void Player::Initialize()
 	m_Sprite.m_Source = { 0,0,16,32 };
 	m_Sprite.m_Destination = { 128,128,32,64 };
 
-	m_Sword.Initialize("tilemap.png");
+	m_Sword.Initialize("tilemap.png", 2.f);
+	m_MeleeCooldown.Initialize({ 16,784 }, 2.f);
+	m_RangedCooldown.Initialize({ 96, 784 }, 2.f);
 }
 
 void Player::Input()
@@ -39,6 +41,8 @@ void Player::Input()
 
 	if (Input::GetKeyDown(SDL_SCANCODE_SPACE)) {
 		m_Sword.Swing();
+		m_MeleeCooldown.Start();
+		m_RangedCooldown.Start();
 	}
 
 	if (Input::GetKeyUp(SDL_SCANCODE_LEFT)) {
@@ -82,6 +86,9 @@ void Player::Update(const float delta_time)
 
 	SDL_FPoint sword_position = { m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Position.y + 2 }; // Sets the sword left or right of the player
 	m_Sword.Update(delta_time, sword_position);
+
+	m_MeleeCooldown.Update(delta_time);
+	m_RangedCooldown.Update(delta_time);
 }
 
 void Player::UpdateAnimation()
@@ -94,4 +101,6 @@ void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
 	m_Sword.Draw(m_FlipSprite);
+	m_MeleeCooldown.Draw();
+	m_RangedCooldown.Draw();
 }
