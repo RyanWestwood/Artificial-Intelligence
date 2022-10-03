@@ -48,7 +48,7 @@ void Tilemap::Initialize(const char* filename, int src_tile_size, int dst_tile_s
 	auto tilemap_dimensions = Globals::GetTileMapDimensions();
 
 #ifdef LOGGING
-	m_Nodes = AI::PATH::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h);
+	m_Nodes = AI::PATH::CreateNodeMap((int)tilemap_dimensions.w, (int)tilemap_dimensions.h);
 #endif // LOGGING
 
 	for (int y = 0; y < tilemap_dimensions.h; y++)
