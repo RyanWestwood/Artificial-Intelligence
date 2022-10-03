@@ -23,12 +23,11 @@ file(GLOB SOURCE
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     file(GLOB DLLS
         "dlls/x64/*.dll"
-        "libs/ai/lib/Release/*.dll"
+        "libs/ai/lib/Debug/*.dll"
     )
     set(SDL2_IMAGE_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2/lib/x64/SDL2_image.lib")
     set(SDL2_MIXER_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/lib/x64/SDL2_mixer.lib")
     set(SDL2_TTF_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/lib/x64/SDL2_ttf.lib")
-    set(AI_LIBRARIES "${PROJECT_SOURCE_DIR}/libs/ai/lib/Release/ArtificialIntelligenceDLL.lib")   
     
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Release)
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Debug)
@@ -38,8 +37,13 @@ endif()
 
 add_executable (ArtificialIntelligence ${SOURCE})
 
+set(LIBS_DEBUG "${PROJECT_SOURCE_DIR}/libs/ai/lib/Debug/ArtificialIntelligenceDLL.lib") 
+set(LIBS_RELEASE "${PROJECT_SOURCE_DIR}/libs/ai/lib/Release/ArtificialIntelligenceDLL.lib") 
+
 target_link_libraries(ArtificialIntelligence ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_MIXER_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_TTF_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${AI_LIBRARIES})
+target_link_libraries(ArtificialIntelligence $<$<CONFIG:Debug>:${LIBS_DEBUG}> 
+        $<$<CONFIG:Release>:${LIBS_RELEASE}>)
