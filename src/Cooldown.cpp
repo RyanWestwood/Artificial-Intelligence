@@ -30,7 +30,7 @@ void Cooldown::Initialize(SDL_Point position, float timer)
 	m_Cooldown = timer;
 }
 
-void Cooldown::Update(float delta_time)
+void Cooldown::Update(const float delta_time)
 {
 	if (m_IsCountingDown) {
 		m_Timer -= delta_time;
