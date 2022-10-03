@@ -108,7 +108,9 @@ void Engine::Input()
 		}
 	}
 	player.Input();
+#ifdef LOGGING
 	tilemap.Input();
+#endif // LOGGING
 }
 
 void Engine::Update(const float& delta_time)
