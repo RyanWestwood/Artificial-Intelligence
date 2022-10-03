@@ -11,6 +11,7 @@ public:
 
 	void Input() override;
 	void Update(float delta_time) override;
+	void Resume();
 	void UpdateAnimation() override;
 	void Draw() override;
 
