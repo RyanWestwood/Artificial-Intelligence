@@ -1,7 +1,8 @@
 #pragma once
-#include "Entity.h"
-#include "Sword.h"
 #include "Cooldown.h"
+#include "Entity.h"
+#include "Staff.h"
+#include "Sword.h"
 
 class Player : public Entity {
 public: 
@@ -17,6 +18,7 @@ public:
 
 public:
 	Sword m_Sword;
+	Staff m_Staff;
 	Cooldown m_MeleeCooldown;
 	Cooldown m_RangedCooldown;
 };

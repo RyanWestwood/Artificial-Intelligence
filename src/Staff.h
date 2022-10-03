@@ -1,12 +1,12 @@
-﻿#pragma once
+#pragma once
 #include "Attack.h"
 
-class Sword : public Attack{
+class Staff : public Attack{
 public:
-	Sword();
+	Staff();
 
 	void Initialize(const char* filename, float timer);
 	void Update(const float& delta_time, const SDL_FPoint position);
 	void Draw(const SDL_RendererFlip& flip = SDL_FLIP_NONE);
-	void Swing();
+	void Fire();
 };
