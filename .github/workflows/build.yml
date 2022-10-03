@@ -34,5 +34,5 @@ jobs:
           cmake .. ${{ matrix.config.cmake_extra_args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
           cmake --build . -j --config ${{ matrix.config.config }}
       - name: Build
-        working-directory: ./build
+        working-directory: ../../build
         run: cmake --build . -j --config ${{ matrix.config.config }}
