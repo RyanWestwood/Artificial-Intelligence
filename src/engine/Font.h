@@ -20,7 +20,7 @@ namespace Font {
 	FontData LoadFont(const char* filename, int fontsize, const char* message, const SDL_Color& color, const SDL_Point& position);
 	FontData UpdateMessage(const char* message, TTF_Font* font, const SDL_Color& color, const SDL_Point& position);
 	void Draw(SDL_Texture* texture, const SDL_Rect& dimensions);
-}
+} // namespace Font
 
 class Text {
 public:

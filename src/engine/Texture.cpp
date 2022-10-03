@@ -20,7 +20,7 @@ namespace Texture {
 	{
 #ifdef LOGGING
 		std::cout << "Loading texture: " << filename << "\n";
-#endif
+#endif // LOGGING
 		try {
 			SDL_Surface* surface = IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
 			if (surface == nullptr) throw TextureError();
@@ -37,9 +37,9 @@ namespace Texture {
 		}
 	}
 
-	void Draw(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dest)
+	void Draw(SDL_Texture* texture, const SDL_Rect& source, const SDL_Rect& destination)
 	{
-		SDL_RenderCopy(Renderer::GetRenderer(), texture, &src, &dest);
+		SDL_RenderCopy(Renderer::GetRenderer(), texture, &source, &destination);
 	}
 } // namespace Texture
 

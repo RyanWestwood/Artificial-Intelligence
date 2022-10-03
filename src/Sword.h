@@ -5,7 +5,7 @@ class Sword{
 public:
 	Sword();
 
-	void Initialize(const char* filename);
+	void Initialize(const char* filename, float timer);
 
 	void Update(const float& delta_time, const SDL_FPoint position);
 	void Draw(const SDL_RendererFlip& flip = SDL_FLIP_NONE);

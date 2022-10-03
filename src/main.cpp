@@ -12,7 +12,7 @@ int main(int argc, char* args[])
 
 #ifdef LOGGING
 		std::cout << "\nLogging Enabled:\n\n";
-#endif
+#endif // LOGGING
 
 		Engine g_App = Engine();
 		if (!g_App.Initialize()) {
@@ -49,7 +49,7 @@ int main(int argc, char* args[])
 
 #if LOGGING
 	std::cout << "Application Shutdown!\n";
-#endif
+#endif // LOGGING
 
 	return 0;
 }

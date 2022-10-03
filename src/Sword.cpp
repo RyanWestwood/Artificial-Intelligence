@@ -12,15 +12,18 @@ Sword::Sword()
 	m_Rotation = 0;
 	m_Center = { 12,40 };
 	m_Swing = false;
+	m_Flip = SDL_FLIP_NONE;
 }
 
-void Sword::Initialize(const char* filename) {
+void Sword::Initialize(const char* filename, float timer) {
 #ifdef LOGGING
 	std::cout << "Sword initialize\n";
-#endif
+#endif // LOGGING
 	m_Sprite.Initialize("tilemap.png");
 	m_Sprite.m_Source = { 336,16,16,32 };
 	m_Sprite.m_Destination = { 128,128,24,48 };
+	m_Timer = timer;
+	m_Cooldown = timer;
 }
 
 void Sword::Update(const float& delta_time, const SDL_FPoint position)

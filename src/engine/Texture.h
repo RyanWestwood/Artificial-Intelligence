@@ -15,8 +15,8 @@ namespace Texture {
 
 	bool Initialize();
 	TextureData LoadTexture(const char* filename);
-	void Draw(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dest);
-}
+	void Draw(SDL_Texture* texture, const SDL_Rect& source, const SDL_Rect& destination);
+} // namespace Texture
 
 class Sprite {
 public: 
