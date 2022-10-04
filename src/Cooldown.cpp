@@ -1,4 +1,8 @@
 #include "Cooldown.h"
+#include <cmath>
+#include <iostream>
+#include <string>
+#include "engine/Font.h"
 
 #define TILE_SIZE 64
 #define FPO 8	// Foreground Position Offset
@@ -28,6 +32,14 @@ void Cooldown::Initialize(SDL_Point position, float timer)
 	m_Distance = 100.f;
 	m_Timer = timer;
 	m_Cooldown = timer;
+
+	m_Numbers = { 20, Text() };
+	for (int i = 0; i < 20; i++)
+	{
+		auto num = std::to_string(float(i) / 10.f);
+		num.resize(3);
+		m_Numbers[i].Initalize("font.ttf", num.c_str());
+	}	
 }
 
 void Cooldown::Update(const float delta_time)
@@ -36,9 +48,8 @@ void Cooldown::Update(const float delta_time)
 		m_Timer -= delta_time;
 		m_Foreground.m_Destination.h = 48 * ((m_Timer / m_Cooldown));
 
-		m_Message = std::to_string(m_Timer);
-		m_Message.resize(3);
-		m_Text.UpdateMessage(m_Message.c_str());
+		auto index = std::floor(m_Timer * 10);
+		m_Text = m_Numbers[index < 0 ? 0 : index];
 		m_Text.m_Dimensions.x = m_Background.m_Destination.x - TXO + (TILE_SIZE - m_Text.m_Dimensions.w / 2) / 2;
 		m_Text.m_Dimensions.y = m_Background.m_Destination.y - TYO + (TILE_SIZE - m_Text.m_Dimensions.h / 2) / 2;
 
