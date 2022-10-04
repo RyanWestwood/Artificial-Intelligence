@@ -1,6 +1,5 @@
 #pragma once
-#include <iostream>
-#include <string>
+#include <vector>
 #include "engine/Font.h"
 #include "engine/Texture.h"
 
@@ -18,6 +17,7 @@ public:
 	Sprite m_Background;
 	Sprite m_Foreground;
 	Text m_Text;
+	std::vector<Text> m_Numbers;
 	float m_Distance;
 	float m_Timer;
 	float m_Cooldown;

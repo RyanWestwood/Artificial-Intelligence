@@ -43,17 +43,11 @@ void Player::Input()
 	}
 
 	if (Input::GetKeyDown(SDL_SCANCODE_A)) {
-#ifdef LOGGING
-		std::cout << "Sword swing\n";
-#endif // LOGGING
 		m_Sword.Swing();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
 	if (Input::GetKeyDown(SDL_SCANCODE_S)) {
-#ifdef LOGGING
-		std::cout << "Staff shot\n";
-#endif // LOGGING
 		m_Sword.Fire();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
@@ -86,6 +80,18 @@ void Player::Input()
 #endif // LOGGING
 		m_Velocity.y = 0;
 		Input::SetKeyUp(SDL_SCANCODE_DOWN, false);
+	}
+	if (Input::GetKeyUp(SDL_SCANCODE_A)) {
+#ifdef LOGGING
+		std::cout << "Sword swing\n";
+#endif // LOGGING
+		Input::SetKeyUp(SDL_SCANCODE_A, false);
+	}
+	if (Input::GetKeyUp(SDL_SCANCODE_S)) {
+#ifdef LOGGING
+		std::cout << "Ranged attack\n";
+#endif // LOGGING
+		Input::SetKeyUp(SDL_SCANCODE_S, false);
 	}
 }
 
