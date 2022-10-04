@@ -21,4 +21,6 @@ public:
 	Staff m_Staff;
 	Cooldown m_MeleeCooldown;
 	Cooldown m_RangedCooldown;
+	std::shared_ptr<float> m_OffGlobal;
+	std::shared_ptr<float> m_Global;
 };
