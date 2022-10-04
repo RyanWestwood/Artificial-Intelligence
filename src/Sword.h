@@ -9,4 +9,9 @@ public:
 	void Update(const float& delta_time, const SDL_FPoint position);
 	void Draw(const SDL_RendererFlip& flip = SDL_FLIP_NONE);
 	void Swing();
+	void Fire();
+
+private:
+	bool m_FireAction;
+	SDL_FPoint m_FireOffset;
 };

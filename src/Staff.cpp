@@ -10,7 +10,7 @@ Staff::Staff()
 	m_Timer = nullptr;
 	m_Rotation = 0.f;
 	m_Center = { 12,40 };
-	m_Swing = false;
+	m_Action = false;
 	m_Flip = SDL_FLIP_NONE;
 }
 
@@ -31,10 +31,10 @@ void Staff::Update(const float& delta_time, const SDL_FPoint position)
 	m_Sprite.m_Destination.x = position.x + 10;
 	m_Sprite.m_Destination.y = position.y + 10;
 
-	if (m_Swing) {
+	if (m_Action) {
 		m_Rotation = std::clamp(m_Rotation + ((!m_Flip << 1) - 1) * delta_time * SWING_SPEED, -SWING_ROTATION, SWING_ROTATION);
 		if (m_Rotation >= SWING_ROTATION || m_Rotation <= -SWING_ROTATION) {
-			m_Swing = false;
+			m_Action = false;
 			m_Rotation = 0.f;
 		}
 	}
@@ -50,7 +50,7 @@ void Staff::Fire()
 {
 		if (*m_Timer > m_Cooldown) {
 		m_Rotation = 0.f;
-		m_Swing = true;
+		m_Action = true;
 		*m_Timer = 0.f;
 	}
 }

@@ -19,7 +19,6 @@ void Player::Initialize()
 	m_OffGlobal = std::make_shared<float>(2.5f);
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal);
-	m_Staff.Initialize("tilemap.png", m_OffGlobal);
 
 	m_MeleeCooldown.Initialize({ 16,784 }, 2.f);
 	m_RangedCooldown.Initialize({ 96, 784 }, 2.f);
@@ -54,7 +53,7 @@ void Player::Input()
 #ifdef LOGGING
 		std::cout << "Staff shot\n";
 #endif // LOGGING
-		m_Staff.Fire();
+		m_Sword.Fire();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
@@ -100,8 +99,6 @@ void Player::Update(const float delta_time)
 
 	SDL_FPoint sword_position = { m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Position.y + 2 }; // Sets the sword left or right of the player
 	m_Sword.Update(delta_time, sword_position);
-	SDL_FPoint staff_position = { m_Position.x + ((m_FlipSprite << 5) - 18) , m_Position.y + 2 }; // Sets the staff left or right of the player
-	m_Staff.Update(delta_time, staff_position);
 
 	*m_OffGlobal += delta_time;
 	m_MeleeCooldown.Update(delta_time);
@@ -129,7 +126,6 @@ void Player::Draw()
 {
 	m_Sprite.Draw(m_FlipSprite);
 	m_Sword.Draw(m_FlipSprite);
-	m_Staff.Draw();
 	m_MeleeCooldown.Draw();
 	m_RangedCooldown.Draw();
 }

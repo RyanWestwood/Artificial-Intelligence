@@ -11,7 +11,8 @@ Sword::Sword()
 	m_Timer = nullptr;
 	m_Rotation = 0;
 	m_Center = { 12,40 };
-	m_Swing = false;
+	m_Action = false;
+	m_FireAction = false;
 	m_Flip = SDL_FLIP_NONE;
 }
 
@@ -30,12 +31,26 @@ void Sword::Update(const float& delta_time, const SDL_FPoint position)
 {
 	m_Sprite.m_Destination.x = position.x;
 	m_Sprite.m_Destination.y = position.y;
+	int side = (!m_Flip << 1) - 1;
+	int side_flipped = side * -1;
 
-	if (m_Swing) {
-		m_Rotation = std::clamp(m_Rotation + ((!m_Flip << 1) - 1) * delta_time * SWING_SPEED, -SWING_ROTATION, SWING_ROTATION);
+	if (m_Action) {
+		m_Rotation = std::clamp(m_Rotation + side * delta_time * SWING_SPEED, -SWING_ROTATION, SWING_ROTATION);
 		if (m_Rotation >= SWING_ROTATION || m_Rotation <= -SWING_ROTATION) {
-			m_Swing = false;
+			m_Action = false;
 			m_Rotation = 0.f;
+		}
+	}
+	
+	if (m_FireAction) {
+		m_FireOffset.x = std::clamp(m_FireOffset.x + side_flipped * delta_time * 30, -1000.f, 1000.f);
+		m_FireOffset.y = std::clamp(m_FireOffset.y + -1 * delta_time * 30, -1000.f, 1000.f);
+		m_Sprite.m_Destination.x += m_FireOffset.x;
+		m_Sprite.m_Destination.y += m_FireOffset.y;
+		if(m_FireOffset.x > 11 || m_FireOffset.x < -11)
+		{
+			m_FireOffset = { 0.f, 0.f };
+			m_FireAction = false;
 		}
 	}
 }
@@ -50,7 +65,15 @@ void Sword::Swing()
 {
 	if (*m_Timer > m_Cooldown) {
 		m_Rotation = 0.f;
-		m_Swing = true;
+		m_Action = true;
+		*m_Timer = 0.f;
+	}
+}
+
+void Sword::Fire()
+{
+	if (*m_Timer > m_Cooldown) {
+		m_FireAction = true;
 		*m_Timer = 0.f;
 	}
 }
