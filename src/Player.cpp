@@ -22,6 +22,7 @@ void Player::Initialize()
 
 	m_MeleeCooldown.Initialize({ 16,784 }, 2.f);
 	m_RangedCooldown.Initialize({ 96, 784 }, 2.f);
+	m_Projectile.Initialize();
 }
 
 void Player::Input()
@@ -103,6 +104,7 @@ void Player::Update(const float delta_time)
 	*m_OffGlobal += delta_time;
 	m_MeleeCooldown.Update(delta_time);
 	m_RangedCooldown.Update(delta_time);
+	m_Projectile.Update(delta_time);
 }
 
 void Player::Resume()
@@ -120,6 +122,7 @@ void Player::UpdateAnimation()
 {
 	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
 	m_Sprite.m_Source.x = 16 * m_AnimStep;
+	m_Projectile.UpdateAnimation();
 }
 
 void Player::Draw()
@@ -128,4 +131,5 @@ void Player::Draw()
 	m_Sword.Draw(m_FlipSprite);
 	m_MeleeCooldown.Draw();
 	m_RangedCooldown.Draw();
+	m_Projectile.Draw();
 }
