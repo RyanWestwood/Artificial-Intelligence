@@ -52,9 +52,9 @@ namespace Font {
 
 	FontData UpdateMessage(const char* message, TTF_Font* font, const SDL_Color& color, const SDL_Point& position)
 	{
-#ifdef LOGGING
-		std::cout << "Updating font message: " << message<< "\n";
-#endif // LOGGING
+//#ifdef LOGGING
+//		std::cout << "Updating font message: " << message<< "\n";
+//#endif // LOGGING
 		try {
 			SDL_Surface* surface = TTF_RenderText_Solid(font, message, color);
 			if (surface == nullptr) throw FontError();

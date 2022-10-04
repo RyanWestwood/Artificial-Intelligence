@@ -16,9 +16,13 @@ void Player::Initialize()
 	m_Sprite.m_Source = { 0,0,16,32 };
 	m_Sprite.m_Destination = { 128,128,32,64 };
 
-	m_Sword.Initialize("tilemap.png", 2.f);
+	m_OffGlobal = std::make_shared<float>(2.5f);
+
+	m_Sword.Initialize("tilemap.png", m_OffGlobal);
+
 	m_MeleeCooldown.Initialize({ 16,784 }, 2.f);
 	m_RangedCooldown.Initialize({ 96, 784 }, 2.f);
+	m_Projectile.Initialize();
 }
 
 void Player::Input()
@@ -38,8 +42,19 @@ void Player::Input()
 		m_Velocity.y = g_MoveSpeed;
 	}
 
-	if (Input::GetKeyDown(SDL_SCANCODE_SPACE)) {
+	if (Input::GetKeyDown(SDL_SCANCODE_A)) {
+#ifdef LOGGING
+		std::cout << "Sword swing\n";
+#endif // LOGGING
 		m_Sword.Swing();
+		m_MeleeCooldown.Start();
+		m_RangedCooldown.Start();
+	}
+	if (Input::GetKeyDown(SDL_SCANCODE_S)) {
+#ifdef LOGGING
+		std::cout << "Staff shot\n";
+#endif // LOGGING
+		m_Sword.Fire();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
@@ -86,8 +101,10 @@ void Player::Update(const float delta_time)
 	SDL_FPoint sword_position = { m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Position.y + 2 }; // Sets the sword left or right of the player
 	m_Sword.Update(delta_time, sword_position);
 
+	*m_OffGlobal += delta_time;
 	m_MeleeCooldown.Update(delta_time);
 	m_RangedCooldown.Update(delta_time);
+	m_Projectile.Update(delta_time);
 }
 
 void Player::Resume()
@@ -96,7 +113,8 @@ void Player::Resume()
 	Input::SetKeyDown(SDL_SCANCODE_RIGHT, false);
 	Input::SetKeyDown(SDL_SCANCODE_UP, false);
 	Input::SetKeyDown(SDL_SCANCODE_DOWN, false);
-	Input::SetKeyDown(SDL_SCANCODE_SPACE, false);
+	Input::SetKeyDown(SDL_SCANCODE_A, false);
+	Input::SetKeyDown(SDL_SCANCODE_S, false);
 	m_Velocity = {0,0};
 }
 
@@ -104,6 +122,7 @@ void Player::UpdateAnimation()
 {
 	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
 	m_Sprite.m_Source.x = 16 * m_AnimStep;
+	m_Projectile.UpdateAnimation();
 }
 
 void Player::Draw()
@@ -112,4 +131,5 @@ void Player::Draw()
 	m_Sword.Draw(m_FlipSprite);
 	m_MeleeCooldown.Draw();
 	m_RangedCooldown.Draw();
+	m_Projectile.Draw();
 }

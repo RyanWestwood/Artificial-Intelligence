@@ -1,7 +1,9 @@
 #pragma once
-#include "Entity.h"
-#include "Sword.h"
 #include "Cooldown.h"
+#include "Entity.h"
+#include "Staff.h"
+#include "Sword.h"
+#include "Projectile.h"
 
 class Player : public Entity {
 public: 
@@ -19,4 +21,7 @@ public:
 	Sword m_Sword;
 	Cooldown m_MeleeCooldown;
 	Cooldown m_RangedCooldown;
+	std::shared_ptr<float> m_OffGlobal;
+	std::shared_ptr<float> m_Global;
+	Projectile m_Projectile;
 };
