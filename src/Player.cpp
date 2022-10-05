@@ -20,9 +20,21 @@ void Player::Initialize()
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal);
 
-	m_MeleeCooldown.Initialize({ 16,784 }, 2.f);
-	m_RangedCooldown.Initialize({ 96, 784 }, 2.f);
+	m_MeleeCooldown.Initialize({ 16,784 }, 2);
+	m_RangedCooldown.Initialize({ 76, 784 }, 2);
+	m_MitigationCooldown.Initialize({ 136, 784 }, 15);
+	m_HealthRegenCooldown.Initialize({ 196, 784 }, 30);
 	m_Projectile.Initialize();
+}
+
+void Player::KeyUp(SDL_Scancode code, const char* message)
+{
+	if (Input::GetKeyUp(code)) {
+#ifdef LOGGING
+		std::cout << message;
+#endif // LOGGING
+		Input::SetKeyUp(code, false);
+	}	
 }
 
 void Player::Input()
@@ -51,6 +63,14 @@ void Player::Input()
 		m_Sword.Fire();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
+	}
+	if (Input::GetKeyDown(SDL_SCANCODE_D)) {
+		Mitigation();
+		m_MitigationCooldown.Start();
+	}
+	if (Input::GetKeyDown(SDL_SCANCODE_W)) {
+		HealthSpell();
+		m_HealthRegenCooldown.Start();
 	}
 
 	if (Input::GetKeyUp(SDL_SCANCODE_LEFT)) {
@@ -81,18 +101,10 @@ void Player::Input()
 		m_Velocity.y = 0;
 		Input::SetKeyUp(SDL_SCANCODE_DOWN, false);
 	}
-	if (Input::GetKeyUp(SDL_SCANCODE_A)) {
-#ifdef LOGGING
-		std::cout << "Sword swing\n";
-#endif // LOGGING
-		Input::SetKeyUp(SDL_SCANCODE_A, false);
-	}
-	if (Input::GetKeyUp(SDL_SCANCODE_S)) {
-#ifdef LOGGING
-		std::cout << "Ranged attack\n";
-#endif // LOGGING
-		Input::SetKeyUp(SDL_SCANCODE_S, false);
-	}
+	KeyUp(SDL_SCANCODE_A, "Sword swing!\n");
+	KeyUp(SDL_SCANCODE_S, "Ranged attack!\n");
+	KeyUp(SDL_SCANCODE_D, "Mitigation!\n");
+	KeyUp(SDL_SCANCODE_W, "Health potion!\n");
 }
 
 void Player::Update(const float delta_time)
@@ -110,6 +122,8 @@ void Player::Update(const float delta_time)
 	*m_OffGlobal += delta_time;
 	m_MeleeCooldown.Update(delta_time);
 	m_RangedCooldown.Update(delta_time);
+	m_HealthRegenCooldown.Update(delta_time);
+	m_MitigationCooldown.Update(delta_time);
 	m_Projectile.Update(delta_time);
 }
 
@@ -121,6 +135,8 @@ void Player::Resume()
 	Input::SetKeyDown(SDL_SCANCODE_DOWN, false);
 	Input::SetKeyDown(SDL_SCANCODE_A, false);
 	Input::SetKeyDown(SDL_SCANCODE_S, false);
+	Input::SetKeyDown(SDL_SCANCODE_W, false);
+	Input::SetKeyDown(SDL_SCANCODE_D, false);
 	m_Velocity = {0,0};
 }
 
@@ -137,5 +153,7 @@ void Player::Draw()
 	m_Sword.Draw(m_FlipSprite);
 	m_MeleeCooldown.Draw();
 	m_RangedCooldown.Draw();
+	m_HealthRegenCooldown.Draw();
+	m_MitigationCooldown.Draw();
 	m_Projectile.Draw();
 }

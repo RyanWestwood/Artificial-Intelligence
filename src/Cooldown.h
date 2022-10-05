@@ -7,9 +7,10 @@ class Cooldown {
 public:
 	Cooldown() {}
 
+	int GetIndex();
+	void Initialize(SDL_Point position, int timer);
 	void Start();
-
-	void Initialize(SDL_Point position, float timer);
+	
 	void Update(const float delta_time);
 	void Draw();
 
