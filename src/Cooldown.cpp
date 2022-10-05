@@ -11,6 +11,8 @@
 #define TXO 6	// Text X Position Offset
 #define TYO 4	// Text Y Position Offset
 
+//	TODO; @RyanWestwood - Optimize this a little more. 
+//	Currently loading the same font n times when only the texture is needed!
 void Cooldown::Start()
 {
 	m_IsCountingDown = true;
