@@ -10,6 +10,7 @@ public:
 	Player();
 
 	void Initialize();
+	void KeyUp(SDL_Scancode code, const char* message);
 
 	void Input() override;
 	void Update(const float delta_time) override;
@@ -17,10 +18,15 @@ public:
 	void UpdateAnimation() override;
 	void Draw() override;
 
+	void HealthSpell(){}
+	void Mitigation(){}
+
 public:
 	Sword m_Sword;
 	Cooldown m_MeleeCooldown;
 	Cooldown m_RangedCooldown;
+	Cooldown m_HealthRegenCooldown;
+	Cooldown m_MitigationCooldown;
 	std::shared_ptr<float> m_OffGlobal;
 	std::shared_ptr<float> m_Global;
 	Projectile m_Projectile;
