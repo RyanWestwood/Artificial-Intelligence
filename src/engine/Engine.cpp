@@ -10,10 +10,12 @@ bool Engine::Initialize()
 	bool sound = Sound::InitializeSound();
 	bool font = Font::InitializeFont();
 	bool input = Input::InitialzieInput();
+	Font::InitializeDefaultFont();
 
 #ifdef LOGGING
 	std::cout << "\n";
-	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n\nLoading...\n";
+	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n";
+	std::cout << "Default font: " << Font::GetDefaultFont().m_Font << "\n\nLoading...\n";
 #endif // LOGGING
 
 	music.Initialize("music.wav");

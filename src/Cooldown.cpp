@@ -41,7 +41,7 @@ void Cooldown::Initialize(SDL_Point position, int timer)
 	m_Foreground.Initialize("ui_foredrop.png");
 	m_Foreground.m_Destination = { position.x + FPO,position.y + FPO,TILE_SIZE - FSO,TILE_SIZE - FSO };
 
-	m_Text.Initalize("font.ttf", "2");
+	m_Text.Initalize("2");
 	
 	m_Distance = 100.f;
 	m_Timer = timer;
@@ -57,9 +57,8 @@ void Cooldown::Initialize(SDL_Point position, int timer)
 			num = std::to_string(float(i-90));
 			num.resize(2);
 		}
-		m_Numbers[i].Initalize("font.ttf", num.c_str());
+		m_Numbers[i].Initalize(num.c_str());
 	}	
-	std::cout << "hi\n";
 }
 
 void Cooldown::Update(const float delta_time)

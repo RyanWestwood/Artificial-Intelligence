@@ -10,12 +10,14 @@ namespace Font {
 
 	bool InitializeFont();
 	void UnInitializeFont();
+	void InitializeDefaultFont();
 
 	struct FontData {
 		TTF_Font* m_Font;
 		SDL_Texture* m_Texture;
 		SDL_Rect m_Dimensions;
 	};
+	FontData GetDefaultFont();
 
 	FontData LoadFont(const char* filename, int fontsize, const char* message, const SDL_Color& color, const SDL_Point& position);
 	FontData UpdateMessage(const char* message, TTF_Font* font, const SDL_Color& color, const SDL_Point& position);
@@ -28,6 +30,7 @@ public:
 	~Text();
 
 	void Initalize(const char* filename, const char* message);
+	void Initalize(const char* message);
 	void UpdateMessage(const char* message);
 	void Draw();
 
