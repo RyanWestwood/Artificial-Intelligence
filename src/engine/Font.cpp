@@ -7,6 +7,7 @@ namespace Font {
 
 	namespace {
 		std::string g_FontDirectory = "Not yet initialized!\n";
+		FontData g_Font;
 	}
 
 	bool InitializeFont()
@@ -21,6 +22,14 @@ namespace Font {
 		std::cout << "Font Initialized!\n";
 #endif // LOGGING
 		return true;
+	}
+
+	void InitializeDefaultFont() {
+		g_Font = LoadFont("font.ttf", 18, "Default", { 255,255,255,255 }, { 0,0 });
+	}
+
+	FontData GetDefaultFont() {
+		return g_Font;
 	}
 
 	void UnInitializeFont()
@@ -97,6 +106,15 @@ Text::~Text()
 void Text::Initalize(const char* filename, const char* message)
 {
 	auto font_data = Font::LoadFont(filename, m_FontSize, message, m_Colour, m_Position);
+	m_Message = message;
+	m_Font = font_data.m_Font;
+	m_Texture = font_data.m_Texture;
+	m_Dimensions = font_data.m_Dimensions;
+}
+
+void Text::Initalize(const char* message)
+{
+	auto font_data = Font::UpdateMessage(message, Font::GetDefaultFont().m_Font, m_Colour, m_Position);
 	m_Message = message;
 	m_Font = font_data.m_Font;
 	m_Texture = font_data.m_Texture;
