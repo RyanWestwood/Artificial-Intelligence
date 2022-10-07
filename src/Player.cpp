@@ -155,5 +155,5 @@ void Player::Draw()
 	m_RangedCooldown.Draw();
 	m_HealthRegenCooldown.Draw();
 	m_MitigationCooldown.Draw();
-	m_Projectile.Draw();
+	// m_Projectile.Draw();
 }

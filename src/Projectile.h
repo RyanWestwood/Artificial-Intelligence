@@ -9,6 +9,9 @@ public:
 	void Update(const float delta_time);
 	void UpdateAnimation();
 	void Draw();
+	void Activate();
 public:
 
+private:
+	bool m_Active;
 };

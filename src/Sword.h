@@ -1,5 +1,7 @@
 ﻿#pragma once
+#include <vector>
 #include "Attack.h"
+#include "Projectile.h"
 
 class Sword : public Attack{
 public:
@@ -14,4 +16,7 @@ public:
 private:
 	bool m_FireAction;
 	SDL_FPoint m_FireOffset;
+	std::vector<Projectile> m_Projectile;
+
+	int m_Temp;
 };
