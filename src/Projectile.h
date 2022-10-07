@@ -9,7 +9,7 @@ public:
 	void Update(const float delta_time);
 	void UpdateAnimation();
 	void Draw();
-	void Activate();
+	void Activate(SDL_FPoint position);
 public:
 
 private:

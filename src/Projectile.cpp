@@ -9,11 +9,13 @@ void Projectile::Initialize()
 {
 	m_Sprite.Initialize("projectile.png");
 	m_Sprite.m_Source = { 0,0,32,32 };
-	m_Sprite.m_Destination = { 128,128,32,32 };
+	m_Sprite.m_Destination = { 0,0,32,32 };
 }
 
-void Projectile::Activate() {
+void Projectile::Activate(SDL_FPoint position) {
 	m_Active = true;
+	m_Position = { position.x, position.y };
+	m_Sprite.m_Destination.y = m_Position.y;
 }
 
 void Projectile::Update(const float delta_time)
@@ -21,7 +23,6 @@ void Projectile::Update(const float delta_time)
 	if (!m_Active) return;
 	m_Position.x += 32.f * delta_time;
 	m_Sprite.m_Destination.x = m_Position.x;
-	std::cout << "update!\n";
 }
 
 void Projectile::UpdateAnimation()
@@ -35,6 +36,4 @@ void Projectile::Draw()
 {
 	if (!m_Active) return;
 	m_Sprite.Draw();
-	std::cout << m_Sprite.m_Destination.x << ", Y:\y" << m_Sprite.m_Destination.y << "\n";
-	std::cout << m_Sprite.m_Destination.w << ", H:\t" << m_Sprite.m_Destination.h << "\n";
 }

@@ -86,7 +86,7 @@ void Sword::Swing()
 void Sword::Fire()
 {
 	if (*m_Timer > m_Cooldown) {
-		m_Projectile[m_Temp].Activate();
+		m_Projectile[m_Temp].Activate({ float(m_Sprite.m_Destination.x), float(m_Sprite.m_Destination.y)});
 		m_FireAction = true;
 		*m_Timer = 0.f;
 		m_Temp++;
