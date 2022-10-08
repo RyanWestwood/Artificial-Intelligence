@@ -24,7 +24,6 @@ void Player::Initialize()
 	m_RangedCooldown.Initialize({ 76, 784 }, 2);
 	m_MitigationCooldown.Initialize({ 136, 784 }, 15);
 	m_HealthRegenCooldown.Initialize({ 196, 784 }, 30);
-	m_Projectile.Initialize();
 }
 
 void Player::KeyUp(SDL_Scancode code, const char* message)
@@ -124,7 +123,6 @@ void Player::Update(const float delta_time)
 	m_RangedCooldown.Update(delta_time);
 	m_HealthRegenCooldown.Update(delta_time);
 	m_MitigationCooldown.Update(delta_time);
-	m_Projectile.Update(delta_time);
 }
 
 void Player::Resume()
@@ -144,7 +142,7 @@ void Player::UpdateAnimation()
 {
 	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
 	m_Sprite.m_Source.x = 16 * m_AnimStep;
-	m_Projectile.UpdateAnimation();
+	m_Sword.UpdateAnimation();
 }
 
 void Player::Draw()
@@ -155,5 +153,4 @@ void Player::Draw()
 	m_RangedCooldown.Draw();
 	m_HealthRegenCooldown.Draw();
 	m_MitigationCooldown.Draw();
-	// m_Projectile.Draw();
 }

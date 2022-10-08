@@ -3,7 +3,6 @@
 #include "Entity.h"
 #include "Staff.h"
 #include "Sword.h"
-#include "Projectile.h"
 
 class Player : public Entity {
 public: 
@@ -29,5 +28,4 @@ public:
 	Cooldown m_MitigationCooldown;
 	std::shared_ptr<float> m_OffGlobal;
 	std::shared_ptr<float> m_Global;
-	Projectile m_Projectile;
 };

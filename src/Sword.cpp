@@ -14,8 +14,6 @@ Sword::Sword()
 	m_Action = false;
 	m_FireAction = false;
 	m_Flip = SDL_FLIP_NONE;
-	m_Projectile = {10, Projectile()};
-	m_Temp = 0;
 }
 
 void Sword::Initialize(const char* filename, std::shared_ptr<float> timer) {
@@ -28,9 +26,7 @@ void Sword::Initialize(const char* filename, std::shared_ptr<float> timer) {
 	m_Timer = timer;
 	m_Cooldown = 2.f;
 
-	for (auto& proj : m_Projectile) {
-		proj.Initialize();
-	}
+	m_Projectile.Initialize(10);
 }
 
 void Sword::Update(const float& delta_time, const SDL_FPoint position)
@@ -59,19 +55,20 @@ void Sword::Update(const float& delta_time, const SDL_FPoint position)
 			m_FireAction = false;
 		}
 	}
-	//m_Projectile.Update(delta_time);
-	for (auto& proj : m_Projectile) {
-		proj.Update(delta_time);
-	}
+
+	m_Projectile.Update(delta_time);
+}
+
+void Sword::UpdateAnimation()
+{
+	m_Projectile.UpdateAnimation();
 }
 
 void Sword::Draw(const SDL_RendererFlip& flip)
 {
 	m_Flip = flip;
 	m_Sprite.Draw(m_Flip, m_Rotation, m_Center);
-	for (auto& proj : m_Projectile) {
-		proj.Draw();
-	}
+	m_Projectile.Draw();
 }
 
 void Sword::Swing()
@@ -86,9 +83,8 @@ void Sword::Swing()
 void Sword::Fire()
 {
 	if (*m_Timer > m_Cooldown) {
-		m_Projectile[m_Temp].Activate({ float(m_Sprite.m_Destination.x), float(m_Sprite.m_Destination.y)});
+		m_Projectile.Activate({ float(m_Sprite.m_Destination.x), float(m_Sprite.m_Destination.y) });
 		m_FireAction = true;
 		*m_Timer = 0.f;
-		m_Temp++;
 	}
 }
