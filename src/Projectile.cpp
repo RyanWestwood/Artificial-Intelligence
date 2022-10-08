@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include <algorithm>
 #include "engine/Globals.h"
 #include "engine/Renderer.h"
 
@@ -19,11 +20,16 @@ void Projectile::Activate(SDL_FPoint position) {
 	m_Destination.y = m_Position.y;
 }
 
+void Projectile::Deactivate()
+{
+	m_Active = false;
+}
+
 void Projectile::Update(const float& delta_time)
 {
 	auto screen_size = Globals::GetScreenDimensions();
-	if (m_Position.x <= 0 || m_Position.x >= screen_size.w) m_Active = false;
-	if (m_Position.y <= -10 || m_Position.y >= screen_size.h) m_Active = false;
+	if (m_Position.x <= 0 || m_Position.x >= screen_size.w) Deactivate();
+	if (m_Position.y <= -10 || m_Position.y >= screen_size.h) Deactivate();
 	if (!m_Active) return;
 
 	m_Position.x += 512.f * delta_time;
@@ -48,31 +54,36 @@ void ProjectileManager::Initialize(int no_of_projectiles)
 	auto texture = Texture::LoadTexture("projectile.png");
 	m_TextureData.m_Texture = texture.m_Texture;
 	m_TextureData.m_Source = texture.m_Source;
-	m_Projectiles = { Uint64(no_of_projectiles), Projectile(m_TextureData) };
+	m_InactiveProjectiles = { Uint64(no_of_projectiles), Projectile(m_TextureData) };
+	m_ActiveProjectiles.reserve(no_of_projectiles);
 }
 
 void ProjectileManager::Update(const float& delta_time)
 {
-	for (Projectile& projectile : m_Projectiles) {
+	for (Projectile& projectile : m_ActiveProjectiles) {
 		projectile.Update(delta_time);
 	}
 }
 
 void ProjectileManager::UpdateAnimation()
 {
-	for(Projectile& projectile : m_Projectiles){
+	for(Projectile& projectile : m_ActiveProjectiles){
 		projectile.UpdateAnimation();
 	}
 }
 
 void ProjectileManager::Draw()
 {
-	for (Projectile& projectile : m_Projectiles) {
+	for (Projectile& projectile : m_ActiveProjectiles) {
 		projectile.Draw();
 	}
 }
 
 void ProjectileManager::Activate(const SDL_FPoint& position)
 {
-	m_Projectiles[0].Activate(position);
+	m_InactiveProjectiles.front().Activate(position);
+	m_ActiveProjectiles.insert(m_ActiveProjectiles.end(), std::make_move_iterator(m_InactiveProjectiles.begin()),
+		std::make_move_iterator(m_InactiveProjectiles.begin()+1));
+
+	m_InactiveProjectiles.erase(begin(m_InactiveProjectiles), begin(m_InactiveProjectiles) + 1);
 }
