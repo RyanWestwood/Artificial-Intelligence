@@ -26,7 +26,7 @@ void Sword::Initialize(const char* filename, std::shared_ptr<float> timer) {
 	m_Timer = timer;
 	m_Cooldown = 2.f;
 
-	m_Projectile.Initialize(10);
+	m_Projectile.Initialize(3);
 }
 
 void Sword::Update(const float& delta_time, const SDL_FPoint position)
