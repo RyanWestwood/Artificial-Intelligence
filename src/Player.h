@@ -4,6 +4,14 @@
 #include "Staff.h"
 #include "Sword.h"
 
+enum class Direction {
+	North = 0,
+	South,
+	East,
+	West,
+	None
+};
+
 class Player : public Entity {
 public: 
 	Player();
@@ -28,4 +36,5 @@ public:
 	Cooldown m_MitigationCooldown;
 	std::shared_ptr<float> m_OffGlobal;
 	std::shared_ptr<float> m_Global;
+	Direction m_Facing;
 };

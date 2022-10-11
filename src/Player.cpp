@@ -108,6 +108,12 @@ void Player::Input()
 
 void Player::Update(const float delta_time)
 {
+	if (m_Velocity.x > 0) m_Facing = Direction::East;
+	if (m_Velocity.x < 0) m_Facing = Direction::West;
+	if (m_Velocity.y < 0) m_Facing = Direction::North;
+	if (m_Velocity.y > 0) m_Facing = Direction::South;
+	if (m_Velocity.x == 0 && m_Velocity.y == 0) m_Facing = Direction::None;
+
 	auto screen_dimensions = Globals::GetScreenDimensions();
 	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
