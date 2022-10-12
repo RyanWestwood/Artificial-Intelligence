@@ -3,6 +3,14 @@
 
 namespace Globals {
 
+	enum class Direction {
+		North = 0,
+		South,
+		East,
+		West,
+		None
+	};
+
 	bool Initialize();
 	std::string GetAssetDirectory();
 

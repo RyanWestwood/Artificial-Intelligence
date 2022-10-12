@@ -1,7 +1,6 @@
 #include "Player.h"
 #include <algorithm>
 #include "engine/Input.h"
-#include "engine/Globals.h"
 
 constexpr int g_MoveSpeed = 128;
 
@@ -17,8 +16,9 @@ void Player::Initialize()
 	m_Sprite.m_Destination = { 128,128,32,64 };
 
 	m_OffGlobal = std::make_shared<float>(2.5f);
+	m_Facing = std::make_shared<Globals::Direction>(Globals::Direction::None);
 
-	m_Sword.Initialize("tilemap.png", m_OffGlobal);
+	m_Sword.Initialize("tilemap.png", m_OffGlobal, m_Facing);
 
 	m_MeleeCooldown.Initialize({ 16,784 }, 2);
 	m_RangedCooldown.Initialize({ 76, 784 }, 2);
@@ -108,11 +108,11 @@ void Player::Input()
 
 void Player::Update(const float delta_time)
 {
-	if (m_Velocity.x > 0) m_Facing = Direction::East;
-	if (m_Velocity.x < 0) m_Facing = Direction::West;
-	if (m_Velocity.y < 0) m_Facing = Direction::North;
-	if (m_Velocity.y > 0) m_Facing = Direction::South;
-	if (m_Velocity.x == 0 && m_Velocity.y == 0) m_Facing = Direction::None;
+	if (m_Velocity.x > 0) *m_Facing = Globals::Direction::East;
+	if (m_Velocity.x < 0) *m_Facing = Globals::Direction::West;
+	if (m_Velocity.y < 0) *m_Facing = Globals::Direction::North;
+	if (m_Velocity.y > 0) *m_Facing = Globals::Direction::South;
+	if (m_Velocity.x == 0 && m_Velocity.y == 0) *m_Facing = Globals::Direction::None;
 
 	auto screen_dimensions = Globals::GetScreenDimensions();
 	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size

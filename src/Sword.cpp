@@ -16,7 +16,7 @@ Sword::Sword()
 	m_Flip = SDL_FLIP_NONE;
 }
 
-void Sword::Initialize(const char* filename, std::shared_ptr<float> timer) {
+void Sword::Initialize(const char* filename, std::shared_ptr<float> timer, std::shared_ptr<Globals::Direction> facing) {
 #ifdef LOGGING
 	std::cout << "Sword initialize\n";
 #endif // LOGGING
@@ -25,6 +25,7 @@ void Sword::Initialize(const char* filename, std::shared_ptr<float> timer) {
 	m_Sprite.m_Destination = { 128,128,24,48 };
 	m_Timer = timer;
 	m_Cooldown = 2.f;
+	m_Facing = facing;
 
 	m_Projectile.Initialize(3);
 }
@@ -83,7 +84,7 @@ void Sword::Swing()
 void Sword::Fire()
 {
 	if (*m_Timer > m_Cooldown) {
-		m_Projectile.Activate({ float(m_Sprite.m_Destination.x), float(m_Sprite.m_Destination.y) });
+		m_Projectile.Activate({ float(m_Sprite.m_Destination.x), float(m_Sprite.m_Destination.y) }, m_Facing);
 		m_FireAction = true;
 		*m_Timer = 0.f;
 	}
