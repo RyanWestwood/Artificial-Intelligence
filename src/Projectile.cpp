@@ -22,9 +22,13 @@ void Projectile::Activate(SDL_FPoint position, std::shared_ptr<Globals::Directio
 
 	m_Velocity = { 512, 0 };
 	if (*facing == Globals::Direction::North) SetDirection(0,-512, 270);
+	if (*facing == Globals::Direction::NorthEast) SetDirection(512,-512, 315);
 	if (*facing == Globals::Direction::East) SetDirection(512, 0, 0);
+	if (*facing == Globals::Direction::SouthEast) SetDirection(512, 512, 45);
 	if (*facing == Globals::Direction::South) SetDirection(0, 512, 90);
+	if (*facing == Globals::Direction::SouthWest) SetDirection(-512, 512, 135);
 	if (*facing == Globals::Direction::West) SetDirection(-512, 0, 180);
+	if (*facing == Globals::Direction::NorthWest) SetDirection(-512, -512, 225);
 }
 
 void Projectile::Deactivate()

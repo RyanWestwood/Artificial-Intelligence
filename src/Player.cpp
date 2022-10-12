@@ -108,10 +108,14 @@ void Player::Input()
 
 void Player::Update(const float delta_time)
 {
-	if (m_Velocity.x > 0) *m_Facing = Globals::Direction::East;
-	if (m_Velocity.x < 0) *m_Facing = Globals::Direction::West;
 	if (m_Velocity.y < 0) *m_Facing = Globals::Direction::North;
+	if (m_Velocity.x > 0) *m_Facing = Globals::Direction::East;
+	if (m_Velocity.y < 0 && m_Velocity.x > 0) *m_Facing = Globals::Direction::NorthEast;
 	if (m_Velocity.y > 0) *m_Facing = Globals::Direction::South;
+	if (m_Velocity.y > 0 && m_Velocity.x > 0) *m_Facing = Globals::Direction::SouthEast;
+	if (m_Velocity.x < 0) *m_Facing = Globals::Direction::West;
+	if (m_Velocity.y > 0 && m_Velocity.x < 0) *m_Facing = Globals::Direction::SouthWest;
+	if (m_Velocity.y < 0 && m_Velocity.x < 0) *m_Facing = Globals::Direction::NorthWest;
 	if (m_Velocity.x == 0 && m_Velocity.y == 0) *m_Facing = Globals::Direction::None;
 
 	auto screen_dimensions = Globals::GetScreenDimensions();

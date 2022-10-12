@@ -5,9 +5,13 @@ namespace Globals {
 
 	enum class Direction {
 		North = 0,
-		South,
+		NorthEast,
 		East,
+		SouthEast,
+		South,
+		SouthWest,
 		West,
+		NorthWest,
 		None
 	};
 
