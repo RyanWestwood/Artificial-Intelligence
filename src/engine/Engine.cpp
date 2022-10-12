@@ -145,6 +145,5 @@ void Engine::Draw()
 	m_NodeGrid.Draw();
 #endif // LOGGING
 
-
 	SDL_RenderPresent(Renderer::GetRenderer());
 }

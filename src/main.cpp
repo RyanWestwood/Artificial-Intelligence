@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "engine/Engine.h"
 #include "engine/Renderer.h"
+#include "engine/Collision.h"
 
 #include "Dll.h"
 

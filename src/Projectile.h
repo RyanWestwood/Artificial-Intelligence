@@ -1,14 +1,42 @@
 #pragma once
+#include <functional>
+#include <vector>
+#include "engine/Globals.h"
+#include "engine/Texture.h"
 #include "Entity.h"
+
+class Projectile;
+class ProjectileManager {
+public:
+	ProjectileManager() {}
+
+	void Initialize(int no_of_projectiles);
+	void Update(const float& delta_time);
+	void UpdateAnimation();
+	void Draw();
+
+	void Activate(const SDL_FPoint& position, std::shared_ptr<Globals::Direction> facing);
+	void Deactivate(Projectile& projectile);
+public:
+	std::vector<Projectile> m_InactiveProjectiles;
+	std::vector<Projectile> m_ActiveProjectiles;
+	Texture::TextureData m_TextureData;
+};
 
 class Projectile : public Entity {
 public:
-	Projectile();
+	Projectile(Texture::TextureData spritesheet, ProjectileManager* manager);
 
-	void Initialize();
-	void Update(const float delta_time);
+	void Update(const float& delta_time);
 	void UpdateAnimation();
 	void Draw();
-public:
-
+	void Activate(SDL_FPoint position, std::shared_ptr<Globals::Direction> facing);
+	void Deactivate();
+	void SetDirection(int x, int y, int angle);
+private:
+	bool m_Active;
+	int m_Angle;
+	Texture::TextureData m_Spritesheet;
+	SDL_FRect m_Destination;
+	ProjectileManager* m_Manager;
 };
