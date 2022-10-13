@@ -7,7 +7,6 @@
 #include "Input.h"
 #endif // LOGGING
 
-
 void NodeGrid::Initialize()
 {
 	auto tilemap_dimensions = Globals::GetTileMapDimensions();
@@ -21,7 +20,7 @@ void NodeGrid::Initialize()
 #ifdef LOGGING
 	auto start_node = m_Nodes.at(40 + (1 * tilemap_dimensions.w));
 	auto end_node = m_Nodes.at(4 + (25* tilemap_dimensions.w));
-	auto solution_path = AI::PATH::A_Star(m_Nodes, start_node, end_node);
+	auto solution_path = AI::PATH::BFS(m_Nodes, start_node, end_node);
 
 	m_DebugTextureData = Texture::LoadTexture("ui_foredrop.png");
 	m_DebugTextureExploredData = Texture::LoadTexture("ui_backdrop.png");
