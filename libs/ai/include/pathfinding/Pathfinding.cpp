@@ -103,8 +103,66 @@ namespace AI {
 					if (gPossibleLowerGoal < nodeNeighbour->m_Costs.m_FromCost) {
 						nodeNeighbour->SetParent(currentNode);
 						nodeNeighbour->m_Costs.m_FromCost = gPossibleLowerGoal;
-						nodeNeighbour->m_Costs.m_ToCost = nodeNeighbour->m_Costs.m_FromCost + Hueristic(start_node, end_node);
+						nodeNeighbour->m_Costs.m_ToCost = nodeNeighbour->m_Costs.m_FromCost + Hueristic(currentNode, end_node);
 						nodeNeighbour->m_Costs.m_TotalCost = nodeNeighbour->m_Costs.m_FromCost + nodeNeighbour->m_Costs.m_ToCost;
+					}
+				}
+			}
+
+			std::vector<NodePtr> path;
+			NodePtr pathNode = end_node;
+			while (pathNode->GetParent() != nullptr) {
+				path.insert(begin(path), pathNode);
+				pathNode = pathNode->m_Parent;
+			}
+			path.insert(begin(path), pathNode);
+
+			return path;
+		}
+
+		std::vector<NodePtr> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+			
+			for (int x = 0; x < 48; x++)
+			{
+				for (int y = 0; y < 27; y++)
+				{
+					nodes[y * 48 + x]->SetCosts({ FLT_MAX, FLT_MAX, FLT_MAX });
+					nodes[y * 48 + x]->SetVisited(false);
+					nodes[y * 48 + x]->SetParent(nullptr);
+				}
+			}
+
+			auto GoalTest = [](NodePtr current, NodePtr destination) {
+				bool x = current->GetPosition().x == destination->GetPosition().x;
+				bool y = current->GetPosition().y == destination->GetPosition().y;
+				return x && y;
+			};
+
+			NodePtr node = start_node;
+			std::vector<NodePtr> queue;
+			queue.push_back(start_node);
+
+			while (!queue.empty()) {
+				NodePtr current = queue.front();
+				std::cout << "Current: " << current->m_Position.x << ", " << current->m_Position.y << "\n";
+				if (current->IsVisited()) {
+					queue.erase(queue.begin());
+				}
+				queue.erase(queue.begin());
+				current->SetVisited(true);
+
+				if (GoalTest(current, end_node)) {
+					break;
+				}
+
+				for (NodePtr nodeNeighbour : current->GetNeighbours()) {
+					if (nodeNeighbour->m_Position.x == 23 && nodeNeighbour->m_Position.y == 0) {
+						std::cout << "hi\n";
+					}
+					if (!nodeNeighbour->IsVisited()) {
+						queue.push_back(nodeNeighbour);
+						std::cout << "Neighbour; " << nodeNeighbour->m_Position.x << ", " << nodeNeighbour->m_Position.y << "\n";
+						nodeNeighbour->SetParent(current);
 					}
 				}
 			}
