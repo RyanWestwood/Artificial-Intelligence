@@ -105,6 +105,9 @@ namespace AI {
 
 			while (!frontier.empty()) {
 				std::sort(begin(frontier), end(frontier), [](const NodePtr lhs, const NodePtr rhs) -> bool {
+					if(lhs->m_Costs.m_TotalCost == rhs->m_Costs.m_TotalCost){
+						return lhs->m_Costs.m_FromCost > rhs->m_Costs.m_FromCost;
+					}
 					return lhs->m_Costs.m_TotalCost < rhs->m_Costs.m_TotalCost;
 					});
 
