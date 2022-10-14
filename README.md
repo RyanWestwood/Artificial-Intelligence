@@ -1,5 +1,9 @@
 # Artificial-Intelligence
 
+`run BUILD.bat`  
+  
+or  
+  
 `mkdir build, libs\ai\build`  
 `cd build`  
 `cmake ..  -DCMAKE_BUILD_TYPE=Release`  
