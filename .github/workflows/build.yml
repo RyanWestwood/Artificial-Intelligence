@@ -11,17 +11,30 @@ jobs:
       matrix:
         config: 
           - {
-            name: "Windows/X64/",
+            name: "Windows/X64/Release",
             os: windows-latest,
+            config: Release,
             args: -G "Visual Studio 17 2022" -A x64,
           }
           - {
-            name: "Windows/X86/",
+            name: "Windows/X86/Release",
             os: windows-latest,
+            config: Release,
             args: -G "Visual Studio 17 2022" -A x86,
           }
     steps:
       - uses: actions/checkout@v3
-      - name: Bulid
+      - name: Create Work Dirs
         run: |
-          Build.bat
+          mkdir build
+          mkdir libs/ai/build
+      - name: Build DLL
+        working-directory: ./libs/ai/build
+        run: |
+          cmake .. ${{ matrix.config.cmake_extra_args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
+          cmake --build . -j --config ${{ matrix.config.config }}
+      - name: Build
+        working-directory: ./build
+        run: |
+          cmake .. ${{ matrix.config.cmake_extra_args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
+          cmake --build . -j --config ${{ matrix.config.config }}
