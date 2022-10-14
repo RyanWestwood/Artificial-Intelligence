@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "Globals.h"
 #include "Renderer.h"
+#include "../Clock.h"
 
 #ifdef LOGGING
 #include "Input.h"
@@ -20,8 +21,10 @@ void NodeGrid::Initialize()
 #ifdef LOGGING
 	auto start_node = m_Nodes.at(40 + (1 * tilemap_dimensions.w));
 	auto end_node = m_Nodes.at(4 + (25* tilemap_dimensions.w));
-	auto solution_path = AI::PATH::BFS(m_Nodes, start_node, end_node);
-
+	CLOCK::StartTimer();
+	auto solution_path = AI::PATH::A_Star(m_Nodes, start_node, end_node);
+	CLOCK::StopTimer("A_Star");
+	
 	m_DebugTextureData = Texture::LoadTexture("ui_foredrop.png");
 	m_DebugTextureExploredData = Texture::LoadTexture("ui_backdrop.png");
 	m_DebugNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.w);
