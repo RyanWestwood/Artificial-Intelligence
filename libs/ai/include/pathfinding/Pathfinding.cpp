@@ -67,6 +67,23 @@ namespace AI {
 			}
 		}
 
+		auto GoalTest = [](NodePtr current, NodePtr destination) -> bool {
+			bool x = current->GetPosition().x == destination->GetPosition().x;
+			bool y = current->GetPosition().y == destination->GetPosition().y;
+			return x && y;
+		};
+
+		std::vector<NodePtr> GetPath(NodePtr solution_node){
+			std::vector<NodePtr> path;
+			while (solution_node->GetParent() != nullptr) {
+				path.insert(begin(path), solution_node);
+				solution_node = solution_node->m_Parent;
+			}
+			path.insert(begin(path), solution_node);
+
+			return path;
+		}
+
 		std::vector<NodePtr> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 
 			ResetArray(nodes);
@@ -74,150 +91,109 @@ namespace AI {
 			auto Hueristic = [](NodePtr current, NodePtr destination) {
 				int xDist = std::max(current->m_Position.x, destination->m_Position.x) - std::min(current->m_Position.x, destination->m_Position.x);
 				int yDist = std::max(current->m_Position.y, destination->m_Position.y) - std::min(current->m_Position.y, destination->m_Position.y);
-				return static_cast<float>(sqrt((xDist * xDist) + (yDist * yDist)));
+				return xDist + yDist;
 			};
 
-			NodePtr currentNode = start_node;
 			start_node->m_Costs.m_FromCost = 0.f;
 			start_node->m_Costs.m_ToCost = Hueristic(start_node, end_node);
-			start_node->m_Costs.m_TotalCost = currentNode->m_Costs.m_FromCost + currentNode->m_Costs.m_ToCost;
+			start_node->m_Costs.m_TotalCost = start_node->m_Costs.m_FromCost + start_node->m_Costs.m_ToCost;
 
-			std::vector<NodePtr> nodesToTest;
-			nodesToTest.push_back(start_node);
+			std::vector<NodePtr> frontier;
+			frontier.push_back(start_node);
+			std::set<NodePtr> explored;
+			NodePtr solution_node;
 
-			while (!nodesToTest.empty()) {
-
-				std::sort(begin(nodesToTest), end(nodesToTest), [](NodePtr lhs, NodePtr rhs) {
+			while (!frontier.empty()) {
+				std::sort(begin(frontier), end(frontier), [](const NodePtr lhs, const NodePtr rhs) -> bool {
 					return lhs->m_Costs.m_TotalCost < rhs->m_Costs.m_TotalCost;
 					});
 
-				while (!nodesToTest.empty() && nodesToTest.front()->IsVisited())
-					nodesToTest.erase(begin(nodesToTest));
-
-				if (nodesToTest.empty())
+				NodePtr current_node = frontier.front();
+				if (GoalTest(current_node, end_node)) {
+					solution_node = current_node;
 					break;
+				}
+				frontier.erase(frontier.begin());
+				explored.insert(current_node);
 
-				currentNode = nodesToTest.front();
-				currentNode->SetVisited(true);
-
-				for (NodePtr& nodeNeighbour : currentNode->GetNeighbours()) {
-					if (!nodeNeighbour->IsVisited() || !nodeNeighbour->IsObstacle())
-						nodesToTest.push_back(nodeNeighbour);
-
-					float gPossibleLowerGoal = currentNode->m_Costs.m_FromCost + Hueristic(currentNode, nodeNeighbour);
-
-					if (gPossibleLowerGoal < nodeNeighbour->m_Costs.m_FromCost) {
-						nodeNeighbour->SetParent(currentNode);
-						nodeNeighbour->m_Costs.m_FromCost = gPossibleLowerGoal;
-						nodeNeighbour->m_Costs.m_ToCost = nodeNeighbour->m_Costs.m_FromCost + Hueristic(currentNode, end_node);
-						nodeNeighbour->m_Costs.m_TotalCost = nodeNeighbour->m_Costs.m_FromCost + nodeNeighbour->m_Costs.m_ToCost;
+				for (NodePtr& neighbour : current_node->GetNeighbours()) {
+					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
+					if (!(it != frontier.end())) {
+						float gPossibleLowerGoal = current_node->m_Costs.m_FromCost + Hueristic(neighbour, end_node);
+						if (gPossibleLowerGoal < neighbour->m_Costs.m_FromCost) {
+							neighbour->m_Parent = current_node;
+							neighbour->m_Costs.m_FromCost = current_node->m_Costs.m_FromCost + 1;
+							neighbour->m_Costs.m_ToCost = Hueristic(neighbour, end_node);
+							neighbour->m_Costs.m_TotalCost = neighbour->m_Costs.m_FromCost + neighbour->m_Costs.m_ToCost;
+							frontier.push_back(neighbour);
+						}
 					}
 				}
 			}
-
-			std::vector<NodePtr> path;
-			NodePtr pathNode = end_node;
-			while (pathNode->GetParent() != nullptr) {
-				path.insert(begin(path), pathNode);
-				pathNode = pathNode->m_Parent;
-			}
-			path.insert(begin(path), pathNode);
-
-			return path;
+			return GetPath(solution_node);
 		}
 
 		std::vector<NodePtr> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
 
-			auto GoalTest = [](NodePtr current, NodePtr destination) -> bool {
-				bool x = current->GetPosition().x == destination->GetPosition().x;
-				bool y = current->GetPosition().y == destination->GetPosition().y;
-				return x && y;
-			};
-
-			std::deque<NodePtr> frontie;
+			std::deque<NodePtr> frontier;
 			std::set<NodePtr> explored;
 			NodePtr solution_node;
 
-			frontie.push_back(start_node);
+			frontier.push_back(start_node);
 
-			while (!frontie.empty()) {
-				NodePtr state = frontie.front();
-				frontie.pop_front();
-				explored.insert(state);
-
-				if (GoalTest(state, end_node)) {
-					solution_node = state;
+			while (!frontier.empty()) {
+				NodePtr current_node = frontier.front();
+				if (GoalTest(current_node, end_node)) {
+					solution_node = current_node;
 					break;
 				}
+				frontier.pop_front();
+				explored.insert(current_node);
 
-				for (NodePtr& neighbour : state->GetNeighbours()) {
-					auto it = std::find(frontie.begin(), frontie.end(), neighbour);
-					if (!(it != frontie.end())) {
+				for (NodePtr& neighbour : current_node->GetNeighbours()) {
+					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
+					if (!(it != frontier.end())) {
 						if (!explored.contains(neighbour)) {
-							neighbour->m_Parent = state;
-							frontie.push_back(neighbour);
+							neighbour->m_Parent = current_node;
+							frontier.push_back(neighbour);
 						}
 					}
 				}
 			}
-
-			std::vector<NodePtr> path;
-			while (solution_node->GetParent() != nullptr) {
-				path.insert(begin(path), solution_node);
-				solution_node = solution_node->m_Parent;
-			}
-			path.insert(begin(path), solution_node);
-
-			return path;
+			return GetPath(solution_node);
 		}
 
 		std::vector<NodePtr> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
 
-			auto GoalTest = [](NodePtr current, NodePtr destination) -> bool {
-				bool x = current->GetPosition().x == destination->GetPosition().x;
-				bool y = current->GetPosition().y == destination->GetPosition().y;
-				return x && y;
-			};
-
-			std::deque<NodePtr> frontie;
+			std::deque<NodePtr> frontier;
+			frontier.push_back(start_node);
 			std::set<NodePtr> explored;
 			NodePtr solution_node;
 
-			frontie.push_back(start_node);
-
-			while (!frontie.empty()) {
-				NodePtr state = frontie.back();
-				frontie.pop_back();
-				explored.insert(state);
-
-				if (GoalTest(state, end_node)) {
-					solution_node = state;
+			while (!frontier.empty()) {
+				NodePtr current_node = frontier.back();
+				if (GoalTest(current_node, end_node)) {
+					solution_node = current_node;
 					break;
 				}
+				frontier.pop_back();
+				explored.insert(current_node);
 
-				for (NodePtr& neighbour : state->GetNeighbours()) {
-					auto it = std::find(frontie.begin(), frontie.end(), neighbour);
-					if (!(it != frontie.end())) {
+				for (NodePtr& neighbour : current_node->GetNeighbours()) {
+					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
+					if (!(it != frontier.end())) {
 						if (!explored.contains(neighbour)) {
-							neighbour->m_Parent = state;
-							frontie.push_back(neighbour);
+							neighbour->m_Parent = current_node;
+							frontier.push_back(neighbour);
 						}
 					}
 				}
 			}
-
-			std::vector<NodePtr> path;
-			while (solution_node->GetParent() != nullptr) {
-				path.insert(begin(path), solution_node);
-				solution_node = solution_node->m_Parent;
-			}
-			path.insert(begin(path), solution_node);
-
-			return path;
+			return GetPath(solution_node);
 		}
 	} // namespace PATH
 } // namespace AI
