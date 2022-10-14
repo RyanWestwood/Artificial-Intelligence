@@ -1,6 +1,8 @@
 #include "Pathfinding.h"
 #include <algorithm>
 #include <iostream>
+#include <queue>
+#include <set>
 
 namespace AI {
 	namespace PATH {
@@ -53,8 +55,7 @@ namespace AI {
 			return std::make_shared<NodeMap>(x, y);
 		}
 
-		std::vector<NodePtr> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
-
+		void ResetArray(std::vector<NodePtr> nodes) {
 			for (int x = 0; x < 48; x++)
 			{
 				for (int y = 0; y < 27; y++)
@@ -64,6 +65,11 @@ namespace AI {
 					nodes[y * 48 + x]->SetParent(nullptr);
 				}
 			}
+		}
+
+		std::vector<NodePtr> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+
+			ResetArray(nodes);
 
 			auto Hueristic = [](NodePtr current, NodePtr destination) {
 				int xDist = std::max(current->m_Position.x, destination->m_Position.x) - std::min(current->m_Position.x, destination->m_Position.x);
@@ -94,8 +100,8 @@ namespace AI {
 				currentNode = nodesToTest.front();
 				currentNode->SetVisited(true);
 
-				for (auto nodeNeighbour : currentNode->GetNeighbours()) {
-					if (!nodeNeighbour->IsVisited() && !nodeNeighbour->IsObstacle())
+				for (NodePtr& nodeNeighbour : currentNode->GetNeighbours()) {
+					if (!nodeNeighbour->IsVisited() || !nodeNeighbour->IsObstacle())
 						nodesToTest.push_back(nodeNeighbour);
 
 					float gPossibleLowerGoal = currentNode->m_Costs.m_FromCost + Hueristic(currentNode, nodeNeighbour);
@@ -103,7 +109,7 @@ namespace AI {
 					if (gPossibleLowerGoal < nodeNeighbour->m_Costs.m_FromCost) {
 						nodeNeighbour->SetParent(currentNode);
 						nodeNeighbour->m_Costs.m_FromCost = gPossibleLowerGoal;
-						nodeNeighbour->m_Costs.m_ToCost = nodeNeighbour->m_Costs.m_FromCost + Hueristic(start_node, end_node);
+						nodeNeighbour->m_Costs.m_ToCost = nodeNeighbour->m_Costs.m_FromCost + Hueristic(currentNode, end_node);
 						nodeNeighbour->m_Costs.m_TotalCost = nodeNeighbour->m_Costs.m_FromCost + nodeNeighbour->m_Costs.m_ToCost;
 					}
 				}
@@ -120,5 +126,98 @@ namespace AI {
 			return path;
 		}
 
+		std::vector<NodePtr> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+			
+			ResetArray(nodes);
+
+			auto GoalTest = [](NodePtr current, NodePtr destination) -> bool {
+				bool x = current->GetPosition().x == destination->GetPosition().x;
+				bool y = current->GetPosition().y == destination->GetPosition().y;
+				return x && y;
+			};
+
+			std::deque<NodePtr> frontie;
+			std::set<NodePtr> explored;
+			NodePtr solution_node;
+
+			frontie.push_back(start_node);
+
+			while (!frontie.empty()) {
+				NodePtr state = frontie.front();
+				frontie.pop_front();
+				explored.insert(state);
+
+				if (GoalTest(state, end_node)) {
+					solution_node = state;
+					break;
+				}
+
+				for (NodePtr& neighbour : state->GetNeighbours()) {
+					auto it = std::find(frontie.begin(), frontie.end(), neighbour);
+					if (!(it != frontie.end())) {
+						if (!explored.contains(neighbour)) {
+							neighbour->m_Parent = state;
+							frontie.push_back(neighbour);
+						}
+					}
+				}
+			}
+
+			std::vector<NodePtr> path;
+			while (solution_node->GetParent() != nullptr) {
+				path.insert(begin(path), solution_node);
+				solution_node = solution_node->m_Parent;
+			}
+			path.insert(begin(path), solution_node);
+
+			return path;
+		}
+
+		std::vector<NodePtr> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+			
+			ResetArray(nodes);
+
+			auto GoalTest = [](NodePtr current, NodePtr destination) -> bool {
+				bool x = current->GetPosition().x == destination->GetPosition().x;
+				bool y = current->GetPosition().y == destination->GetPosition().y;
+				return x && y;
+			};
+
+			std::deque<NodePtr> frontie;
+			std::set<NodePtr> explored;
+			NodePtr solution_node;
+
+			frontie.push_back(start_node);
+
+			while (!frontie.empty()) {
+				NodePtr state = frontie.back();
+				frontie.pop_back();
+				explored.insert(state);
+
+				if (GoalTest(state, end_node)) {
+					solution_node = state;
+					break;
+				}
+
+				for (NodePtr& neighbour : state->GetNeighbours()) {
+					auto it = std::find(frontie.begin(), frontie.end(), neighbour);
+					if (!(it != frontie.end())) {
+						if (!explored.contains(neighbour)) {
+							neighbour->m_Parent = state;
+							frontie.push_back(neighbour);
+						}
+					}
+				}
+			}
+
+			std::vector<NodePtr> path;
+			while (solution_node->GetParent() != nullptr) {
+				path.insert(begin(path), solution_node);
+				solution_node = solution_node->m_Parent;
+			}
+			path.insert(begin(path), solution_node);
+
+			return path;
+		}
 	} // namespace PATH
 } // namespace AI

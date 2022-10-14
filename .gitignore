@@ -1,2 +1,4 @@
 build/**
 libs/ai/build/**
+libs/ai/lib/**/*
+libs/ai/lib/**

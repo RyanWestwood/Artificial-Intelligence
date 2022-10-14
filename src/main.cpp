@@ -31,8 +31,12 @@ int main(int argc, char* args[])
 				g_CurrentTime = SDL_GetPerformanceCounter();
 				float deltaTime = ((g_CurrentTime - g_LastTime) / (float)SDL_GetPerformanceFrequency());
 
-				g_LastAnimStep > g_UpdateAnimTimer ? g_App.UpdateAnimation(&g_LastAnimStep) : g_LastAnimStep += deltaTime;
-
+				if (g_LastAnimStep > g_UpdateAnimTimer) {
+					g_App.UpdateAnimation(&g_LastAnimStep);
+				}
+				else {
+					g_LastAnimStep += deltaTime;
+				}
 				g_App.Input();
 				g_App.Update(deltaTime);
 				g_App.Draw();
