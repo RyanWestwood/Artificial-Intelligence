@@ -3,6 +3,7 @@
 #include <iostream>
 #include <queue>
 #include <set>
+#include <math.h>
 
 namespace AI {
 	namespace PATH {
@@ -91,7 +92,16 @@ namespace AI {
 			auto Hueristic = [](NodePtr current, NodePtr destination) {
 				int xDist = std::max(current->m_Position.x, destination->m_Position.x) - std::min(current->m_Position.x, destination->m_Position.x);
 				int yDist = std::max(current->m_Position.y, destination->m_Position.y) - std::min(current->m_Position.y, destination->m_Position.y);
-				return xDist + yDist;
+				return static_cast<float>((xDist * xDist) + (yDist * yDist));
+			};
+
+			struct compare {
+				bool operator() (const NodePtr& lhs, const NodePtr& rhs) const {
+					if (lhs->m_Costs.m_TotalCost == rhs->m_Costs.m_TotalCost) {
+						return lhs->m_Costs.m_FromCost > rhs->m_Costs.m_FromCost;
+					}
+					return lhs->m_Costs.m_TotalCost > rhs->m_Costs.m_TotalCost;
+				}
 			};
 
 			start_node->m_Costs.m_FromCost = 0.f;
@@ -100,23 +110,20 @@ namespace AI {
 
 			std::vector<NodePtr> frontier;
 			frontier.push_back(start_node);
+			std::make_heap(frontier.begin(), frontier.end(), compare());
+
 			std::set<NodePtr> explored;
 			NodePtr solution_node;
 
 			while (!frontier.empty()) {
-				std::sort(begin(frontier), end(frontier), [](const NodePtr lhs, const NodePtr rhs) -> bool {
-					if(lhs->m_Costs.m_TotalCost == rhs->m_Costs.m_TotalCost){
-						return lhs->m_Costs.m_FromCost > rhs->m_Costs.m_FromCost;
-					}
-					return lhs->m_Costs.m_TotalCost < rhs->m_Costs.m_TotalCost;
-					});
 
-				NodePtr current_node = frontier.front();
+				std::pop_heap(frontier.begin(), frontier.end(), compare());
+				NodePtr current_node = frontier.back();
 				if (GoalTest(current_node, end_node)) {
 					solution_node = current_node;
 					break;
 				}
-				frontier.erase(frontier.begin());
+				frontier.pop_back();
 				explored.insert(current_node);
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
@@ -129,6 +136,7 @@ namespace AI {
 							neighbour->m_Costs.m_ToCost = Hueristic(neighbour, end_node);
 							neighbour->m_Costs.m_TotalCost = neighbour->m_Costs.m_FromCost + neighbour->m_Costs.m_ToCost;
 							frontier.push_back(neighbour);
+							std::push_heap(frontier.begin(), frontier.end(), compare());
 						}
 					}
 				}
