@@ -53,8 +53,8 @@ namespace AI {
 			void SetParent(NodePtr parent) { m_Parent = parent; }
 			void AddNeighbours(NodePtr neighbours) { m_Neighbours.push_back(neighbours); }
 		public:
-			Costs m_Costs;
 			Vector m_Position;
+			Costs m_Costs;
 			NodePtr m_Parent;
 		private:
 			bool m_Obstacle;
