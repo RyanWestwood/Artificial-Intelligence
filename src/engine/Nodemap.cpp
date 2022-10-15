@@ -10,10 +10,12 @@
 
 NodeGrid::~NodeGrid()
 {
+#ifdef LOGGING
 	SDL_DestroyTexture(m_DebugTextureData.m_Texture);
 	SDL_DestroyTexture(m_DebugTextureExploredData.m_Texture);
 	SDL_DestroyTexture(m_DebugTextureStartData.m_Texture);
 	SDL_DestroyTexture(m_DebugTextureEndData.m_Texture);
+#endif // LOGGING
 }
 
 void NodeGrid::Initialize()
