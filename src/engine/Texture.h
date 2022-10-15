@@ -15,6 +15,7 @@ namespace Texture {
 
 	bool Initialize();
 	TextureData LoadTexture(const char* filename);
+	TextureData LoadDebugTexture(SDL_Colour colour, SDL_Point dimensions);
 	void Draw(SDL_Texture* texture, const SDL_Rect& source, const SDL_Rect& destination);
 } // namespace Texture
 
