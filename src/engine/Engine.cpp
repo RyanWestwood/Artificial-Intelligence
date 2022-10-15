@@ -18,10 +18,11 @@ bool Engine::Initialize()
 	std::cout << "Default font: " << Font::GetDefaultFont().m_Font << "\n\nLoading...\n";
 #endif // LOGGING
 
-	music.Initialize("music.wav");
-	sfx.Initialize("temp.wav");
-	tilemap.Initialize("tilemap.png", 16);
-	player.Initialize();
+	m_Music.Initialize("music.wav");
+	m_Text.Initalize("LAST DREAM XIV");
+	m_SoundEffect.Initialize("temp.wav");
+	m_Tilemap.Initialize("tilemap.png", 16);
+	m_Player.Initialize();
 	m_NodeGrid.Initialize();
 	m_Enemy.Initialize();
 
@@ -29,8 +30,8 @@ bool Engine::Initialize()
 	std::cout << "\n";
 #endif // LOGGING
 
-	music.PlayMusic();
-	sfx.PlaySound();
+	m_Music.PlayMusic();
+	m_SoundEffect.PlaySound();
 	m_IsPaused = false;
 
 	return renderer && sound && font && input && globals && texture; 
@@ -74,7 +75,7 @@ void Engine::Resume()
 			}
 		}
 	}	
-	player.Resume();
+	m_Player.Resume();
 }
 
 void Engine::Input()
@@ -112,15 +113,17 @@ void Engine::Input()
 #endif // LOGGING
 		}
 	}
-	player.Input();
+	m_Player.Input();
 #ifdef LOGGING
 	m_NodeGrid.Input();
+	m_Enemy.Input();
 #endif // LOGGING
+	Input::SetKeyUp(SDL_SCANCODE_F3, false);
 }
 
 void Engine::Update(const float& delta_time)
 {
-	player.Update(delta_time);
+	m_Player.Update(delta_time);
 	m_Enemy.Update(delta_time);
 }
 
@@ -131,7 +134,7 @@ void Engine::UpdateAnimation(float* num)
 #endif // LOGGING
 		*num = 0.0;
 
-		player.UpdateAnimation();
+		m_Player.UpdateAnimation();
 		m_Enemy.UpdateAnimation();
 }
 
@@ -139,9 +142,9 @@ void Engine::Draw()
 {
 	SDL_RenderClear(Renderer::GetRenderer());
 
-	tilemap.Draw();
-	text.Draw();
-	player.Draw();
+	m_Tilemap.Draw();
+	m_Text.Draw();
+	m_Player.Draw();
 	m_Enemy.Draw();
 
 #ifdef LOGGING

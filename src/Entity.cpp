@@ -1,4 +1,6 @@
 #include "Entity.h"
+#include "engine/Renderer.h"
+#include "engine/Input.h"
 
 Entity::Entity() {
 	m_Sprite = Sprite();
@@ -10,8 +12,36 @@ Entity::Entity() {
 	m_AnimStep = 0;
 }
 
+void Entity::Initialize()
+{
+#if LOGGING
+	m_DebugCollider = Texture::LoadDebugTexture({ 0,255,255,128 }, { 32,32 });
+#endif // LOGGING
+}
+
+void Entity::Input()
+{
+	if (Input::GetKeyUp(SDL_SCANCODE_F3)) {
+		m_DebugActivate = !m_DebugActivate;
+	}
+}
+
 void Entity::UpdateAnimation()
 {
 	m_AnimStep >= m_NoOfAnims ? m_AnimStep = 0 : m_AnimStep++;
 	m_Sprite.m_Source.x = m_Sprite.m_Source.w * m_AnimStep;
+}
+
+void Entity::Draw()
+{
+#if LOGGING
+	if (m_DebugActivate){
+		SDL_RenderCopy(Renderer::GetRenderer(), m_DebugCollider.m_Texture, &m_DebugCollider.m_Source, &m_Collider);
+	}
+#endif // LOGGING
+}
+
+SDL_Rect Entity::GetCollider()
+{
+	return m_Collider;
 }

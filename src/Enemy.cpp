@@ -44,17 +44,26 @@ Enemy::Enemy()
 
 void Enemy::Initialize()
 {
+	Entity::Initialize();
 	m_Sprite.Initialize("ad.png");
 	m_Sprite.m_Source = { 0,0,32,32 };
 	m_Sprite.m_Destination = { 128,128,64,64 };
+	m_Collider = { 0,0,64,64 };
 }
+#ifdef LOGGING
+void Enemy::Input()
+{
+	Entity::Input();
+}
+#endif // LOGGING
 
 void Enemy::Update(const float delta_time)
 {
 	auto screen_dimensions = Globals::GetScreenDimensions();
 	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
-
+	m_Collider.x = m_Position.x;
+	m_Collider.y = m_Position.y;
 	m_Sprite.m_Destination.x = m_Position.x;
 	m_Sprite.m_Destination.y = m_Position.y;
 
@@ -69,5 +78,6 @@ void Enemy::UpdateAnimation()
 
 void Enemy::Draw()
 {
+	Entity::Draw();
 	m_Sprite.Draw();
 }

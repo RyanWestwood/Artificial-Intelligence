@@ -9,6 +9,10 @@ public:
 	Enemy();
 
 	void Initialize();
+#ifdef LOGGING
+	void Input();
+#endif // LOGGING
+
 	void Update(const float delta_time);
 	void UpdateAnimation();
 	void Draw();

@@ -6,14 +6,21 @@ class Entity {
 public:
 	Entity();
 
-	virtual void Input() {}
+	virtual void Initialize();
+	virtual void Input();
 	virtual void Update(const float delta_time) {}
 	virtual void UpdateAnimation();
-	virtual void Draw() {}
+	virtual void Draw();
+
+	SDL_Rect GetCollider();
 
 public:
 	Sprite m_Sprite;
-	SDL_FRect m_Collider;
+	SDL_Rect m_Collider;
+#if LOGGING
+	Texture::TextureData m_DebugCollider;
+	bool m_DebugActivate = false;
+#endif // LOGGING
 	SDL_FPoint m_Position;
 	SDL_Point m_Velocity;
 	char m_Direction;
