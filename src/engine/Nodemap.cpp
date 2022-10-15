@@ -8,6 +8,14 @@
 #include "Input.h"
 #endif // LOGGING
 
+NodeGrid::~NodeGrid()
+{
+	SDL_DestroyTexture(m_DebugTextureData.m_Texture);
+	SDL_DestroyTexture(m_DebugTextureExploredData.m_Texture);
+	SDL_DestroyTexture(m_DebugTextureStartData.m_Texture);
+	SDL_DestroyTexture(m_DebugTextureEndData.m_Texture);
+}
+
 void NodeGrid::Initialize()
 {
 	auto tilemap_dimensions = Globals::GetTileMapDimensions();
@@ -19,21 +27,25 @@ void NodeGrid::Initialize()
 	int tile_height = tile_size.h;
 
 #ifdef LOGGING
-	auto start_node = m_Nodes.at(40 + (1 * tilemap_dimensions.w));
-	auto end_node = m_Nodes.at(4 + (25* tilemap_dimensions.w));
+	SDL_Point start = { 40,1 };
+	SDL_Point end = { 4,25 };
+
+	auto start_node = m_Nodes.at(start.x + (start.y * tilemap_dimensions.w));
+	auto end_node = m_Nodes.at(end.x + (end.y * tilemap_dimensions.w));
 	CLOCK::StartTimer();
 	auto solution_path = AI::PATH::A_Star(m_Nodes, start_node, end_node);
 	CLOCK::StopTimer("A_Star");
 	
-	m_DebugTextureData = Texture::LoadTexture("ui_foredrop.png");
-	m_DebugTextureExploredData = Texture::LoadTexture("ui_backdrop.png");
+	m_DebugTextureData = Texture::LoadDebugTexture({ 100,100,100,255 }, { 32,32 });
+	m_DebugTextureExploredData = Texture::LoadDebugTexture({ 0,0,255,255 }, { 32,32 });
 	m_DebugNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.w);
+	m_DebugTextureStartData = Texture::LoadDebugTexture({ 0,255,0,255 }, { 32,32 });
+	m_DebugTextureEndData = Texture::LoadDebugTexture({ 255,0,0,255 }, { 32,32 });
 
 	for (int y = 0; y < tilemap_dimensions.h; y++)
 	{
 		for (int x = 0; x < tilemap_dimensions.w; x++)
 		{
-
 			DebugNode node;
 			node.m_TextureData = m_DebugTextureData;
 			node.m_Position = { float(x),float(y) };
@@ -47,6 +59,8 @@ void NodeGrid::Initialize()
 		temp_node.m_TextureData = m_DebugTextureExploredData;
 	}
 
+	m_DebugNodes.at(start.x + (start.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureStartData.m_Texture;
+	m_DebugNodes.at(end.x + (end.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureEndData.m_Texture;
 #endif // LOGGING
 }
 

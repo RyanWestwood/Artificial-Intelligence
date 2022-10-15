@@ -18,6 +18,7 @@ public:
 class NodeGrid {
 public:
 	NodeGrid() {}
+	~NodeGrid();
 
 	void Initialize();
 
@@ -34,6 +35,8 @@ public:
 	bool m_DebugActivate = false;
 	Texture::TextureData m_DebugTextureData;
 	Texture::TextureData m_DebugTextureExploredData;
+	Texture::TextureData m_DebugTextureStartData;
+	Texture::TextureData m_DebugTextureEndData;
 	std::vector<DebugNode> m_DebugNodes;
 #endif // LOGGING
 };
