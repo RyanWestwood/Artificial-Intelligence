@@ -109,11 +109,11 @@ namespace AI {
 			start_node->m_Costs.m_TotalCost = start_node->m_Costs.m_FromCost + start_node->m_Costs.m_ToCost;
 
 			std::vector<NodePtr> frontier;
-			frontier.push_back(start_node);
-			std::make_heap(frontier.begin(), frontier.end(), compare());
-
 			std::set<NodePtr> explored;
 			NodePtr solution_node;
+
+			frontier.push_back(start_node);
+			std::make_heap(frontier.begin(), frontier.end(), compare());
 
 			while (!frontier.empty()) {
 
@@ -181,9 +181,10 @@ namespace AI {
 			ResetArray(nodes);
 
 			std::deque<NodePtr> frontier;
-			frontier.push_back(start_node);
 			std::set<NodePtr> explored;
 			NodePtr solution_node;
+
+			frontier.push_back(start_node);
 
 			while (!frontier.empty()) {
 				NodePtr current_node = frontier.back();
