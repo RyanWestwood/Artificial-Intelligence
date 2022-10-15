@@ -21,9 +21,11 @@ void Entity::Initialize()
 
 void Entity::Input()
 {
+#if LOGGING
 	if (Input::GetKeyUp(SDL_SCANCODE_F3)) {
 		m_DebugActivate = !m_DebugActivate;
 	}
+#endif // LOGGING
 }
 
 void Entity::UpdateAnimation()
