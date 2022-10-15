@@ -23,6 +23,7 @@ bool Engine::Initialize()
 	tilemap.Initialize("tilemap.png", 16);
 	player.Initialize();
 	m_NodeGrid.Initialize();
+	m_Enemy.Initialize();
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -131,6 +132,7 @@ void Engine::UpdateAnimation(float* num)
 		*num = 0.0;
 
 		player.UpdateAnimation();
+		m_Enemy.UpdateAnimation();
 }
 
 void Engine::Draw()
@@ -140,6 +142,7 @@ void Engine::Draw()
 	tilemap.Draw();
 	text.Draw();
 	player.Draw();
+	m_Enemy.Draw();
 
 #ifdef LOGGING
 	m_NodeGrid.Draw();

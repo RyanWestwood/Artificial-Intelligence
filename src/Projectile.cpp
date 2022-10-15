@@ -11,6 +11,7 @@ Projectile::Projectile(Texture::TextureData spritesheet, ProjectileManager* mana
 	m_Spritesheet.m_Source.w = 32;
 	m_Spritesheet.m_Source.h = 32;
 	m_Destination = { 0,0,32,32 };
+	m_NoOfAnims = 7;
 }
 
 void Projectile::Activate(SDL_FPoint position, std::shared_ptr<Globals::Direction> facing) {
@@ -58,8 +59,7 @@ void Projectile::Update(const float& delta_time)
 void Projectile::UpdateAnimation()
 {
 	if (!m_Active) return;
-	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
-	m_Spritesheet.m_Source.x = 32 * m_AnimStep;
+	Entity::UpdateAnimation();
 }
 
 void Projectile::Draw()

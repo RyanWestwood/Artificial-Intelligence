@@ -8,16 +8,17 @@ class Enemy : public Entity {
 public:
 	Enemy();
 
+	void Initialize();
 	void Update(const float delta_time);
 	void UpdateAnimation();
-	void Draw() {}
+	void Draw();
 
 public:
-	AI::FSM::ManagerPtr m_FiniteStateMachine;
 	int m_Ammo;
 	float m_Timer;
 	float m_Cooldown;
 
+	AI::FSM::ManagerPtr m_FiniteStateMachine;
 	AI::FSM::StatePtr m_AttackState;
 	AI::FSM::StatePtr m_IdleState;
 };

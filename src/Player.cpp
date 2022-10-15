@@ -14,6 +14,7 @@ void Player::Initialize()
 	m_Sprite.Initialize("player.png");
 	m_Sprite.m_Source = { 0,0,16,32 };
 	m_Sprite.m_Destination = { 128,128,32,64 };
+	m_NoOfAnims = 7;
 
 	m_OffGlobal = std::make_shared<float>(2.5f);
 	m_Facing = std::make_shared<Globals::Direction>(Globals::Direction::None);
@@ -150,8 +151,7 @@ void Player::Resume()
 
 void Player::UpdateAnimation()
 {
-	m_AnimStep >= 7 ? m_AnimStep = 0 : m_AnimStep++;
-	m_Sprite.m_Source.x = 16 * m_AnimStep;
+	Entity::UpdateAnimation();
 	m_Sword.UpdateAnimation();
 }
 
