@@ -31,16 +31,25 @@ void NodeGrid::Initialize()
 #ifdef LOGGING
 	SDL_Point start = { 40,1 };
 	SDL_Point end = { 4,25 };
+	
+	SDL_Point start1 = { 2,1 };
+	SDL_Point end2 = { 40,24 };
 
 	auto start_node = m_Nodes.at(start.x + (start.y * tilemap_dimensions.w));
 	auto end_node = m_Nodes.at(end.x + (end.y * tilemap_dimensions.w));
 	CLOCK::StartTimer();
-	auto solution_path = AI::PATH::A_Star(m_Nodes, start_node, end_node);
+	auto solution_path = AI::PATH::BFS(m_Nodes, start_node, end_node);
+	CLOCK::StopTimer("A_Star");
+
+	auto start_node1 = m_Nodes.at(start1.x + (start1.y * tilemap_dimensions.w));
+	auto end_node1 = m_Nodes.at(end2.x + (end2.y * tilemap_dimensions.w));
+	CLOCK::StartTimer();
+	auto solution_path2 = AI::PATH::A_Star(m_Nodes, start_node1, end_node1);
 	CLOCK::StopTimer("A_Star");
 	
+	m_DebugNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.w);
 	m_DebugTextureData = Texture::LoadDebugTexture({ 100,100,100,255 }, { 32,32 });
 	m_DebugTextureExploredData = Texture::LoadDebugTexture({ 0,0,255,255 }, { 32,32 });
-	m_DebugNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.w);
 	m_DebugTextureStartData = Texture::LoadDebugTexture({ 0,255,0,255 }, { 32,32 });
 	m_DebugTextureEndData = Texture::LoadDebugTexture({ 255,0,0,255 }, { 32,32 });
 
@@ -60,7 +69,11 @@ void NodeGrid::Initialize()
 		auto& temp_node = m_DebugNodes.at(position.x + (position.y * tilemap_dimensions.w));
 		temp_node.m_TextureData = m_DebugTextureExploredData;
 	}
-
+	for (auto& node : solution_path2) {
+		auto position = node->GetPosition();
+		auto& temp_node = m_DebugNodes.at(position.x + (position.y * tilemap_dimensions.w));
+		temp_node.m_TextureData = m_DebugTextureExploredData;
+	}
 	m_DebugNodes.at(start.x + (start.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureStartData.m_Texture;
 	m_DebugNodes.at(end.x + (end.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureEndData.m_Texture;
 #endif // LOGGING

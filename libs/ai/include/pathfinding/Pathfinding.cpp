@@ -78,10 +78,9 @@ namespace AI {
 			std::vector<NodePtr> path;
 			while (solution_node->GetParent() != nullptr) {
 				path.insert(begin(path), solution_node);
-				solution_node = solution_node->m_Parent;
+				solution_node = solution_node->GetParent();
 			}
 			path.insert(begin(path), solution_node);
-
 			return path;
 		}
 
@@ -90,8 +89,10 @@ namespace AI {
 			ResetArray(nodes);
 
 			auto Hueristic = [](NodePtr current, NodePtr destination) {
-				int xDist = std::max(current->m_Position.x, destination->m_Position.x) - std::min(current->m_Position.x, destination->m_Position.x);
-				int yDist = std::max(current->m_Position.y, destination->m_Position.y) - std::min(current->m_Position.y, destination->m_Position.y);
+				auto current_pos = current->GetPosition();
+				auto destination_pos = destination->GetPosition();
+				int xDist = std::max(current_pos.x, destination_pos.x) - std::min(current_pos.x, destination_pos.x);
+				int yDist = std::max(current_pos.y, destination_pos.y) - std::min(current_pos.y, destination_pos.y);
 				return static_cast<float>((xDist * xDist) + (yDist * yDist));
 			};
 
@@ -125,13 +126,14 @@ namespace AI {
 				}
 				frontier.pop_back();
 				explored.insert(current_node);
+				current_node->SetVisited(true);
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
 					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
 					if (!(it != frontier.end())) {
 						float gPossibleLowerGoal = current_node->m_Costs.m_FromCost + Hueristic(neighbour, end_node);
 						if (gPossibleLowerGoal < neighbour->m_Costs.m_FromCost) {
-							neighbour->m_Parent = current_node;
+							neighbour->SetParent(current_node);
 							neighbour->m_Costs.m_FromCost = current_node->m_Costs.m_FromCost + 1;
 							neighbour->m_Costs.m_ToCost = Hueristic(neighbour, end_node);
 							neighbour->m_Costs.m_TotalCost = neighbour->m_Costs.m_FromCost + neighbour->m_Costs.m_ToCost;
@@ -162,12 +164,13 @@ namespace AI {
 				}
 				frontier.pop_front();
 				explored.insert(current_node);
+				current_node->SetVisited(true);
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
 					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
 					if (!(it != frontier.end())) {
 						if (!explored.contains(neighbour)) {
-							neighbour->m_Parent = current_node;
+							neighbour->SetParent(current_node);
 							frontier.push_back(neighbour);
 						}
 					}
@@ -194,12 +197,13 @@ namespace AI {
 				}
 				frontier.pop_back();
 				explored.insert(current_node);
+				current_node->SetVisited(true);
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
 					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
 					if (!(it != frontier.end())) {
 						if (!explored.contains(neighbour)) {
-							neighbour->m_Parent = current_node;
+							neighbour->SetParent(current_node);
 							frontier.push_back(neighbour);
 						}
 					}

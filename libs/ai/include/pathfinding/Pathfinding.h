@@ -25,8 +25,8 @@ namespace AI {
 			virtual bool IsVisited() = 0;
 			virtual Vector GetPosition() = 0;
 			virtual Costs GetCosts() = 0;
-			virtual std::vector<NodePtr> GetNeighbours() = 0;
 			virtual NodePtr GetParent() = 0;
+			virtual std::vector<NodePtr> GetNeighbours() = 0;
 
 			virtual void SetObstacle(bool obstacle) = 0;
 			virtual void SetVisited(bool visited) = 0;
@@ -43,8 +43,8 @@ namespace AI {
 			bool IsVisited() { return m_Visited; }
 			Vector GetPosition() { return m_Position; }
 			Costs GetCosts() { return m_Costs; }
-			std::vector<NodePtr> GetNeighbours() { return m_Neighbours; }
 			NodePtr GetParent() { return m_Parent; }
+			std::vector<NodePtr> GetNeighbours() { return m_Neighbours; }
 
 			void SetObstacle(bool obstacle) { m_Obstacle = obstacle; }
 			void SetVisited(bool visited) { m_Visited = visited; }
@@ -53,12 +53,12 @@ namespace AI {
 			void SetParent(NodePtr parent) { m_Parent = parent; }
 			void AddNeighbours(NodePtr neighbours) { m_Neighbours.push_back(neighbours); }
 		public:
-			Vector m_Position;
 			Costs m_Costs;
-			NodePtr m_Parent;
 		private:
-			bool m_Obstacle;
+			Vector m_Position;
 			bool m_Visited;
+			NodePtr m_Parent;
+			bool m_Obstacle;
 			std::vector<NodePtr> m_Neighbours;
 		};
 		
