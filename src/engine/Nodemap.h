@@ -21,6 +21,7 @@ public:
 	~NodeGrid();
 
 	void Initialize();
+	void SetObstacle(int x, int y, bool value);
 
 #ifdef LOGGING
 	void Input();
@@ -36,6 +37,7 @@ private:
 	Texture::TextureData m_DebugTextureExploredData;
 	Texture::TextureData m_DebugTextureStartData;
 	Texture::TextureData m_DebugTextureEndData;
+	Texture::TextureData m_DebugObstacle;
 	std::vector<DebugNode> m_DebugNodes;
 #endif // LOGGING
 };

@@ -130,7 +130,7 @@ namespace AI {
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
 					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
-					if (!(it != frontier.end())) {
+					if (!(it != frontier.end()) && !neighbour->IsObstacle()) {
 						float gPossibleLowerGoal = current_node->m_Costs.m_FromCost + Hueristic(neighbour, end_node);
 						if (gPossibleLowerGoal < neighbour->m_Costs.m_FromCost) {
 							neighbour->SetParent(current_node);
@@ -168,7 +168,7 @@ namespace AI {
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
 					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
-					if (!(it != frontier.end())) {
+					if (!(it != frontier.end()) && !neighbour->IsObstacle()) {
 						if (!explored.contains(neighbour)) {
 							neighbour->SetParent(current_node);
 							frontier.push_back(neighbour);
@@ -201,7 +201,7 @@ namespace AI {
 
 				for (NodePtr& neighbour : current_node->GetNeighbours()) {
 					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
-					if (!(it != frontier.end())) {
+					if (!(it != frontier.end()) && !neighbour->IsObstacle()) {
 						if (!explored.contains(neighbour)) {
 							neighbour->SetParent(current_node);
 							frontier.push_back(neighbour);

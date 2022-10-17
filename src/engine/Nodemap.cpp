@@ -15,6 +15,7 @@ NodeGrid::~NodeGrid()
 	SDL_DestroyTexture(m_DebugTextureExploredData.m_Texture);
 	SDL_DestroyTexture(m_DebugTextureStartData.m_Texture);
 	SDL_DestroyTexture(m_DebugTextureEndData.m_Texture);
+	SDL_DestroyTexture(m_DebugObstacle.m_Texture);
 #endif // LOGGING
 }
 
@@ -22,6 +23,16 @@ void NodeGrid::Initialize()
 {
 	auto tilemap_dimensions = Globals::GetTileMapDimensions();
 	m_Nodes = AI::PATH::CreateNodeMap((int)tilemap_dimensions.w, (int)tilemap_dimensions.h)->GetMap();
+
+	for (int i = 0; i < 27; i++)
+	{
+		SetObstacle(20, i, true);
+	}
+	for (int i = 15; i < 20; i++)
+	{
+		SetObstacle(20, i, false);
+	}
+	
 
 	auto tile_size = Globals::GetTileDimensions();
 	int tile_width = tile_size.w;
@@ -32,7 +43,8 @@ void NodeGrid::Initialize()
 	SDL_Point end = { 4,25 };
 	
 	SDL_Point start1 = { 2,1 };
-	SDL_Point end2 = { 40,24 };
+	SDL_Point end1 = { 40,24 };
+
 
 	auto start_node = m_Nodes.at(start.x + (start.y * tilemap_dimensions.w));
 	auto end_node = m_Nodes.at(end.x + (end.y * tilemap_dimensions.w));
@@ -41,23 +53,24 @@ void NodeGrid::Initialize()
 	CLOCK::StopTimer("BFS");
 
 	auto start_node1 = m_Nodes.at(start1.x + (start1.y * tilemap_dimensions.w));
-	auto end_node1 = m_Nodes.at(end2.x + (end2.y * tilemap_dimensions.w));
+	auto end_node1 = m_Nodes.at(end1.x + (end1.y * tilemap_dimensions.w));
 	CLOCK::StartTimer();
 	auto solution_path2 = AI::PATH::A_Star(m_Nodes, start_node1, end_node1);
 	CLOCK::StopTimer("A_Star");
 	
 	m_DebugNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.w);
 	m_DebugTextureData = Texture::LoadDebugTexture({ 100,100,100,255 }, { 32,32 });
-	m_DebugTextureExploredData = Texture::LoadDebugTexture({ 0,0,255,255 }, { 32,32 });
+	m_DebugTextureExploredData = Texture::LoadDebugTexture({ 255,255,255,255 }, { 32,32 });
 	m_DebugTextureStartData = Texture::LoadDebugTexture({ 0,255,0,255 }, { 32,32 });
-	m_DebugTextureEndData = Texture::LoadDebugTexture({ 255,0,0,255 }, { 32,32 });
+	m_DebugTextureEndData = Texture::LoadDebugTexture({ 0,0,255,255 }, { 32,32 });
+	m_DebugObstacle = Texture::LoadDebugTexture({ 255,0,0,255 }, { 32,32 });
 
 	for (int y = 0; y < tilemap_dimensions.h; y++)
 	{
 		for (int x = 0; x < tilemap_dimensions.w; x++)
 		{
 			DebugNode node;
-			node.m_TextureData = m_DebugTextureData;
+			node.m_TextureData = m_Nodes.at(x + (y * tilemap_dimensions.w))->IsObstacle() ? m_DebugObstacle : m_DebugTextureData;
 			node.m_Position = { float(x),float(y) };
 			node.m_Destination = { tile_width * x + 8, tile_height * y + 8, tile_width / 2, tile_height / 2 };
 			m_DebugNodes.push_back(node);
@@ -73,7 +86,15 @@ void NodeGrid::Initialize()
 	}
 	m_DebugNodes.at(start.x + (start.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureStartData.m_Texture;
 	m_DebugNodes.at(end.x + (end.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureEndData.m_Texture;
+	m_DebugNodes.at(start1.x + (start1.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureStartData.m_Texture;
+	m_DebugNodes.at(end1.x + (end1.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureEndData.m_Texture;
 #endif // LOGGING
+}
+
+void NodeGrid::SetObstacle(int x, int y, bool value)
+{
+	auto tilemap_dimensions = Globals::GetTileMapDimensions();
+	m_Nodes.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);
 }
 
 #ifdef LOGGING
