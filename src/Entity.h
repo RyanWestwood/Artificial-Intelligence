@@ -12,7 +12,7 @@ public:
 	virtual void UpdateAnimation();
 	virtual void Draw();
 
-	SDL_Rect GetCollider();
+	SDL_Rect& GetCollider();
 
 public:
 	Sprite m_Sprite;

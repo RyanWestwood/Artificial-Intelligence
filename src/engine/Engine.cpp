@@ -1,6 +1,7 @@
 ﻿#include "Engine.h"
-#include "Input.h"
+#include "Collision.h"
 #include "Globals.h"
+#include "Input.h"
 
 bool Engine::Initialize()
 {
@@ -130,12 +131,26 @@ void Engine::Update(const float& delta_time)
 void Engine::UpdateAnimation(float* num)
 {
 #ifdef LOGGING
-		std::cout << "AnimStep: " << *num << "\n";
+	std::cout << "AnimStep: " << *num << "\n";
 #endif // LOGGING
-		*num = 0.0;
+	*num = 0.0;
+	m_Player.UpdateAnimation();
+	m_Enemy.UpdateAnimation();
+}
 
-		m_Player.UpdateAnimation();
-		m_Enemy.UpdateAnimation();
+void Engine::UpdateAi(float* num)
+{
+	*num = 0.0;
+	m_NodeGrid.Reset();
+	for (auto tile : m_NodeGrid.GetNodes()) {
+		if (COLLISION::BoxCollision(m_Player.GetCollider(), tile->GetCollider())) {
+			m_NodeGrid.SetObstacle(tile->m_Position.x, tile->m_Position.y, true);
+		}
+		if (COLLISION::BoxCollision(m_Enemy.GetCollider(), tile->GetCollider())) {
+			m_NodeGrid.SetObstacle(tile->m_Position.x, tile->m_Position.y, true);
+		}
+	}
+	m_NodeGrid.Update();
 }
 
 void Engine::Draw()

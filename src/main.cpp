@@ -24,6 +24,8 @@ int main(int argc, char* args[])
 		unsigned int g_LastTime = 0;
 		float g_LastAnimStep = 0.0;
 		float g_UpdateAnimTimer = 1.f / 8;
+		float g_LastAiStep = 0.0;
+		float g_UpdateAiTimer = 1.f / 4;
 
 		while (g_App.IsRunning()) {
 			if (!g_App.IsPaused()) {
@@ -37,6 +39,13 @@ int main(int argc, char* args[])
 				else {
 					g_LastAnimStep += deltaTime;
 				}
+				if (g_LastAiStep > g_UpdateAiTimer) {
+					g_App.UpdateAi(&g_LastAiStep);
+				}
+				else {
+					g_LastAiStep += deltaTime;
+				}
+
 				g_App.Input();
 				g_App.Update(deltaTime);
 				g_App.Draw();

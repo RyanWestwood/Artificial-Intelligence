@@ -43,7 +43,7 @@ void Entity::Draw()
 #endif // LOGGING
 }
 
-SDL_Rect Entity::GetCollider()
+SDL_Rect& Entity::GetCollider()
 {
 	return m_Collider;
 }

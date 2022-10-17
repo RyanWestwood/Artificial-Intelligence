@@ -75,6 +75,7 @@ namespace AI {
 		};
 
 		std::vector<Vector> GetPath(NodePtr solution_node){
+			if (!solution_node) return {};
 			std::vector<Vector> path;
 			while (solution_node->GetParent() != nullptr) {
 				path.insert(begin(path), solution_node->GetPosition());

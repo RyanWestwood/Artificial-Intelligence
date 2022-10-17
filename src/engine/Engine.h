@@ -22,6 +22,7 @@ public:
 	void Draw();
 	void Update(const float&);
 	void UpdateAnimation(float*);
+	void UpdateAi(float*);
 
 public:
 	Text m_Text;
