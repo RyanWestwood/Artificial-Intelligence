@@ -21,8 +21,7 @@ NodeGrid::~NodeGrid()
 void NodeGrid::Initialize()
 {
 	auto tilemap_dimensions = Globals::GetTileMapDimensions();
-	m_Map = AI::PATH::CreateNodeMap((int)tilemap_dimensions.w, (int)tilemap_dimensions.h);
-	m_Nodes = m_Map->GetMap();
+	m_Nodes = AI::PATH::CreateNodeMap((int)tilemap_dimensions.w, (int)tilemap_dimensions.h)->GetMap();
 
 	auto tile_size = Globals::GetTileDimensions();
 	int tile_width = tile_size.w;
@@ -39,7 +38,7 @@ void NodeGrid::Initialize()
 	auto end_node = m_Nodes.at(end.x + (end.y * tilemap_dimensions.w));
 	CLOCK::StartTimer();
 	auto solution_path = AI::PATH::BFS(m_Nodes, start_node, end_node);
-	CLOCK::StopTimer("A_Star");
+	CLOCK::StopTimer("BFS");
 
 	auto start_node1 = m_Nodes.at(start1.x + (start1.y * tilemap_dimensions.w));
 	auto end_node1 = m_Nodes.at(end2.x + (end2.y * tilemap_dimensions.w));
@@ -65,13 +64,11 @@ void NodeGrid::Initialize()
 		}
 	}
 	for (auto& node : solution_path) {
-		auto position = node->GetPosition();
-		auto& temp_node = m_DebugNodes.at(position.x + (position.y * tilemap_dimensions.w));
+		auto& temp_node = m_DebugNodes.at(node.x + (node.y * tilemap_dimensions.w));
 		temp_node.m_TextureData = m_DebugTextureExploredData;
 	}
 	for (auto& node : solution_path2) {
-		auto position = node->GetPosition();
-		auto& temp_node = m_DebugNodes.at(position.x + (position.y * tilemap_dimensions.w));
+		auto& temp_node = m_DebugNodes.at(node.x + (node.y * tilemap_dimensions.w));
 		temp_node.m_TextureData = m_DebugTextureExploredData;
 	}
 	m_DebugNodes.at(start.x + (start.y * tilemap_dimensions.w)).m_TextureData.m_Texture = m_DebugTextureStartData.m_Texture;

@@ -74,17 +74,17 @@ namespace AI {
 			return x && y;
 		};
 
-		std::vector<NodePtr> GetPath(NodePtr solution_node){
-			std::vector<NodePtr> path;
+		std::vector<Vector> GetPath(NodePtr solution_node){
+			std::vector<Vector> path;
 			while (solution_node->GetParent() != nullptr) {
-				path.insert(begin(path), solution_node);
+				path.insert(begin(path), solution_node->GetPosition());
 				solution_node = solution_node->GetParent();
 			}
-			path.insert(begin(path), solution_node);
+			path.insert(begin(path), solution_node->GetPosition());
 			return path;
 		}
 
-		std::vector<NodePtr> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 
 			ResetArray(nodes);
 
@@ -146,7 +146,7 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
-		std::vector<NodePtr> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
 
@@ -179,7 +179,7 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
-		std::vector<NodePtr> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
 

@@ -76,8 +76,8 @@ namespace AI {
 		};
 
 		extern "C++" AI_API std::shared_ptr<NodeMap> CreateNodeMap(int, int);
-		extern "C++" AI_API std::vector<NodePtr> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
-		extern "C++" AI_API std::vector<NodePtr> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
-		extern "C++" AI_API std::vector<NodePtr> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
+		extern "C++" AI_API std::vector<Vector> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
+		extern "C++" AI_API std::vector<Vector> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
+		extern "C++" AI_API std::vector<Vector> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 	} // namespace PATH
 } // namespace AI

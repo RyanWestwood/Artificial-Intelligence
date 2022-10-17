@@ -27,8 +27,7 @@ public:
 	void Draw();
 #endif // LOGGING
 
-public:
-	std::shared_ptr<AI::PATH::NodeMap> m_Map;
+private:
 	std::vector<AI::PATH::NodePtr> m_Nodes;
 
 #ifdef LOGGING
