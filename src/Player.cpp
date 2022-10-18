@@ -16,7 +16,7 @@ void Player::Initialize()
 	m_Sprite.m_Source = { 0,0,16,32 };
 	m_Sprite.m_Destination = { 128,128,32,64 };
 	m_Collider = { 0,0,28,42 };
-	m_ColliderOffset = { 2,16,28,42 };
+	m_ColliderOffset = { 2,16 };
 	m_NoOfAnims = 7;
 
 	m_OffGlobal = std::make_shared<float>(2.5f);

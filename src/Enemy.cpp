@@ -10,8 +10,8 @@ Enemy::Enemy()
 	m_FiniteStateMachine = AI::FSM::GetStateManager();
 	m_Position = { 256,256 };
 	m_NoOfAnims = 7;
-	m_Collider = { 4,2,50,56 };
-	m_ColliderOffset = { 6,4,54,60 };
+	m_Collider = { 6,4,50,56 };
+	m_ColliderOffset = { 6,4 };
 
 	m_IdleState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 1.f) {
