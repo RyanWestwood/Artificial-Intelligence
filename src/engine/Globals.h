@@ -19,7 +19,7 @@ namespace Globals {
 	std::string GetAssetDirectory();
 
 	struct Vector {
-		float w, h;
+		int w, h;
 	};
 	Vector GetScreenDimensions();
 	Vector GetTileDimensions();
