@@ -17,6 +17,7 @@ public:
 public:
 	Sprite m_Sprite;
 	SDL_Rect m_Collider;
+	SDL_Rect m_ColliderOffset;
 #if LOGGING
 	Texture::TextureData m_DebugCollider;
 	bool m_DebugActivate = false;
