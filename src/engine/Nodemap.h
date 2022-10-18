@@ -5,7 +5,6 @@
 #include "Texture.h"
 #include "../Entity.h"
 
-
 namespace PATHING {
 	class Node : public Entity {
 	public:
@@ -13,10 +12,10 @@ namespace PATHING {
 
 	public:
 		SDL_FPoint m_Position;
+		SDL_Rect m_Destination;
 	#ifdef LOGGING
 		void Draw();
 		Texture::TextureData m_TextureData;
-		SDL_Rect m_Destination;
 	#endif // LOGGING
 	};
 

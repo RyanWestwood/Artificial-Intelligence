@@ -15,9 +15,9 @@ namespace PATHING {
 		extern std::vector<SDL_Point> g_StartNodes{};
 		extern std::vector<SDL_Point> g_EndNodes{};
 
+		Texture::TextureData g_DefaultTexture;
 #ifdef LOGGING
 		bool g_DebugActivate = false;
-		Texture::TextureData g_DebugTextureData;
 		Texture::TextureData g_DebugTextureExploredData;
 		Texture::TextureData g_DebugTextureStartData;
 		Texture::TextureData g_DebugTextureEndData;
@@ -29,18 +29,22 @@ namespace PATHING {
 		return g_Nodes;
 	}
 
+#ifdef LOGGING
 	void Node::Draw()
 	{
 		SDL_RenderCopy(Renderer::GetRenderer(), m_TextureData.m_Texture, &m_TextureData.m_Source, &m_Destination);
 	}
+#endif
 
 	bool Initialize()
 	{
-		g_DebugTextureData = Texture::LoadDebugTexture({ 100,100,100,255 }, { 32,32 });
+#ifdef LOGGING
+		g_DefaultTexture = Texture::LoadDebugTexture({ 100,100,100,255 }, { 32,32 });
 		g_DebugTextureExploredData = Texture::LoadDebugTexture({ 255,255,255,255 }, { 32,32 });
 		g_DebugTextureStartData = Texture::LoadDebugTexture({ 0,255,0,255 }, { 32,32 });
 		g_DebugTextureEndData = Texture::LoadDebugTexture({ 0,0,255,255 }, { 32,32 });
 		g_DebugObstacle = Texture::LoadDebugTexture({ 255,0,0,255 }, { 32,32 });
+#endif // LOGGING
 
 		auto tilemap_dimensions = Globals::GetTileMapDimensions();
 		auto tile_size = Globals::GetTileDimensions();
@@ -55,7 +59,9 @@ namespace PATHING {
 			for (int x = 0; x < tilemap_dimensions.w; x++)
 			{
 				Node node;
-				node.m_TextureData = g_DebugTextureData;
+#ifdef LOGGING
+				node.m_TextureData = g_DefaultTexture;
+#endif // LOGGING
 				node.m_Position = { float(x),float(y) };
 				node.m_Collider = { x * 32 , y * 32,32,32 };
 				node.m_Destination = { tile_size.w * x + 8, tile_size.h * y + 8, tile_size.w / 2, tile_size.h / 2 };
@@ -68,7 +74,7 @@ namespace PATHING {
 	void UnInitialize()
 	{
 #ifdef LOGGING
-		SDL_DestroyTexture(g_DebugTextureData.m_Texture);
+		SDL_DestroyTexture(g_DefaultTexture.m_Texture);
 		SDL_DestroyTexture(g_DebugTextureExploredData.m_Texture);
 		SDL_DestroyTexture(g_DebugTextureStartData.m_Texture);
 		SDL_DestroyTexture(g_DebugTextureEndData.m_Texture);
@@ -130,13 +136,14 @@ namespace PATHING {
 #endif // LOGGING
 	}
 
+#ifdef LOGGING
 	void DebugPaths(Globals::Vector& tilemap_dimensions, Globals::Vector tile_size)
 	{
 		for (int y = 0; y < tilemap_dimensions.h; y++)
 		{
 			for (int x = 0; x < tilemap_dimensions.w; x++)
 			{
-				g_Nodes[x + (y * tilemap_dimensions.w)].m_TextureData = g_NodePtrs.at(x + (y * tilemap_dimensions.w))->IsObstacle() ? g_DebugObstacle : g_DebugTextureData;
+				g_Nodes[x + (y * tilemap_dimensions.w)].m_TextureData = g_NodePtrs.at(x + (y * tilemap_dimensions.w))->IsObstacle() ? g_DebugObstacle : g_DefaultTexture;
 			}
 		}
 		for(auto& node : g_SolutionNodes){
@@ -166,4 +173,5 @@ namespace PATHING {
 			}
 		}
 	}
+#endif // LOGGING
 } // namespace PATHING
