@@ -29,10 +29,10 @@ namespace PATHING {
 	void UnInitialize();
 
 	std::vector<Node>& GetMap();
-	void CreatePath(SDL_Point start_node, SDL_Point end_node, Algo algorithm = Algo::A_Star);
+	std::vector<AI::PATH::Vector> CreatePath(SDL_Point start_node, SDL_Point end_node, Algo algorithm = Algo::A_Star);
 	void Reset();
 	void SetObstacle(int x, int y, bool value);
-	void Update();
+	void UpdateAi();
 
 #ifdef LOGGING
 	void DebugPaths(Globals::Vector& tilemap_dimensions, Globals::Vector tile_size);

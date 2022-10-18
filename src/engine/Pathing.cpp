@@ -1,4 +1,4 @@
-#include "Nodemap.h"
+#include "Pathing.h"
 #include "Renderer.h"
 #include "Globals.h"
 #include "../Clock.h"
@@ -82,7 +82,7 @@ namespace PATHING {
 #endif // LOGGING
 	}
 
-	void Update()
+	void UpdateAi()
 	{
 		g_SolutionNodes.clear();
 		g_StartNodes.clear();
@@ -107,7 +107,7 @@ namespace PATHING {
 		g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);
 	}
 
-	void CreatePath(SDL_Point start, SDL_Point end, Algo algorithm)
+	std::vector<AI::PATH::Vector>  CreatePath(SDL_Point start, SDL_Point end, Algo algorithm)
 	{
 		auto tilemap_dimensions = Globals::GetTileMapDimensions();
 
@@ -134,6 +134,7 @@ namespace PATHING {
 		g_EndNodes.emplace_back(end);
 		DebugPaths(tilemap_dimensions, Globals::GetTileDimensions());
 #endif // LOGGING
+		return solution_path;
 	}
 
 #ifdef LOGGING

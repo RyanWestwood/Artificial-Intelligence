@@ -2,7 +2,7 @@
 #include "Collision.h"
 #include "Globals.h"
 #include "Input.h"
-#include "Nodemap.h"
+#include "Pathing.h"
 
 bool Engine::Initialize()
 {
@@ -151,10 +151,8 @@ void Engine::UpdateAi(float* num)
 			PATHING::SetObstacle(tile.m_Position.x, tile.m_Position.y, true);
 		}
 	}
-	PATHING::CreatePath({ 44,11 }, { 4,25 }, PATHING::Algo::BFS);
-	PATHING::CreatePath({ 2,13 }, { 42,23 }, PATHING::Algo::A_Star);
-	PATHING::CreatePath({ 2,1 }, { 20,10 }, PATHING::Algo::DFS);
-	PATHING::Update();
+	m_Enemy.UpdateAi(m_Player.GetNodePosition());
+	PATHING::UpdateAi();
 }
 
 void Engine::Draw()

@@ -13,6 +13,7 @@ public:
 	virtual void Draw();
 
 	SDL_Rect& GetCollider();
+	SDL_Point GetNodePosition();
 
 public:
 	Sprite m_Sprite;

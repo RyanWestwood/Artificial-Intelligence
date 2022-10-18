@@ -1,8 +1,9 @@
 #include "Enemy.h"
 #include <algorithm>
 #include "engine/Globals.h"
+#include "engine/Pathing.h"
 
-Enemy::Enemy()
+Enemy::Enemy() : Entity()
 {
 	m_Ammo = 3;
 	m_Timer = 1.f;
@@ -12,6 +13,7 @@ Enemy::Enemy()
 	m_NoOfAnims = 7;
 	m_Collider = { 6,4,50,56 };
 	m_ColliderOffset = { 6,4 };
+	m_Velocity = { 0,0 };
 
 	m_IdleState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 1.f) {
@@ -61,6 +63,7 @@ void Enemy::Input()
 void Enemy::Update(const float delta_time)
 {
 	auto screen_dimensions = Globals::GetScreenDimensions();
+
 	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
 	m_Collider.x = m_Position.x + m_ColliderOffset.x;
@@ -75,6 +78,12 @@ void Enemy::Update(const float delta_time)
 void Enemy::UpdateAnimation()
 {
 	Entity::UpdateAnimation();
+}
+
+void Enemy::UpdateAi(SDL_Point goal)
+{
+	std::cout << "Update AI\n";
+	m_Path = PATHING::CreatePath({ (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 }, goal, PATHING::Algo::A_Star);
 }
 
 void Enemy::Draw()
