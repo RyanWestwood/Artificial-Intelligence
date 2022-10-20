@@ -107,7 +107,7 @@ namespace PATHING {
 		g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);
 	}
 
-	std::vector<AI::PATH::Vector>  CreatePath(SDL_Point start, SDL_Point end, Algo algorithm)
+	std::vector<AI::PATH::Vector> CreatePath(SDL_Point start, SDL_Point end, Algo algorithm)
 	{
 		auto tilemap_dimensions = Globals::GetTileMapDimensions();
 
@@ -117,13 +117,29 @@ namespace PATHING {
 		switch (algorithm)
 		{
 		case PATHING::Algo::A_Star:
+			CLOCK::StartTimer();
 			solution_path = AI::PATH::A_Star(g_NodePtrs, start_node, end_node);
+			CLOCK::StopTimer("A_Star");
 			break;
 		case PATHING::Algo::BFS:
+			CLOCK::StartTimer();
 			solution_path = AI::PATH::BFS(g_NodePtrs, start_node, end_node);
+			CLOCK::StopTimer("BFS");
 			break;
 		case PATHING::Algo::DFS:
+			CLOCK::StartTimer();
 			solution_path = AI::PATH::DFS(g_NodePtrs, start_node, end_node);
+			CLOCK::StopTimer("DFS");
+			break;
+		case PATHING::Algo::GBFS:
+			CLOCK::StartTimer();
+			solution_path = AI::PATH::Greedy_BFS(g_NodePtrs, start_node, end_node);
+			CLOCK::StopTimer("Greedy BFS");
+			break;
+		case PATHING::Algo::DLS:
+			CLOCK::StartTimer();
+			solution_path = AI::PATH::DLS(g_NodePtrs, start_node, end_node);
+			CLOCK::StopTimer("DLS");
 			break;
 		default:
 			break;

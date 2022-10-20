@@ -22,7 +22,9 @@ namespace PATHING {
 	enum class Algo {
 		A_Star = 0,
 		BFS,
-		DFS
+		DFS,
+		GBFS,
+		DLS
 	};
 
 	bool Initialize();

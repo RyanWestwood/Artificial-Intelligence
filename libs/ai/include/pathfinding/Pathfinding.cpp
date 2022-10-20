@@ -147,6 +147,60 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
+		std::vector<Vector> Greedy_BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+
+			ResetArray(nodes);
+
+			struct compare {
+				bool operator() (const NodePtr& lhs, const NodePtr& rhs) const {
+					if (lhs->m_Costs.m_TotalCost == rhs->m_Costs.m_TotalCost) {
+						return lhs->m_Costs.m_FromCost > rhs->m_Costs.m_FromCost;
+					}
+					return lhs->m_Costs.m_TotalCost > rhs->m_Costs.m_TotalCost;
+				}
+			};
+
+			start_node->m_Costs.m_FromCost = 0.f;
+			start_node->m_Costs.m_ToCost = 0;
+			start_node->m_Costs.m_TotalCost = start_node->m_Costs.m_FromCost + start_node->m_Costs.m_ToCost;
+
+			std::vector<NodePtr> frontier;
+			std::set<NodePtr> explored;
+			NodePtr solution_node;
+
+			frontier.push_back(start_node);
+			std::make_heap(frontier.begin(), frontier.end(), compare());
+
+			while (!frontier.empty()) {
+
+				std::pop_heap(frontier.begin(), frontier.end(), compare());
+				NodePtr current_node = frontier.back();
+				if (GoalTest(current_node, end_node)) {
+					solution_node = current_node;
+					break;
+				}
+				frontier.pop_back();
+				explored.insert(current_node);
+				current_node->SetVisited(true);
+
+				for (NodePtr& neighbour : current_node->GetNeighbours()) {
+					auto it = std::find(frontier.begin(), frontier.end(), neighbour);
+					if (!(it != frontier.end()) && !neighbour->IsObstacle()) {
+						float gPossibleLowerGoal = current_node->m_Costs.m_FromCost;
+						if (gPossibleLowerGoal < neighbour->m_Costs.m_FromCost) {
+							neighbour->SetParent(current_node);
+							neighbour->m_Costs.m_FromCost = current_node->m_Costs.m_FromCost + 1;
+							neighbour->m_Costs.m_ToCost = 0;
+							neighbour->m_Costs.m_TotalCost = neighbour->m_Costs.m_FromCost + neighbour->m_Costs.m_ToCost;
+							frontier.push_back(neighbour);
+							std::push_heap(frontier.begin(), frontier.end(), compare());
+						}
+					}
+				}
+			}
+			return GetPath(solution_node);
+		}
+
 		std::vector<Vector> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
@@ -208,6 +262,47 @@ namespace AI {
 							frontier.push_back(neighbour);
 						}
 					}
+				}
+			}
+			return GetPath(solution_node);
+		}
+
+		std::vector<Vector> DLS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+
+			ResetArray(nodes);
+
+			std::deque<NodePtr> frontier;
+			std::set<NodePtr> explored;
+			NodePtr solution_node;
+
+			frontier.push_back(start_node);
+
+			int depth_limit = 4   ;
+			int current_depth = 0;
+			while (!frontier.empty()) {
+				if (current_depth <= depth_limit) {
+					NodePtr current_node = frontier.back();
+					if (GoalTest(current_node, end_node)) {
+						solution_node = current_node;
+						break;
+					}
+					frontier.pop_back();
+					explored.insert(current_node);
+					current_node->SetVisited(true);
+
+					for (NodePtr& neighbour : current_node->GetNeighbours()) {
+						auto it = std::find(frontier.begin(), frontier.end(), neighbour);
+						if (!(it != frontier.end()) && !neighbour->IsObstacle()) {
+							if (!explored.contains(neighbour)) {
+								neighbour->SetParent(current_node);
+								frontier.push_back(neighbour);
+							}
+						}
+					}
+					current_depth++;
+				}
+				else {
+					break;
 				}
 			}
 			return GetPath(solution_node);

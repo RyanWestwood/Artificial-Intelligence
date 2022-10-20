@@ -50,5 +50,5 @@ SDL_Rect& Entity::GetCollider()
 
 SDL_Point Entity::GetNodePosition()
 {
-	return { (int)m_Position.x / 32 + 2, (int)m_Position.y / 32 + 2 };
+	return { (int)m_Position.x / 32, (int)m_Position.y / 32 };
 }
