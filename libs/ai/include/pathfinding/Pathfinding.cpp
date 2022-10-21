@@ -18,9 +18,10 @@ namespace AI {
 			m_Parent;
 		}
 
-		NodeMap::NodeMap(int map_width, int map_height)
+		std::vector<NodePtr> CreateNodeMap(int map_width, int map_height)
 		{
-			m_Map.reserve(map_width * map_height);
+			std::vector<NodePtr> map{};
+			map.reserve(map_width * map_height);
 			for (int y = 0; y < map_height; y++)
 			{
 				for (int x = 0; x < map_width; x++)
@@ -31,7 +32,7 @@ namespace AI {
 					node->SetPosition({ x, y });
 					node->SetParent(nullptr);
 					node->SetObstacle(false);
-					m_Map.push_back(node);
+					map.push_back(node);
 				}
 			}
 
@@ -40,20 +41,16 @@ namespace AI {
 				for (int x = 0; x < map_width; x++)
 				{
 					if (y > 0)
-						m_Map[y * map_width + x]->AddNeighbours(m_Map[(y - 1) * map_width + (x)]);
+						map[y * map_width + x]->AddNeighbours(map[(y - 1) * map_width + (x)]);
 					if (y < map_height - 1)
-						m_Map[y * map_width + x]->AddNeighbours(m_Map[(y + 1) * map_width + (x)]);
+						map[y * map_width + x]->AddNeighbours(map[(y + 1) * map_width + (x)]);
 					if (x > 0)
-						m_Map[y * map_width + x]->AddNeighbours(m_Map[(y)*map_width + (x - 1)]);
+						map[y * map_width + x]->AddNeighbours(map[(y)*map_width + (x - 1)]);
 					if (x < map_width - 1)
-						m_Map[y * map_width + x]->AddNeighbours(m_Map[(y)*map_width + (x + 1)]);
+						map[y * map_width + x]->AddNeighbours(map[(y)*map_width + (x + 1)]);
 				}
 			}
-		}
-
-		std::shared_ptr<NodeMap> CreateNodeMap(int x, int y)
-		{
-			return std::make_shared<NodeMap>(x, y);
+			return map;
 		}
 
 		void ResetArray(std::vector<NodePtr> nodes) {

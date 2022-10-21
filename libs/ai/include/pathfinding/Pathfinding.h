@@ -61,21 +61,8 @@ namespace AI {
 			bool m_Obstacle;
 			std::vector<NodePtr> m_Neighbours;
 		};
-		
-		class INodeMap {
-		public:
-			virtual std::vector<NodePtr> GetMap() = 0;
-		};
 
-		class NodeMap : public INodeMap{
-		public:
-			NodeMap(int, int);
-			std::vector<NodePtr> GetMap() { return m_Map; }
-		private:
-			std::vector<NodePtr> m_Map;
-		};
-
-		extern "C++" AI_API std::shared_ptr<NodeMap> CreateNodeMap(int, int);
+		extern "C++" AI_API std::vector<NodePtr> CreateNodeMap(int, int);
 		extern "C++" AI_API std::vector<Vector> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector> Greedy_BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);

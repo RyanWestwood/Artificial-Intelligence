@@ -25,10 +25,6 @@ namespace PATHING {
 #endif // LOGGING
 	}
 
-	std::vector<Node>& GetMap(){
-		return g_Nodes;
-	}
-
 #ifdef LOGGING
 	void Node::Draw()
 	{
@@ -53,7 +49,7 @@ namespace PATHING {
 		g_Nodes.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
 		g_SolutionNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
 
-		g_NodePtrs = AI::PATH::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h)->GetMap();
+		g_NodePtrs = AI::PATH::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h);
 		for (int y = 0; y < tilemap_dimensions.h; y++)
 		{
 			for (int x = 0; x < tilemap_dimensions.w; x++)

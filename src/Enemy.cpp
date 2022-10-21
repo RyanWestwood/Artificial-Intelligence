@@ -83,7 +83,7 @@ void Enemy::UpdateAnimation()
 void Enemy::UpdateAi(SDL_Point goal)
 {
 	std::cout << "Update AI\n";
-	m_Path = PATHING::CreatePath({ (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 }, goal, PATHING::Algo::BFS);
+	m_Path = PATHING::CreatePath({ (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 }, goal, PATHING::Algo::A_Star);
 }
 
 void Enemy::Draw()
