@@ -4,11 +4,8 @@
   
 or  
   
-`mkdir build, libs\ai\build`  
+`mkdir build`  
 `cd build`  
-`cmake ..  -DCMAKE_BUILD_TYPE=Release`  
-`cmake --build . -j --config Release`  
-`cd ../libs/ai/build`  
 `cmake ..  -DCMAKE_BUILD_TYPE=Release`  
 `cmake --build . -j --config Release`  
 

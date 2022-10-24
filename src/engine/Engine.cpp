@@ -1,6 +1,8 @@
 ﻿#include "Engine.h"
-#include "Input.h"
+#include "Collision.h"
 #include "Globals.h"
+#include "Input.h"
+#include "Pathing.h"
 
 bool Engine::Initialize()
 {
@@ -10,6 +12,7 @@ bool Engine::Initialize()
 	bool sound = Sound::InitializeSound();
 	bool font = Font::InitializeFont();
 	bool input = Input::InitialzieInput();
+	bool pathing = PATHING::Initialize();
 	Font::InitializeDefaultFont();
 
 #ifdef LOGGING
@@ -18,21 +21,22 @@ bool Engine::Initialize()
 	std::cout << "Default font: " << Font::GetDefaultFont().m_Font << "\n\nLoading...\n";
 #endif // LOGGING
 
-	music.Initialize("music.wav");
-	sfx.Initialize("temp.wav");
-	tilemap.Initialize("tilemap.png", 16);
-	player.Initialize();
-	m_NodeGrid.Initialize();
+	m_Music.Initialize("music.wav");
+	m_Text.Initalize("LAST DREAM XIV");
+	m_SoundEffect.Initialize("temp.wav");
+	m_Tilemap.Initialize("tilemap.png", 16);
+	m_Player.Initialize();
+	m_Enemy.Initialize();
 
 #ifdef LOGGING
 	std::cout << "\n";
 #endif // LOGGING
 
-	music.PlayMusic();
-	sfx.PlaySound();
+	m_Music.PlayMusic();
+	m_SoundEffect.PlaySound();
 	m_IsPaused = false;
 
-	return renderer && sound && font && input && globals && texture; 
+	return renderer && sound && font && input && globals && texture && pathing; 
 }
 
 void Engine::UnInitialize()
@@ -73,7 +77,7 @@ void Engine::Resume()
 			}
 		}
 	}	
-	player.Resume();
+	m_Player.Resume();
 }
 
 void Engine::Input()
@@ -111,38 +115,57 @@ void Engine::Input()
 #endif // LOGGING
 		}
 	}
-	player.Input();
+	m_Player.Input();
 #ifdef LOGGING
-	m_NodeGrid.Input();
+	PATHING::Input();
+	m_Enemy.Input();
 #endif // LOGGING
+	Input::SetKeyUp(SDL_SCANCODE_F3, false);
 }
 
 void Engine::Update(const float& delta_time)
 {
-	player.Update(delta_time);
+	m_Player.Update(delta_time);
 	m_Enemy.Update(delta_time);
 }
 
 void Engine::UpdateAnimation(float* num)
 {
 #ifdef LOGGING
-		std::cout << "AnimStep: " << *num << "\n";
+	std::cout << "AnimStep: " << *num << "\n";
 #endif // LOGGING
-		*num = 0.0;
+	*num = 0.0;
+	m_Player.UpdateAnimation();
+	m_Enemy.UpdateAnimation();
+}
 
-		player.UpdateAnimation();
+void Engine::UpdateAi(float* num)
+{
+	*num = 0.0;
+	PATHING::Reset();
+	//for (auto tile : PATHING::GetMap()) {
+	//	if (COLLISION::BoxCollision(m_Player.GetCollider(), tile.GetCollider())) {
+	//		PATHING::SetObstacle(tile.m_Position.x, tile.m_Position.y, true);
+	//	}
+	//	if (COLLISION::BoxCollision(m_Enemy.GetCollider(), tile.GetCollider())) {
+	//		PATHING::SetObstacle(tile.m_Position.x, tile.m_Position.y, true);
+	//	}
+	//}
+	m_Enemy.UpdateAi(m_Player.GetNodePosition());
+	PATHING::UpdateAi();
 }
 
 void Engine::Draw()
 {
 	SDL_RenderClear(Renderer::GetRenderer());
 
-	tilemap.Draw();
-	text.Draw();
-	player.Draw();
+	m_Tilemap.Draw();
+	m_Text.Draw();
+	m_Player.Draw();
+	m_Enemy.Draw();
 
 #ifdef LOGGING
-	m_NodeGrid.Draw();
+	PATHING::Draw();
 #endif // LOGGING
 
 	SDL_RenderPresent(Renderer::GetRenderer());

@@ -14,7 +14,7 @@ namespace CLOCK{
 
 	void StopTimer(const char* function_name) {
 		g_EndTime = std::chrono::high_resolution_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(g_EndTime - g_StartTime);
-		std::cout << "Time taken by function (" << function_name << "): " << duration.count() << " milliseconds\n";
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(g_EndTime - g_StartTime);
+		std::cout << "Time taken by function (" << function_name << "): " << duration.count() << " microseconds\n";
 	}
 }
