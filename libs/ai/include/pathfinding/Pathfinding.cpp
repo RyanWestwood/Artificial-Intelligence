@@ -3,6 +3,7 @@
 #include <iostream>
 #include <queue>
 #include <set>
+#include <stack>
 #include <math.h>
 
 namespace AI {
@@ -268,16 +269,16 @@ namespace AI {
 
 			ResetArray(nodes);
 
-			std::deque<NodePtr> frontier;
+			std::deque<NodePtr> frontier; // use back to imitate stack
 			std::set<NodePtr> explored;
 			NodePtr solution_node;
 
 			frontier.push_back(start_node);
 
-			int depth_limit = 4   ;
+			int depth_limit = 3;
 			int current_depth = 0;
 			while (!frontier.empty()) {
-				if (current_depth <= depth_limit) {
+				if (current_depth < depth_limit) {
 					NodePtr current_node = frontier.back();
 					if (GoalTest(current_node, end_node)) {
 						solution_node = current_node;
@@ -297,12 +298,62 @@ namespace AI {
 						}
 					}
 					current_depth++;
-				}
-				else {
-					break;
+				}else{
+					current_depth--;
+					//break;// Error is here quits while as soon as depth_limit is reached 
 				}
 			}
 			return GetPath(solution_node);
 		}
+
+		DLS_Data DLS(NodePtr start_node, NodePtr end_node, int depth, std::set<NodePtr>& explored){
+			if(depth == 0){
+				if (GoalTest(start_node, end_node)) {
+					return { start_node, true };
+				}else{
+					return { nullptr, true };
+				}
+			}else if(depth > 0){
+				bool any_remaining = false;
+				explored.insert(start_node);
+				for(NodePtr child : start_node->GetNeighbours()){
+					if (!explored.contains(child)) {
+						child->SetParent(start_node);
+						DLS_Data res = DLS(child, end_node, depth - 1, explored);
+						if (res.found) {
+							return { res.found, true };
+						}
+						if (res.remaining) {
+							any_remaining = true;
+						}
+					}
+				}
+				return { nullptr, any_remaining };
+			}
+		}
+
+
+		std::vector<Vector> DLS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth){
+			ResetArray(nodes);
+
+			std::set<NodePtr> explored{};
+			DLS_Data res = DLS(start_node, end_node, depth, explored);
+			if(res.found){
+				return GetPath(res.found);
+			}
+			return {};
+		}
+
+		std::vector<Vector> IDDFS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth_limit) {
+			for (int depth = 0; depth < depth_limit; depth += 5)
+			{
+				auto a = DLS_Caller(nodes, start_node, end_node, depth);
+				if(!a.empty()){
+					return a;
+				}
+			}
+			return {};
+		}
+
 	} // namespace PATH
 } // namespace AI

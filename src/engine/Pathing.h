@@ -24,7 +24,8 @@ namespace PATHING {
 		BFS,
 		DFS,
 		GBFS,
-		DLS
+		DLS,
+		IDDFS
 	};
 
 	bool Initialize();
@@ -34,6 +35,7 @@ namespace PATHING {
 	void Reset();
 	void SetObstacle(int x, int y, bool value);
 	void UpdateAi();
+	std::vector<Node>& GetMap();
 
 #ifdef LOGGING
 	void DebugPaths(Globals::Vector& tilemap_dimensions, Globals::Vector tile_size);
