@@ -7,7 +7,7 @@ namespace AI {
 
 		class RepeatUntilSuccess : public Decorator {
 		public:
-			RepeatUntilFail() {}
+			RepeatUntilSuccess() {}
 
 			Status Update() {
 				while (true) {
