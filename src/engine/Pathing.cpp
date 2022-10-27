@@ -25,6 +25,10 @@ namespace PATHING {
 #endif // LOGGING
 	}
 
+	std::vector<Node>& GetMap() {
+		return g_Nodes;
+	}
+
 #ifdef LOGGING
 	void Node::Draw()
 	{
@@ -134,8 +138,13 @@ namespace PATHING {
 			break;
 		case PATHING::Algo::DLS:
 			CLOCK::StartTimer();
-			solution_path = AI::PATH::DLS(g_NodePtrs, start_node, end_node);
+			solution_path = AI::PATH::DLS_Caller(g_NodePtrs, start_node, end_node, 10);
 			CLOCK::StopTimer("DLS");
+			break;
+		case PATHING::Algo::IDDFS:
+			CLOCK::StartTimer();
+			solution_path = AI::PATH::IDDFS_Caller(g_NodePtrs, start_node, end_node, 25);
+			CLOCK::StopTimer("IDDFS");
 			break;
 		default:
 			break;

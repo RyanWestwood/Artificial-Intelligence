@@ -68,5 +68,12 @@ namespace AI {
 		extern "C++" AI_API std::vector<Vector> Greedy_BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector> DLS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
+
+		struct DLS_Data {
+			NodePtr found;
+			bool remaining;
+		};
+		extern "C++" AI_API std::vector<Vector> IDDFS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth);
+		extern "C++" AI_API std::vector<Vector> DLS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth);
 	} // namespace PATH
 } // namespace AI
