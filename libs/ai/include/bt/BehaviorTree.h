@@ -14,7 +14,6 @@ namespace AI {
 
 		private:
 			Node root;
-			// root = sequence or selector
 		};
 	} // namespace BT
 } // namespace AI
