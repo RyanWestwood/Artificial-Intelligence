@@ -8,11 +8,7 @@ namespace AI {
 		class Succeeder : public Decorator {
 		public:
 			Succeeder() {}
-
-			Status Update() {
-				m_Child.Update();
-				return Status::Success;
-			}
+			Status Update();
 		};
 	} // namespace BT
 } // namespace AI

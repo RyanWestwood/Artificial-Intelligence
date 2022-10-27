@@ -1,22 +1,15 @@
-#pragma once
-#include "../../Dll.h"
-#include "../Node.h"
+#include "Sequence.h"
 
 namespace AI {
 	namespace BT {
 
-		class Sequence : public CompositeNode {
-		public:
-			Sequence() {}
-
-			Status Update() {
-				for (auto child : m_Children) {
-					if (child.Update() == Status::Failure) {
-						return Status::Failure;
-					}
+		Status Sequence::Update() {
+			for (auto child : m_Children) {
+				if (child.Update() == Status::Failure) {
+					return Status::Failure;
 				}
-				return Status::Success;
 			}
-		};
+			return Status::Success;
+		}
 	} // namespace BT
 } // namespace AI

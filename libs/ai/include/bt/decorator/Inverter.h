@@ -8,17 +8,7 @@ namespace AI {
 		class Inverter : public Decorator {
 		public:
 			Inverter() {}
-
-			Status Update() {
-				Status result = m_Child.Update();
-				if (result == Status::Success) {
-					return Status::Failure;
-				}
-				else if (result == Status::Failure) {
-					return Status::Success;
-				}
-				return result;
-			}
+			Status Update();
 		};
 	} // namespace BT
 } // namespace AI

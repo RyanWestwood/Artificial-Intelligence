@@ -8,15 +8,7 @@ namespace AI {
 		class RepeatUntilSuccess : public Decorator {
 		public:
 			RepeatUntilSuccess() {}
-
-			Status Update() {
-				while (true) {
-					Status result = m_Child.Update();
-					if (result == Status::Success) {
-						return Status::Success;
-					}
-				}
-			}
+			Status Update();
 		};
 	} // namespace BT
 } // namespace AI

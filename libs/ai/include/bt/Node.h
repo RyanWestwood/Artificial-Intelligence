@@ -15,7 +15,7 @@ namespace AI {
 		class Node {
 		public:
 			Node() {}
-			Status Update() {}
+			Status Update() { return Status::Error; }
 		};
 
 		class Decorator : public Node {

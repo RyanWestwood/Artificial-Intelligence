@@ -8,18 +8,7 @@ namespace AI {
 		class RepeatN : public Decorator {
 		public:
 			RepeatN(int amount_of_repitions) : m_Repitions(amount_of_repitions){}
-
-			Status Update() {
-				int index = 0;
-				do {
-					result = m_Child.Update();
-					if (result == Status::Failure) {
-						return Status::Failure;
-					}
-					index++;
-				} while (index < m_Repitions);
-				return Status::Success;
-			}
+			Status Update();
 
 		private:
 			int m_Repitions;

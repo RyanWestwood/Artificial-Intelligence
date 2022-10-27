@@ -8,15 +8,7 @@ namespace AI {
 		class Selector : public CompositeNode {
 		public:
 			Selector() {}
-
-			Status Update() {
-				for (auto child : m_Children) {
-					if (child.Update() == Status::Success) {
-						return Status::Success;
-					}
-				}
-				return Status::Failure;
-			}
+			Status Update();
 		};
 	} // namespace BT
 } // namespace AI

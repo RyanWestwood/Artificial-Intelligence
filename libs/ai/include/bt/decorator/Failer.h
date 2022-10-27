@@ -8,11 +8,7 @@ namespace AI {
 		class Failer : public Decorator {
 		public:
 			Failer() {}
-
-			Status Update() {
-				m_Child.Update();
-				return Status::Failure;
-			}
+			Status Update();
 		};
 	} // namespace BT
 } // namespace AI
