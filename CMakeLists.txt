@@ -17,9 +17,7 @@ include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/include)
 include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/include)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-file(GLOB SOURCE
-    "src/*" "src/*/*"
-)
+file(GLOB_RECURSE SOURCE "src/*.*")
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     file(GLOB DLLS
@@ -52,3 +50,13 @@ target_link_libraries(ArtificialIntelligence ${SDL2_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${AI_LIBRARIES})
 target_link_libraries(ArtificialIntelligence $<$<CONFIG:Debug>:${LIBS_DEBUG}> 
         $<$<CONFIG:Release>:${LIBS_RELEASE}>)
+
+function (SetFolder src dst var )
+    FILE(GLOB src
+    ${PROJECT_SOURCE_DIR}/${var}
+    )
+    SOURCE_GROUP(${dst} FILES ${src})
+endfunction()
+
+SetFolder(ENGINE_FILES_H, engine_h src/engine/*.h)
+SetFolder(ENGINE_FILES, engine src/engine/*.cpp)
