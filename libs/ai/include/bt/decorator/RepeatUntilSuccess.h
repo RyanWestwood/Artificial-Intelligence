@@ -12,7 +12,6 @@ namespace AI {
 			Status Update() {
 				while (true) {
 					Status result = m_Child.Update();
-
 					if (result == Status::Success) {
 						return Status::Success;
 					}
