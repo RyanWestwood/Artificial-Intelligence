@@ -68,10 +68,10 @@ void Enemy::Update(const float delta_time)
 
 	FollowPath(delta_time);
 
-	std::cout << current_position.x << ", " << current_position.y << "\n";
+	std::cout << m_Position.x << ", " << m_Position.y << "\n";
 	m_Position.x = std::clamp(m_Position.x, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
-	std::cout << current_position.x << ", " << current_position.y << "\n";
+	std::cout << m_Position.x << ", " << m_Position.y << "\n";
 	m_Collider.x = m_Position.x + m_ColliderOffset.x;
 	m_Collider.y = m_Position.y + m_ColliderOffset.y;
 	m_Sprite.m_Destination.x = m_Position.x;
