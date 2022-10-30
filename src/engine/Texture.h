@@ -15,7 +15,7 @@ namespace Texture {
 
 	bool Initialize();
 	TextureData LoadTexture(const char* filename);
-	TextureData LoadDebugTexture(SDL_Colour colour, SDL_Point dimensions);
+	TextureData LoadSolidColourTexture(SDL_Colour colour, SDL_Point dimensions);
 	void Draw(SDL_Texture* texture, const SDL_Rect& source, const SDL_Rect& destination);
 } // namespace Texture
 
@@ -25,6 +25,7 @@ public:
 	~Sprite();
 
 	void Initialize(const char* filename);
+	void Initialize(SDL_Colour colour, SDL_Point source_dimensions);
 	void Draw(const SDL_RendererFlip& flip = SDL_FLIP_NONE, const float& angle = 0.f, const SDL_Point& point = {});
 
 public:
