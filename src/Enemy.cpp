@@ -100,9 +100,8 @@ void Enemy::Draw()
 void Enemy::GoalTile()
 {
 	if(m_Path.size() <= 1) return;
-	auto GreenBox = { (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 };
-	auto NextTile = m_Path[1];
-	m_GoalTile = SDL_FPoint{ (float)NextTile.x, (float)NextTile.y };
+	auto current_position = { (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 };
+	m_GoalTile = SDL_FPoint{ (float)m_Path[1].x, (float)m_Path[1].y };
 }
 
 void Enemy::Move(float delta_time)
@@ -111,23 +110,6 @@ void Enemy::Move(float delta_time)
 
 	SDL_FPoint GreenBox = { (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 };
 	SDL_FPoint Difference = { m_GoalTile.x - GreenBox.x, m_GoalTile.y - GreenBox.y };
-	Difference.x *= 32;
-	Difference.y *= 32;
-
-	float move_amount = m_MoveSpeed * delta_time;
-	if(move_amount > Difference.x)
-	{
-		m_Position.x += Difference.x;
-	}else
-	{
-		m_Position.x += move_amount;
-	}
-	if (move_amount > Difference.y)
-	{
-		m_Position.y += Difference.y;
-	}
-	else
-	{
-		m_Position.y += move_amount;
-	}
+	m_Position.x += Difference.x;
+	m_Position.y += Difference.y;
 }
