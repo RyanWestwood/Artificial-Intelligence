@@ -72,15 +72,32 @@ namespace AI {
 			return x && y;
 		};
 
+		std::vector<Vector> SimplifyPath(std::vector<Vector> path){
+			std::vector<Vector> way_points{};
+			Vector old_direction{ 0,0 };
+
+			for (int i = 1; i < path.size(); i++)
+			{
+				Vector new_direction = { path.at(i - 1).x - path.at(i).x, path.at(i - 1).y - path.at(i).y, };
+				if(new_direction != old_direction){ 
+					way_points.push_back(path.at(i));
+				}
+				old_direction = new_direction;
+			}
+			return way_points;
+		}
+
 		std::vector<Vector> GetPath(NodePtr solution_node){
 			if (!solution_node) return {};
 			std::vector<Vector> path;
 			while (solution_node->GetParent() != nullptr) {
-				path.insert(begin(path), solution_node->GetPosition());
+				path.push_back(solution_node->GetPosition());
 				solution_node = solution_node->GetParent();
 			}
-			path.insert(begin(path), solution_node->GetPosition());
-			return path;
+			path.push_back(solution_node->GetPosition());
+			std::vector<Vector> simplified_path = SimplifyPath(path);
+			std::reverse(std::begin(simplified_path), std::end(simplified_path));
+			return simplified_path;
 		}
 
 		std::vector<Vector> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {

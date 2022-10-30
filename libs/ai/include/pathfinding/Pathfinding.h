@@ -13,6 +13,14 @@ namespace AI {
 
 		struct Vector {
 			int x, y;
+
+			friend bool operator==(const Vector& lhs, const Vector& rhs) {
+				return lhs.x == rhs.x && lhs.y == rhs.y;
+			};
+
+			friend bool operator!=(const Vector& lhs, const Vector& rhs) {
+				return lhs.x != rhs.x && lhs.y != rhs.y;
+			};
 		};
 
 		struct Costs {

@@ -15,6 +15,7 @@ public:
 	SDL_Rect& GetCollider();
 	SDL_Point GetNodePosition();
 
+	// TODO @RyanWestwood: encapsulate fields in structs to make initialization easier! Same with Enemy.h
 public:
 	Sprite m_Sprite;
 	SDL_Rect m_Collider;

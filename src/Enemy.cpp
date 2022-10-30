@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include <algorithm>
+#include <cmath>
 #include "engine/Globals.h"
 #include "engine/Pathing.h"
 
@@ -14,6 +15,7 @@ Enemy::Enemy() : Entity()
 	m_Collider = { 6,4,50,56 };
 	m_ColliderOffset = { 6,4 };
 	m_Velocity = { 0,0 };
+	m_MoveSpeed = 32.f;
 
 	m_IdleState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 1.f) {
@@ -64,8 +66,12 @@ void Enemy::Update(const float delta_time)
 {
 	auto screen_dimensions = Globals::GetScreenDimensions();
 
-	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
-	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
+	FollowPath(delta_time);
+
+	std::cout << current_position.x << ", " << current_position.y << "\n";
+	m_Position.x = std::clamp(m_Position.x, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
+	m_Position.y = std::clamp(m_Position.y, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
+	std::cout << current_position.x << ", " << current_position.y << "\n";
 	m_Collider.x = m_Position.x + m_ColliderOffset.x;
 	m_Collider.y = m_Position.y + m_ColliderOffset.y;
 	m_Sprite.m_Destination.x = m_Position.x;
@@ -90,4 +96,43 @@ void Enemy::Draw()
 {
 	Entity::Draw();
 	m_Sprite.Draw();
+}
+
+void Enemy::MoveTowards(SDL_FPoint current, SDL_FPoint target, float maxDistanceDelta)
+{
+	SDL_FPoint a = { target.x - current.x, target.y - current.y };
+	float magnitude = sqrtf((a.x * a.x) + (a.y * a.y));
+	if (magnitude <= maxDistanceDelta || magnitude == 0.f)
+	{
+		return;
+	}
+
+	SDL_FPoint b = { a.x / magnitude * maxDistanceDelta, a.y / magnitude * maxDistanceDelta };
+	m_Position.x += b.x;
+	m_Position.y += b.y;
+}
+
+bool AreSame(SDL_FPoint lhs, SDL_FPoint rhs)
+{
+	auto x = fabs(lhs.x - rhs.x);
+	auto y = fabs(lhs.y - rhs.y);
+	float epsilion = 0.25f;
+	return x < epsilion && y < epsilion;
+}
+
+void Enemy::FollowPath(const float delta_time)
+{
+	if (m_Path.empty()) return;
+	SDL_FPoint current_waypoint = { m_Path.front().x * 32, m_Path.front().y * 32 };
+	SDL_FPoint current_position = { m_Position.x + 32, m_Position.y + 32};
+	int target_index = 0;
+
+	if (AreSame(current_position, current_waypoint)) {
+		target_index++;
+		if (target_index >= m_Path.size()) {
+			return;
+		}
+		current_waypoint = { (float)m_Path.at(target_index).x * 32, (float)m_Path.at(target_index).y * 32 };
+	}
+	MoveTowards(current_position, current_waypoint, m_MoveSpeed * delta_time);
 }
