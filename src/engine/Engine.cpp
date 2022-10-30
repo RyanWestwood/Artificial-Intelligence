@@ -132,7 +132,7 @@ void Engine::Update(const float& delta_time)
 void Engine::UpdateAnimation(float* num)
 {
 #ifdef LOGGING
-	std::cout << "AnimStep: " << *num << "\n";
+	//std::cout << "AnimStep: " << *num << "\n";
 #endif // LOGGING
 	*num = 0.0;
 	m_Player.UpdateAnimation();
@@ -141,6 +141,10 @@ void Engine::UpdateAnimation(float* num)
 
 void Engine::UpdateAi(float* num)
 {
+#ifdef LOGGING
+	//std::cout << "Update AI!\n";
+#endif // LOGGING
+
 	*num = 0.0;
 	PATHING::Reset();
 	//for (auto tile : PATHING::GetMap()) {

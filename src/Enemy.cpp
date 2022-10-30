@@ -16,6 +16,7 @@ Enemy::Enemy() : Entity()
 	m_ColliderOffset = { 6,4 };
 	m_Velocity = { 0,0 };
 	m_MoveSpeed = 32.f;
+	m_GoalTile = { 0,0 };
 
 	m_IdleState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 1.f) {
@@ -65,13 +66,10 @@ void Enemy::Input()
 void Enemy::Update(const float delta_time)
 {
 	auto screen_dimensions = Globals::GetScreenDimensions();
+	Move(delta_time);
 
-	FollowPath(delta_time);
-
-	std::cout << m_Position.x << ", " << m_Position.y << "\n";
 	m_Position.x = std::clamp(m_Position.x, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
-	std::cout << m_Position.x << ", " << m_Position.y << "\n";
 	m_Collider.x = m_Position.x + m_ColliderOffset.x;
 	m_Collider.y = m_Position.y + m_ColliderOffset.y;
 	m_Sprite.m_Destination.x = m_Position.x;
@@ -90,6 +88,7 @@ void Enemy::UpdateAi(SDL_Point goal)
 {
 	std::cout << "Update AI\n";
 	m_Path = PATHING::CreatePath({ (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 }, goal, PATHING::Algo::A_Star);
+	GoalTile();
 }
 
 void Enemy::Draw()
@@ -98,41 +97,37 @@ void Enemy::Draw()
 	m_Sprite.Draw();
 }
 
-void Enemy::MoveTowards(SDL_FPoint current, SDL_FPoint target, float maxDistanceDelta)
+void Enemy::GoalTile()
 {
-	SDL_FPoint a = { target.x - current.x, target.y - current.y };
-	float magnitude = sqrtf((a.x * a.x) + (a.y * a.y));
-	if (magnitude <= maxDistanceDelta || magnitude == 0.f)
+	if(m_Path.size() <= 1) return;
+	auto GreenBox = { (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 };
+	auto NextTile = m_Path[1];
+	m_GoalTile = SDL_FPoint{ (float)NextTile.x, (float)NextTile.y };
+}
+
+void Enemy::Move(float delta_time)
+{
+	if (m_GoalTile.x == 0.f && m_GoalTile.y == 0.f) return;
+
+	SDL_FPoint GreenBox = { (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 };
+	SDL_FPoint Difference = { m_GoalTile.x - GreenBox.x, m_GoalTile.y - GreenBox.y };
+	Difference.x *= 32;
+	Difference.y *= 32;
+
+	float move_amount = m_MoveSpeed * delta_time;
+	if(move_amount > Difference.x)
 	{
-		return;
+		m_Position.x += Difference.x;
+	}else
+	{
+		m_Position.x += move_amount;
 	}
-
-	SDL_FPoint b = { a.x / magnitude * maxDistanceDelta, a.y / magnitude * maxDistanceDelta };
-	m_Position.x += b.x;
-	m_Position.y += b.y;
-}
-
-bool AreSame(SDL_FPoint lhs, SDL_FPoint rhs)
-{
-	auto x = fabs(lhs.x - rhs.x);
-	auto y = fabs(lhs.y - rhs.y);
-	float epsilion = 0.25f;
-	return x < epsilion && y < epsilion;
-}
-
-void Enemy::FollowPath(const float delta_time)
-{
-	if (m_Path.empty()) return;
-	SDL_FPoint current_waypoint = { m_Path.front().x * 32, m_Path.front().y * 32 };
-	SDL_FPoint current_position = { m_Position.x + 32, m_Position.y + 32};
-	int target_index = 0;
-
-	if (AreSame(current_position, current_waypoint)) {
-		target_index++;
-		if (target_index >= m_Path.size()) {
-			return;
-		}
-		current_waypoint = { (float)m_Path.at(target_index).x * 32, (float)m_Path.at(target_index).y * 32 };
+	if (move_amount > Difference.y)
+	{
+		m_Position.y += Difference.y;
 	}
-	MoveTowards(current_position, current_waypoint, m_MoveSpeed * delta_time);
+	else
+	{
+		m_Position.y += move_amount;
+	}
 }

@@ -17,8 +17,8 @@ public:
 	void UpdateAnimation();
 	void UpdateAi(SDL_Point goal);
 	void Draw();
-	void FollowPath(const float delta_time);
-	void MoveTowards(SDL_FPoint current, SDL_FPoint target, float maxDistanceDelta);
+	void GoalTile();
+	void Move(float delta_time);
 
 public:
 	int m_Ammo;
@@ -31,4 +31,5 @@ public:
 
 	std::vector<AI::PATH::Vector> m_Path;
 	float m_MoveSpeed;
+	SDL_FPoint m_GoalTile;
 };
