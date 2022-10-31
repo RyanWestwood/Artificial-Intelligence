@@ -18,7 +18,7 @@ void Player::Initialize()
 	m_Collider = { 0,0,28,42 };
 	m_ColliderOffset = { 2,16 };
 	m_NoOfAnims = 7;
-	m_Position = { 512,512 };
+	m_Position = { 512,128 };
 
 	m_OffGlobal = std::make_shared<float>(2.5f);
 	m_Facing = std::make_shared<Globals::Direction>(Globals::Direction::None);

@@ -37,7 +37,7 @@ namespace Texture {
 		}
 	}
 
-	TextureData LoadDebugTexture(SDL_Colour colour, SDL_Point dimensions)
+	TextureData LoadSolidColourTexture(SDL_Colour colour, SDL_Point dimensions)
 	{
 		Uint32 rmask, gmask, bmask, amask;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -92,6 +92,14 @@ Sprite::~Sprite()
 void Sprite::Initialize(const char* filename)
 {
 	auto texture = Texture::LoadTexture(filename);
+	m_Texture = texture.m_Texture;
+	m_Source = texture.m_Source;
+	m_Destination = { 0,0,32,32 };
+}
+
+void Sprite::Initialize(SDL_Colour colour, SDL_Point source_dimensions)
+{
+	auto texture = Texture::LoadSolidColourTexture(colour, source_dimensions);
 	m_Texture = texture.m_Texture;
 	m_Source = texture.m_Source;
 	m_Destination = { 0,0,32,32 };

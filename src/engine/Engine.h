@@ -3,6 +3,8 @@
 #include "Texture.h"
 #include "Sound.h"
 #include "Font.h"
+#include "Healthbar.h"
+#include "AbilityBar.h"
 #include "../Tilemap.h"
 #include "../Player.h"
 #include "../Enemy.h"
@@ -30,4 +32,6 @@ public:
 	Player m_Player;
 	bool m_IsPaused;
 	Enemy m_Enemy;
+	HealthBar m_HealthBar;
+	AbilityBar m_AbilityBar;
 };

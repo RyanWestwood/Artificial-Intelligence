@@ -39,11 +39,11 @@ namespace PATHING {
 	bool Initialize()
 	{
 #ifdef LOGGING
-		g_DefaultTexture = Texture::LoadDebugTexture({ 100,100,100,255 }, { 32,32 });
-		g_DebugTextureExploredData = Texture::LoadDebugTexture({ 255,255,255,255 }, { 32,32 });
-		g_DebugTextureStartData = Texture::LoadDebugTexture({ 0,255,0,255 }, { 32,32 });
-		g_DebugTextureEndData = Texture::LoadDebugTexture({ 0,0,255,255 }, { 32,32 });
-		g_DebugObstacle = Texture::LoadDebugTexture({ 255,0,0,255 }, { 32,32 });
+		g_DefaultTexture = Texture::LoadSolidColourTexture({ 100,100,100,255 }, { 32,32 });
+		g_DebugTextureExploredData = Texture::LoadSolidColourTexture({ 255,255,255,255 }, { 32,32 });
+		g_DebugTextureStartData = Texture::LoadSolidColourTexture({ 0,255,0,255 }, { 32,32 });
+		g_DebugTextureEndData = Texture::LoadSolidColourTexture({ 0,0,255,255 }, { 32,32 });
+		g_DebugObstacle = Texture::LoadSolidColourTexture({ 255,0,0,255 }, { 32,32 });
 #endif // LOGGING
 
 		auto tilemap_dimensions = Globals::GetTileMapDimensions();
