@@ -19,7 +19,7 @@ namespace Renderer {
 			if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0")) {
 				std::cout << "Warning: Linear texture filtering not enabled!" << "\n";
 			}
-			g_Window = SDL_CreateWindow("Artificial Intelligence", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Globals::GetScreenDimensions().w, Globals::GetScreenDimensions().h, SDL_WINDOW_SHOWN);
+			g_Window = SDL_CreateWindow("Last Dream XIV", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Globals::GetScreenDimensions().w, Globals::GetScreenDimensions().h, SDL_WINDOW_SHOWN);
 			if (g_Window == NULL) {
 				std::cout << "Window could not be created! SDL Error: " << SDL_GetError() << "\n";
 				return false;

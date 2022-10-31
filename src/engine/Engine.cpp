@@ -27,6 +27,7 @@ bool Engine::Initialize()
 	m_Tilemap.Initialize("tilemap.png", 16);
 	m_Player.Initialize();
 	m_Enemy.Initialize();
+	m_HealthBar.Initialize({ 618,25,300,24 }, 4);
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -160,7 +161,8 @@ void Engine::Draw()
 	SDL_RenderClear(Renderer::GetRenderer());
 
 	m_Tilemap.Draw();
-	m_Text.Draw();
+	m_HealthBar.Draw();
+	//m_Text.Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
 

@@ -15,7 +15,7 @@ Entity::Entity() {
 void Entity::Initialize()
 {
 #if LOGGING
-	m_DebugCollider = Texture::LoadDebugTexture({ 0,255,255,128 }, { 32,32 });
+	m_DebugCollider = Texture::LoadSolidColourTexture({ 0,255,255,128 }, { 32,32 });
 #endif // LOGGING
 }
 
