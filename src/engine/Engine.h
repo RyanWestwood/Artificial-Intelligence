@@ -4,6 +4,7 @@
 #include "Sound.h"
 #include "Font.h"
 #include "Healthbar.h"
+#include "AbilityBar.h"
 #include "../Tilemap.h"
 #include "../Player.h"
 #include "../Enemy.h"
@@ -32,4 +33,5 @@ public:
 	bool m_IsPaused;
 	Enemy m_Enemy;
 	HealthBar m_HealthBar;
+	AbilityBar m_AbilityBar;
 };

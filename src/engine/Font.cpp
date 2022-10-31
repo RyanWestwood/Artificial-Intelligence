@@ -103,9 +103,10 @@ Text::~Text()
 	if(m_Font) TTF_CloseFont(m_Font);
 }
 
-void Text::Initalize(const char* filename, const char* message)
+void Text::Initalize(const char* filename, const char* message, int font_size)
 {
-	auto font_data = Font::LoadFont(filename, m_FontSize, message, m_Colour, m_Position);
+	auto font_data = Font::LoadFont(filename, font_size, message, m_Colour, m_Position);
+	m_FontSize = font_size;
 	m_Message = message;
 	m_Font = font_data.m_Font;
 	m_Texture = font_data.m_Texture;
