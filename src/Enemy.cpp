@@ -9,7 +9,7 @@ Enemy::Enemy() : Entity()
 	m_Timer = 1.f;
 	m_Cooldown = 1.f;
 	m_FiniteStateMachine = AI::FSM::GetStateManager();
-	m_Position = { 256,256 };
+	m_Position = { 736,256 };
 	m_NoOfAnims = 7;
 	m_Collider = { 6,4,50,56 };
 	m_ColliderOffset = { 6,4 };

@@ -22,12 +22,14 @@ bool Engine::Initialize()
 #endif // LOGGING
 
 	m_Music.Initialize("music.wav");
-	m_Text.Initalize("LAST DREAM XIV");
 	m_SoundEffect.Initialize("temp.wav");
 	m_Tilemap.Initialize("tilemap.png", 16);
 	m_Player.Initialize();
 	m_Enemy.Initialize();
-	m_HealthBar.Initialize({ 618,25,300,24 }, 4);
+	m_Text.Initalize("BOB, DESTROYER OF WORLDS");
+	m_Text.m_Dimensions.x = 590;
+	m_Text.m_Dimensions.y = 10;
+	m_HealthBar.Initialize({ 618,30,300,24 }, 4);
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -162,7 +164,7 @@ void Engine::Draw()
 
 	m_Tilemap.Draw();
 	m_HealthBar.Draw();
-	//m_Text.Draw();
+	m_Text.Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
 
