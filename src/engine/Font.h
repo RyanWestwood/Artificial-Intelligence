@@ -29,7 +29,7 @@ public:
 	Text();
 	~Text();
 
-	void Initalize(const char* filename, const char* message);
+	void Initalize(const char* filename, const char* message, int font_size = 18);
 	void Initalize(const char* message);
 	void UpdateMessage(const char* message);
 	void Draw();
