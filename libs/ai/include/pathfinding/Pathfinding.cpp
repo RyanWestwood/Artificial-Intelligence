@@ -30,7 +30,7 @@ namespace AI {
 					auto node = std::make_shared<Node>();
 					node->SetObstacle(false);
 					node->SetVisited(false);
-					node->SetPosition({ x, y });
+					node->SetPosition({ (float)x, (float)y });
 					node->SetParent(nullptr);
 					node->SetObstacle(false);
 					map.push_back(node);
@@ -72,13 +72,13 @@ namespace AI {
 			return x && y;
 		};
 
-		std::vector<Vector> SimplifyPath(std::vector<Vector> path){
-			std::vector<Vector> way_points{};
-			Vector old_direction{ 0,0 };
+		std::vector<Vector2> SimplifyPath(std::vector<Vector2> path){
+			std::vector<Vector2> way_points{};
+			Vector2 old_direction{ 0,0 };
 
 			for (int i = 1; i < path.size(); i++)
 			{
-				Vector new_direction = { path.at(i - 1).x - path.at(i).x, path.at(i - 1).y - path.at(i).y, };
+				Vector2 new_direction = { path.at(i - 1).x - path.at(i).x, path.at(i - 1).y - path.at(i).y, };
 				if(new_direction != old_direction){ 
 					way_points.push_back(path.at(i));
 				}
@@ -87,20 +87,20 @@ namespace AI {
 			return way_points;
 		}
 
-		std::vector<Vector> GetPath(NodePtr solution_node){
+		std::vector<Vector2> GetPath(NodePtr solution_node){
 			if (!solution_node) return {};
-			std::vector<Vector> path;
+			std::vector<Vector2> path;
 			while (solution_node->GetParent() != nullptr) {
 				path.push_back(solution_node->GetPosition());
 				solution_node = solution_node->GetParent();
 			}
 			path.push_back(solution_node->GetPosition());
-			std::vector<Vector> simplified_path = SimplifyPath(path);
+			std::vector<Vector2> simplified_path = SimplifyPath(path);
 			std::reverse(std::begin(simplified_path), std::end(simplified_path));
 			return simplified_path;
 		}
 
-		std::vector<Vector> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector2> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 
 			ResetArray(nodes);
 
@@ -162,7 +162,7 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
-		std::vector<Vector> Greedy_BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector2> Greedy_BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 
 			ResetArray(nodes);
 
@@ -216,7 +216,7 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
-		std::vector<Vector> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector2> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
 
@@ -249,7 +249,7 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
-		std::vector<Vector> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector2> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 			
 			ResetArray(nodes);
 
@@ -282,7 +282,7 @@ namespace AI {
 			return GetPath(solution_node);
 		}
 
-		std::vector<Vector> DLS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+		std::vector<Vector2> DLS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
 
 			ResetArray(nodes);
 
@@ -350,7 +350,7 @@ namespace AI {
 		}
 
 
-		std::vector<Vector> DLS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth){
+		std::vector<Vector2> DLS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth){
 			ResetArray(nodes);
 
 			std::set<NodePtr> explored{};
@@ -361,7 +361,7 @@ namespace AI {
 			return {};
 		}
 
-		std::vector<Vector> IDDFS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth_limit) {
+		std::vector<Vector2> IDDFS_Caller(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, int depth_limit) {
 			for (int depth = 0; depth < depth_limit; depth += 5)
 			{
 				auto a = DLS_Caller(nodes, start_node, end_node, depth);

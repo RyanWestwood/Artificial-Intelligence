@@ -25,5 +25,8 @@ SetFolder(BT, bt include/bt/*.cpp)
 SetFolder(FSM_H, fsm_h include/fsm/*.h)
 SetFolder(FSM, fsm include/fsm/*.cpp)
 
+SetFolder(MATH_H, math_h include/math/*.h)
+SetFolder(MATH, math include/math/*.cpp)
+
 SetFolder(PATHFINDING_H, pathfinding_h include/pathfinding/*.h)
 SetFolder(PATHFINDING, pathfinding include/pathfinding/*.cpp)

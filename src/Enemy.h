@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <fsm/StateManager.h>
+#include <math/Vector2.h>
 #include <pathfinding/Pathfinding.h>
 #include "Entity.h"
 
@@ -29,7 +30,7 @@ public:
 	AI::FSM::StatePtr m_AttackState;
 	AI::FSM::StatePtr m_IdleState;
 
-	std::vector<AI::PATH::Vector> m_Path;
+	std::vector<Vector2> m_Path;
 	float m_MoveSpeed;
 	SDL_FPoint m_GoalTile;
 };
