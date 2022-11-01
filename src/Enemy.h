@@ -2,7 +2,7 @@
 #include <memory>
 #include <fsm/StateManager.h>
 #include <math/Vector2.h>
-#include <pathfinding/Pathfinding.h>
+#include <pathfinding/Node.h>
 #include "Entity.h"
 
 class Enemy : public Entity {
