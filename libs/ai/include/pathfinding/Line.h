@@ -3,8 +3,14 @@
 
 namespace AI {
 	namespace PATH {
+		
+		class ILine {
+		public:
+			virtual bool GetSide(Vector2 point) = 0;
+			virtual bool HasCrossedLine(Vector2 point) = 0;
+		};
 
-		class Line{
+		class Line : public ILine{
 		public:
 			Line(Vector2 point_on_line, Vector2 point_perpendiculat_to_line);
 			bool GetSide(Vector2 point);

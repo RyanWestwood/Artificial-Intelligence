@@ -20,7 +20,8 @@ public:
 	void UpdateAi(SDL_Point goal);
 	void Draw();
 	void GoalTile();
-	void Move(float delta_time);
+	void Move(const float delta_time);
+	void FollowSmoothedPath(const float delta_time);
 
 public:
 	int m_Ammo;
@@ -32,7 +33,7 @@ public:
 	AI::FSM::StatePtr m_IdleState;
 
 	std::vector<Vector2> m_Path;
-	AI::PATH::PathPtr m_SmoothedPath;
 	float m_MoveSpeed;
 	SDL_FPoint m_GoalTile;
+	AI::PATH::PathPtr m_SmoothedPath;
 };

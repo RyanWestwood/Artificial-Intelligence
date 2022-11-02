@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <math/Vector2.h>
 #include "engine/Texture.h"
 
 class Entity {
@@ -24,7 +25,8 @@ public:
 	Texture::TextureData m_DebugCollider;
 	bool m_DebugActivate = false;
 #endif // LOGGING
-	SDL_FPoint m_Position;
+	Vector2 m_Position;
+	float m_Rotation;
 	SDL_Point m_Velocity;
 	char m_Direction;
 	char m_AnimStep;

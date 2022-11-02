@@ -67,7 +67,10 @@ void Enemy::Input()
 void Enemy::Update(const float delta_time)
 {
 	auto screen_dimensions = Globals::GetScreenDimensions();
-	Move(delta_time);
+	//Move(delta_time);
+	if (!m_SmoothedPath->m_LookPoints.empty()) {
+		FollowSmoothedPath(delta_time);
+	}
 
 	m_Position.x = std::clamp(m_Position.x, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
@@ -106,7 +109,7 @@ void Enemy::GoalTile()
 	m_GoalTile = SDL_FPoint{ (float)m_Path[1].x, (float)m_Path[1].y };
 }
 
-void Enemy::Move(float delta_time)
+void Enemy::Move(const float delta_time)
 {
 	if (m_GoalTile.x == 0.f && m_GoalTile.y == 0.f) return;
 
@@ -114,4 +117,32 @@ void Enemy::Move(float delta_time)
 	SDL_FPoint Difference = { m_GoalTile.x - GreenBox.x, m_GoalTile.y - GreenBox.y };
 	m_Position.x += Difference.x;
 	m_Position.y += Difference.y;
+}
+
+void Enemy::FollowSmoothedPath(const float delta_time)
+{
+	bool following_path = true;
+	int path_index = 0;
+	//	TODO: Transform look at!
+
+	while(following_path){
+		Vector2 position_2d = { m_Position.x, m_Position.y };
+		if(m_SmoothedPath->m_TurnBoundaries[path_index].HasCrossedLine(position_2d)){
+			if(path_index == m_SmoothedPath->m_FinishLineIndex){ // TODO: This is returning -1?
+				following_path = false;
+			} else {
+				path_index++;
+			}
+		}
+
+		if(following_path){
+			Vector2 dir = { m_SmoothedPath->m_LookPoints[path_index] - m_Position };
+			const float angle_radians = std::atan2f(dir.y, dir.x);
+			const float angle_degrees = angle_radians * (180.0 / 3.141592653589793238463);
+			const float rotation_speed = .1f;
+			const float move_speed = 5.f;
+			m_Rotation = std::lerp(m_Rotation, angle_degrees, delta_time * rotation_speed);
+			//Move(Vector2.forwards * move_speed * delta_time);
+		}
+	}
 }

@@ -6,9 +6,8 @@ struct Vector2 {
 	float x, y;
 
 	Vector2 Normalize() {
-		float ls = x * x + y * y;
-		float invNorm = 1.0f / (float)sqrt((double)ls);
-		return Vector2(x* invNorm, y * invNorm);
+		float magnitude = std::sqrtf(x * x + y * y);
+		return Vector2(x/=magnitude, y /= magnitude);
 	}
 
 	friend constexpr Vector2 operator+(const Vector2& lhs, const Vector2& rhs) { return Vector2(lhs.x + rhs.x, lhs.y + rhs.y); }
