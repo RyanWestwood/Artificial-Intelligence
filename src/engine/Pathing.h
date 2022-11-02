@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h> 
-#include <pathfinding/Pathfinding.h>
+#include <pathfinding/Algorithms.h>
 #include "Globals.h"
 #include "Texture.h"
 #include "../Entity.h"
@@ -31,7 +31,7 @@ namespace PATHING {
 	bool Initialize();
 	void UnInitialize();
 
-	std::vector<AI::PATH::Vector> CreatePath(SDL_Point start_node, SDL_Point end_node, Algo algorithm = Algo::A_Star);
+	std::vector<Vector2> CreatePath(Vector2 start_node, Vector2 end_node, Algo algorithm = Algo::A_Star);
 	void Reset();
 	void SetObstacle(int x, int y, bool value);
 	void UpdateAi();

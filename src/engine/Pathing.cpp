@@ -11,9 +11,9 @@ namespace PATHING {
 	namespace {
 		extern std::vector<AI::PATH::NodePtr> g_NodePtrs{};
 		extern std::vector<Node> g_Nodes{};
-		extern std::vector<AI::PATH::Vector> g_SolutionNodes{};
-		extern std::vector<SDL_Point> g_StartNodes{};
-		extern std::vector<SDL_Point> g_EndNodes{};
+		extern std::vector<Vector2> g_SolutionNodes{};
+		extern std::vector<Vector2> g_StartNodes{};
+		extern std::vector<Vector2> g_EndNodes{};
 
 		Texture::TextureData g_DefaultTexture;
 #ifdef LOGGING
@@ -107,13 +107,13 @@ namespace PATHING {
 		g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);
 	}
 
-	std::vector<AI::PATH::Vector> CreatePath(SDL_Point start, SDL_Point end, Algo algorithm)
+	std::vector<Vector2> CreatePath(Vector2 start, Vector2 end, Algo algorithm)
 	{
 		auto tilemap_dimensions = Globals::GetTileMapDimensions();
 
 		AI::PATH::NodePtr start_node = g_NodePtrs.at(start.x + (start.y * tilemap_dimensions.w));
 		AI::PATH::NodePtr end_node = g_NodePtrs.at(end.x + (end.y * tilemap_dimensions.w));
-		std::vector<AI::PATH::Vector> solution_path;
+		std::vector<Vector2> solution_path;
 		switch (algorithm)
 		{
 		case PATHING::Algo::A_Star:

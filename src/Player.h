@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/Globals.h"
-#include "Cooldown.h"
+#include "ui/Cooldown.h"
 #include "Entity.h"
 #include "Staff.h"
 #include "Sword.h"
