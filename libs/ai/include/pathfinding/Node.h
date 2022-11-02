@@ -14,24 +14,7 @@ namespace AI {
 			float m_FromCost, m_ToCost, m_TotalCost;
 		};
 
-		class INode {
-		public:
-			virtual bool IsObstacle() = 0;
-			virtual bool IsVisited() = 0;
-			virtual Vector2 GetPosition() = 0;
-			virtual Costs GetCosts() = 0;
-			virtual NodePtr GetParent() = 0;
-			virtual std::vector<NodePtr> GetNeighbours() = 0;
-
-			virtual void SetObstacle(bool obstacle) = 0;
-			virtual void SetVisited(bool visited) = 0;
-			virtual void SetPosition(Vector2 position) = 0;
-			virtual void SetCosts(Costs costs) = 0;
-			virtual void SetParent(NodePtr parent) = 0;
-			virtual void AddNeighbours(NodePtr neighbours) = 0;
-		};
-
-		class Node : public INode{
+		class Node {
 		public:
 			Node();
 			bool IsObstacle() { return m_Obstacle; }
@@ -48,7 +31,7 @@ namespace AI {
 			void SetParent(NodePtr parent) { m_Parent = parent; }
 			void AddNeighbours(NodePtr neighbours) { m_Neighbours.push_back(neighbours); }
 		public:
-			Costs m_Costs;
+			Costs m_Costs; // TODO @RyanWestwood: Change this to private and adjust the algorithms!
 		private:
 			Vector2 m_Position;
 			bool m_Visited;

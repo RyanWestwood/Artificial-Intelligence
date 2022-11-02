@@ -17,6 +17,7 @@ Enemy::Enemy() : Entity()
 	m_Velocity = { 0,0 };
 	m_MoveSpeed = 32.f;
 	m_GoalTile = { 0,0 };
+	m_SmoothedPath = AI::PATH::CreatePath();
 
 	m_IdleState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 1.f) {
@@ -88,6 +89,7 @@ void Enemy::UpdateAi(SDL_Point goal)
 {
 	std::cout << "Update AI\n";
 	m_Path = PATHING::CreatePath({ (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 }, goal, PATHING::Algo::A_Star);
+	m_SmoothedPath->UpdatePath(m_Path, { m_Position.x / 32 + 1, m_Position.y / 32 + 1 }, 5.f); // TODO: fix this.
 	GoalTile();
 }
 
