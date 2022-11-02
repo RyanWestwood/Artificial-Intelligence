@@ -16,6 +16,7 @@ Enemy::Enemy() : Entity()
 	m_ColliderOffset = { 6,4 };
 	m_Velocity = { 0,0 };
 	m_MoveSpeed = 32.f;
+	m_RotationSpeed = .5f;
 	m_GoalTile = { 0,0 };
 	m_SmoothedPath = AI::PATH::CreatePath();
 
@@ -68,9 +69,7 @@ void Enemy::Update(const float delta_time)
 {
 	auto screen_dimensions = Globals::GetScreenDimensions();
 	//Move(delta_time);
-	if (!m_SmoothedPath->m_LookPoints.empty()) {
-		FollowSmoothedPath(delta_time);
-	}
+	FollowSmoothedPath(delta_time);
 
 	m_Position.x = std::clamp(m_Position.x, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
 	m_Position.y = std::clamp(m_Position.y, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
@@ -121,28 +120,26 @@ void Enemy::Move(const float delta_time)
 
 void Enemy::FollowSmoothedPath(const float delta_time)
 {
+	if (m_SmoothedPath->m_LookPoints.empty()) return;
+
 	bool following_path = true;
 	int path_index = 0;
-	//	TODO: Transform look at!
 
-	while(following_path){
-		Vector2 position_2d = { m_Position.x, m_Position.y };
-		if(m_SmoothedPath->m_TurnBoundaries[path_index].HasCrossedLine(position_2d)){
-			if(path_index == m_SmoothedPath->m_FinishLineIndex){ // TODO: This is returning -1?
-				following_path = false;
-			} else {
-				path_index++;
-			}
+	Vector2 position_2d = { m_Position.x, m_Position.y };
+	if (m_SmoothedPath->m_TurnBoundaries[path_index].HasCrossedLine(position_2d)) {
+		if (path_index == m_SmoothedPath->m_FinishLineIndex) {
+			following_path = false;
 		}
+		else {
+			path_index++;
+		}
+	}
 
-		if(following_path){
-			Vector2 dir = { m_SmoothedPath->m_LookPoints[path_index] - m_Position };
-			const float angle_radians = std::atan2f(dir.y, dir.x);
-			const float angle_degrees = angle_radians * (180.0 / 3.141592653589793238463);
-			const float rotation_speed = .1f;
-			const float move_speed = 5.f;
-			m_Rotation = std::lerp(m_Rotation, angle_degrees, delta_time * rotation_speed);
-			//Move(Vector2.forwards * move_speed * delta_time);
-		}
+	if (following_path) {
+		Vector2 dir = { m_SmoothedPath->m_LookPoints[path_index] - m_Position };
+		const float angle_degrees = std::atan2f(dir.y, dir.x) * (180.0 / 3.141592653589793238463);
+		m_Rotation = std::lerp(m_Rotation, angle_degrees, m_RotationSpeed * delta_time);
+		m_Position.x += std::cos(angle_degrees) * m_MoveSpeed * delta_time;
+		m_Position.y += std::sin(angle_degrees) * m_MoveSpeed * delta_time;
 	}
 }

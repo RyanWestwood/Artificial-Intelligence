@@ -6,8 +6,9 @@ namespace AI {
 		void Path::UpdatePath(std::vector<Vector2> waypoints, Vector2 start_pos, float turn_distance)
 		{
 			m_LookPoints = waypoints;
+			m_TurnBoundaries.clear();
 			m_TurnBoundaries.reserve(m_LookPoints.size());
-			m_FinishLineIndex = m_TurnBoundaries.size() - 1;
+			m_FinishLineIndex = m_LookPoints.size() - 1;
 
 			Vector2 previous_point = start_pos;
 			for (int i = 0; i < m_LookPoints.size(); i++)

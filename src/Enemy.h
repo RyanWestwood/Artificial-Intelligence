@@ -34,6 +34,7 @@ public:
 
 	std::vector<Vector2> m_Path;
 	float m_MoveSpeed;
+	float m_RotationSpeed;
 	SDL_FPoint m_GoalTile;
 	AI::PATH::PathPtr m_SmoothedPath;
 };
