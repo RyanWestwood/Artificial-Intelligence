@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "engine/Font.h"
-#include "engine/Texture.h"
+#include "../engine/Font.h"
+#include "../engine/Texture.h"
 
 class Cooldown {
 public:

@@ -60,3 +60,6 @@ endfunction()
 
 SetFolder(ENGINE_FILES_H, engine_h src/engine/*.h)
 SetFolder(ENGINE_FILES, engine src/engine/*.cpp)
+
+SetFolder(UI_H, ui_h src/ui/*.h)
+SetFolder(UI, ui src/ui/*.cpp)
