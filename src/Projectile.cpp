@@ -16,12 +16,10 @@ Projectile::Projectile(Texture::TextureData spritesheet, ProjectileManager* mana
 
 void Projectile::Activate(SDL_FPoint position, std::shared_ptr<Globals::Direction> facing) {
 	m_Active = true;
-	m_Position = { position.x, position.y };
-	m_Destination = { 0,0,32,32 };
-	m_Destination.x = m_Position.x;
-	m_Destination.y = m_Position.y;
+	m_Transform.m_Position = { position.x, position.y };
+	m_Transform.m_Velocity = { 512, 0 };
+	m_Destination = { m_Transform.m_Position.x, m_Transform.m_Position.y,32,32 };
 
-	m_Velocity = { 512, 0 };
 	if (*facing == Globals::Direction::North) SetDirection(0,-512, 270);
 	if (*facing == Globals::Direction::NorthEast) SetDirection(512,-512, 315);
 	if (*facing == Globals::Direction::East) SetDirection(512, 0, 0);
@@ -39,7 +37,7 @@ void Projectile::Deactivate()
 }
 
 void Projectile::SetDirection(int x, int y, int angle){
-	m_Velocity = { x,y };
+	m_Transform.m_Velocity = { x,y };
 	m_Angle = angle;
 }
 
@@ -47,13 +45,13 @@ void Projectile::Update(const float& delta_time)
 {
 	auto screen_size = Globals::GetScreenDimensions();
 	if (!m_Active) return;
-	if (m_Position.x < -14 || m_Position.x >= screen_size.w + 14) Deactivate();
-	if (m_Position.y < -14 || m_Position.y >= screen_size.h + 14) Deactivate();
+	if (m_Transform.m_Position.x < -14 || m_Transform.m_Position.x >= screen_size.w + 14) Deactivate();
+	if (m_Transform.m_Position.y < -14 || m_Transform.m_Position.y >= screen_size.h + 14) Deactivate();
 
-	m_Position.x += m_Velocity.x * delta_time;
-	m_Position.y += m_Velocity.y * delta_time;
-	m_Destination.x = m_Position.x;
-	m_Destination.y = m_Position.y;
+	m_Transform.m_Position.x += m_Transform.m_Velocity.x * delta_time;
+	m_Transform.m_Position.y += m_Transform.m_Velocity.y * delta_time;
+	m_Destination.x = m_Transform.m_Position.x;
+	m_Destination.y = m_Transform.m_Position.y;
 }
 
 void Projectile::UpdateAnimation()
