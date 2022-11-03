@@ -17,6 +17,7 @@ Enemy::Enemy() : Entity()
 	m_Velocity = { 0,0 };
 	m_MoveSpeed = 32.f;
 	m_RotationSpeed = .5f;
+	m_StoppingDistance = 10.f;
 	m_GoalTile = { 0,0 };
 	m_SmoothedPath = AI::PATH::CreatePath();
 
@@ -87,11 +88,15 @@ void Enemy::UpdateAnimation()
 	Entity::UpdateAnimation();
 }
 
-void Enemy::UpdateAi(SDL_Point goal)
+void Enemy::UpdateAi(Vector2 goal)
 {
+	// TODO @RyanWestwood : Neaten entire project to use Vector2 over SDL_Point where needed.
+	//						clean this code!
 	std::cout << "Update AI\n";
-	m_Path = PATHING::CreatePath({ (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 }, goal, PATHING::Algo::A_Star);
-	m_SmoothedPath->UpdatePath(m_Path, { m_Position.x / 32 + 1, m_Position.y / 32 + 1 }, 5.f); // TODO: fix this.
+	Vector2 start_pos = { (int)m_Position.x / 32 + 1, (int)m_Position.y / 32 + 1 };
+	Vector2 new_goal = { (int)goal.x, (int)goal.y };
+	m_Path = PATHING::CreatePath(start_pos, new_goal, PATHING::Algo::A_Star);
+	m_SmoothedPath->UpdatePath(m_Path, start_pos, 5.f, m_StoppingDistance); // TODO: fix this.
 	GoalTile();
 }
 
@@ -121,14 +126,17 @@ void Enemy::Move(const float delta_time)
 void Enemy::FollowSmoothedPath(const float delta_time)
 {
 	if (m_SmoothedPath->m_LookPoints.empty()) return;
-
-	bool following_path = true;
+	int finish_line_index = m_SmoothedPath->m_FinishLineIndex;
 	int path_index = 0;
 
-	Vector2 position_2d = { m_Position.x, m_Position.y };
-	if (m_SmoothedPath->m_TurnBoundaries[path_index].HasCrossedLine(position_2d)) {
-		if (path_index == m_SmoothedPath->m_FinishLineIndex) {
+	bool following_path = true;
+	float speed_percentage = 1.f;
+
+	Vector2 position_2d = { (int)m_Position.x /32, (int)m_Position.y/32 };
+	while (m_SmoothedPath->m_TurnBoundaries[path_index].HasCrossedLine(position_2d)) {
+		if (path_index == finish_line_index) {
 			following_path = false;
+			break;
 		}
 		else {
 			path_index++;
@@ -136,10 +144,21 @@ void Enemy::FollowSmoothedPath(const float delta_time)
 	}
 
 	if (following_path) {
+		if(path_index >= m_SmoothedPath->m_SlowDownIndex && m_StoppingDistance > 0){
+			AI::PATH::Line& line = m_SmoothedPath->m_TurnBoundaries.at(finish_line_index);
+			float distance_from_point = line.DistanceFromPoint(position_2d) / m_StoppingDistance;
+			if(!std::isnan(distance_from_point)){
+				speed_percentage = std::clamp(distance_from_point, 0.f, 1.f);
+			}
+			if (speed_percentage < 0.01f) {
+				following_path = false;
+			}
+		}
+
 		Vector2 dir = { m_SmoothedPath->m_LookPoints[path_index] - m_Position };
 		const float angle_degrees = std::atan2f(dir.y, dir.x) * (180.0 / 3.141592653589793238463);
 		m_Rotation = std::lerp(m_Rotation, angle_degrees, m_RotationSpeed * delta_time);
-		m_Position.x += std::cos(angle_degrees) * m_MoveSpeed * delta_time;
-		m_Position.y += std::sin(angle_degrees) * m_MoveSpeed * delta_time;
+		m_Position.x += std::cos(angle_degrees) * m_MoveSpeed * speed_percentage * delta_time;
+		m_Position.y += std::sin(angle_degrees) * m_MoveSpeed * speed_percentage * delta_time;
 	}
 }

@@ -10,6 +10,12 @@ struct Vector2 {
 		return Vector2(x/=magnitude, y /= magnitude);
 	}
 
+	static float Distance(const Vector2& lhs, const Vector2& rhs){
+		float x = lhs.x - rhs.x;
+		float y = lhs.y - rhs.y;
+		return std::sqrtf(x * x + y * y);
+	}
+
 	friend constexpr Vector2 operator+(const Vector2& lhs, const Vector2& rhs) { return Vector2(lhs.x + rhs.x, lhs.y + rhs.y); }
 	friend constexpr Vector2 operator-(const Vector2& lhs, const Vector2& rhs) { return Vector2(lhs.x - rhs.x, lhs.y - rhs.y); }
 	friend constexpr Vector2 operator*(const Vector2& lhs, const Vector2& rhs) { return Vector2(lhs.x * rhs.x, lhs.y * rhs.y); }

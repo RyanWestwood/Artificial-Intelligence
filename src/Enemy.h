@@ -17,7 +17,7 @@ public:
 
 	void Update(const float delta_time);
 	void UpdateAnimation();
-	void UpdateAi(SDL_Point goal);
+	void UpdateAi(Vector2 goal);
 	void Draw();
 	void GoalTile();
 	void Move(const float delta_time);
@@ -35,6 +35,7 @@ public:
 	std::vector<Vector2> m_Path;
 	float m_MoveSpeed;
 	float m_RotationSpeed;
+	float m_StoppingDistance;
 	SDL_FPoint m_GoalTile;
 	AI::PATH::PathPtr m_SmoothedPath;
 };

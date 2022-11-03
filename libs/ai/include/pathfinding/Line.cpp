@@ -27,5 +27,13 @@ namespace AI {
 			return GetSide(point) != m_ApproachSide;
 		}
 
+		float Line::DistanceFromPoint(Vector2 point)
+		{
+			float y_intercept_perpendicular = point.y - m_PerpendiculatGradient * point.x;
+			float x_intersect = (y_intercept_perpendicular - m_InterceptY) / (m_Gradient - m_PerpendiculatGradient);
+			float y_intersect = m_Gradient * x_intersect * m_InterceptY;
+			return Vector2::Distance(point, { x_intersect, y_intersect });
+		}
+
 	} // namespace PATH
 } // namespace AI

@@ -14,7 +14,7 @@ public:
 	virtual void Draw();
 
 	SDL_Rect& GetCollider();
-	SDL_Point GetNodePosition();
+	Vector2 GetNodePosition();
 
 	// TODO @RyanWestwood: encapsulate fields in structs to make initialization easier! Same with Enemy.h
 public:
