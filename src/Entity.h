@@ -10,13 +10,16 @@ struct Collider {
 
 struct Transform {
 	Vector2 m_Position;
+	Vector2 m_Velocity;
 	float m_Rotation;
-	SDL_Point m_Velocity;
 	char m_Direction;
 };
 
 struct Image {
-
+	Sprite m_Sprite;
+	char m_AnimStep;
+	char m_NoOfAnims;
+	SDL_RendererFlip m_FlipSprite;
 };
 
 class Entity {
@@ -35,12 +38,9 @@ public:
 public:
 	Collider m_Collider;
 	Transform m_Transform;
+	Image m_Image;
 #if LOGGING
 	Texture::TextureData m_DebugCollider;
 	bool m_DebugActivate = false;
 #endif // LOGGING
-	Sprite m_Sprite;
-	char m_AnimStep;
-	char m_NoOfAnims;
-	SDL_RendererFlip m_FlipSprite;
 };

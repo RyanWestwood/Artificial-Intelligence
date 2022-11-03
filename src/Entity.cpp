@@ -3,14 +3,16 @@
 #include "engine/Input.h"
 
 Entity::Entity() {
-	m_Collider = { { 0,0,0,0 }, {0,0} };
+	m_Collider.m_Dimensions = { 0,0,0,0 };
+	m_Collider.m_PixelOffset = {0, 0};
 	m_Transform.m_Position = { 0,0 };
 	m_Transform.m_Rotation = 0.f;
 	m_Transform.m_Velocity = { 0, 0 };
 	m_Transform.m_Direction = 0;
-	m_Sprite = Sprite();
-	m_FlipSprite = SDL_FLIP_NONE;
-	m_AnimStep = 0;
+	m_Image.m_Sprite = Sprite();
+	m_Image.m_NoOfAnims = 1;
+	m_Image.m_AnimStep = 0;
+	m_Image.m_FlipSprite = SDL_FLIP_NONE;
 }
 
 void Entity::Initialize()
@@ -31,8 +33,8 @@ void Entity::Input()
 
 void Entity::UpdateAnimation()
 {
-	m_AnimStep >= m_NoOfAnims ? m_AnimStep = 0 : m_AnimStep++;
-	m_Sprite.m_Source.x = m_Sprite.m_Source.w * m_AnimStep;
+	m_Image.m_AnimStep >= m_Image.m_NoOfAnims ? m_Image.m_AnimStep = 0 : m_Image.m_AnimStep++;
+	m_Image.m_Sprite.m_Source.x = m_Image.m_Sprite.m_Source.w * m_Image.m_AnimStep;
 }
 
 void Entity::Draw()

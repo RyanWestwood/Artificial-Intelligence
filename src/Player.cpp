@@ -12,12 +12,12 @@ Player::Player() : Entity()
 void Player::Initialize()
 {
 	Entity::Initialize();
-	m_Sprite.Initialize("player.png");
-	m_Sprite.m_Source = { 0,0,16,32 };
-	m_Sprite.m_Destination = { 128,128,32,64 };
+	m_Image.m_Sprite.Initialize("player.png");
+	m_Image.m_Sprite.m_Source = { 0,0,16,32 };
+	m_Image.m_Sprite.m_Destination = { 128,128,32,64 };
+	m_Image.m_NoOfAnims = 7;
 	m_Collider = { 0,0,28,42 };
 	m_Collider.m_PixelOffset = { 2,16 };
-	m_NoOfAnims = 7;
 	m_Transform.m_Position = { 512,128 };
 
 	m_OffGlobal = std::make_shared<float>(2.5f);
@@ -46,11 +46,11 @@ void Player::Input()
 	Entity::Input();
 	if (Input::GetKeyDown(SDL_SCANCODE_LEFT)) {
 		m_Transform.m_Velocity.x = -g_MoveSpeed;
-		m_FlipSprite = SDL_FLIP_HORIZONTAL;
+		m_Image.m_FlipSprite = SDL_FLIP_HORIZONTAL;
 	}
 	if (Input::GetKeyDown(SDL_SCANCODE_RIGHT)) {
 		m_Transform.m_Velocity.x = g_MoveSpeed;
-		m_FlipSprite = SDL_FLIP_NONE;
+		m_Image.m_FlipSprite = SDL_FLIP_NONE;
 	}
 	if (Input::GetKeyDown(SDL_SCANCODE_UP)) {
 		m_Transform.m_Velocity.y = -g_MoveSpeed;
@@ -129,10 +129,10 @@ void Player::Update(const float delta_time)
 	m_Transform.m_Position.y = std::clamp(m_Transform.m_Position.y + static_cast<float>(m_Transform.m_Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
 	m_Collider.m_Dimensions.x = m_Transform.m_Position.x + m_Collider.m_PixelOffset.x;
 	m_Collider.m_Dimensions.y = m_Transform.m_Position.y + m_Collider.m_PixelOffset.y;
-	m_Sprite.m_Destination.x = m_Transform.m_Position.x;
-	m_Sprite.m_Destination.y = m_Transform.m_Position.y;
+	m_Image.m_Sprite.m_Destination.x = m_Transform.m_Position.x;
+	m_Image.m_Sprite.m_Destination.y = m_Transform.m_Position.y;
 
-	SDL_FPoint sword_position = { m_Transform.m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Transform.m_Position.y + 2 }; // Sets the sword left or right of the player
+	SDL_FPoint sword_position = { m_Transform.m_Position.x + ((!m_Image.m_FlipSprite << 5) - 14) , m_Transform.m_Position.y + 2 }; // Sets the sword left or right of the player
 	m_Sword.Update(delta_time, sword_position);
 
 	*m_OffGlobal += delta_time;
@@ -164,8 +164,8 @@ void Player::UpdateAnimation()
 void Player::Draw()
 {
 	Entity::Draw();
-	m_Sprite.Draw(m_FlipSprite);
-	m_Sword.Draw(m_FlipSprite);
+	m_Image.m_Sprite.Draw(m_Image.m_FlipSprite);
+	m_Sword.Draw(m_Image.m_FlipSprite);
 	m_MeleeCooldown.Draw();
 	m_RangedCooldown.Draw();
 	m_HealthRegenCooldown.Draw();

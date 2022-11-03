@@ -11,7 +11,7 @@ Projectile::Projectile(Texture::TextureData spritesheet, ProjectileManager* mana
 	m_Spritesheet.m_Source.w = 32;
 	m_Spritesheet.m_Source.h = 32;
 	m_Destination = { 0,0,32,32 };
-	m_NoOfAnims = 7;
+	m_Image.m_NoOfAnims = 7;
 }
 
 void Projectile::Activate(SDL_FPoint position, std::shared_ptr<Globals::Direction> facing) {
@@ -37,7 +37,7 @@ void Projectile::Deactivate()
 }
 
 void Projectile::SetDirection(int x, int y, int angle){
-	m_Transform.m_Velocity = { x,y };
+	m_Transform.m_Velocity = { (float)x, (float)y };
 	m_Angle = angle;
 }
 

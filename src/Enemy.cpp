@@ -10,7 +10,7 @@ Enemy::Enemy() : Entity()
 	m_Timer = 1.f;
 	m_Cooldown = 1.f;
 	m_FiniteStateMachine = AI::FSM::GetStateManager();
-	m_NoOfAnims = 7;
+	m_Image.m_NoOfAnims = 7;
 	m_Collider.m_Dimensions = { 6,4,50,56 };
 	m_Collider.m_PixelOffset = { 6,4 };
 	m_Transform.m_Position = { 736,256 };
@@ -55,9 +55,9 @@ Enemy::Enemy() : Entity()
 void Enemy::Initialize()
 {
 	Entity::Initialize();
-	m_Sprite.Initialize("ad.png");
-	m_Sprite.m_Source = { 0,0,32,32 };
-	m_Sprite.m_Destination = { 128,128,64,64 };
+	m_Image.m_Sprite.Initialize("ad.png");
+	m_Image.m_Sprite.m_Source = { 0,0,32,32 };
+	m_Image.m_Sprite.m_Destination = { 128,128,64,64 };
 }
 #ifdef LOGGING
 void Enemy::Input()
@@ -76,8 +76,8 @@ void Enemy::Update(const float delta_time)
 	m_Transform.m_Position.y = std::clamp(m_Transform.m_Position.y, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
 	m_Collider.m_Dimensions.x = m_Transform.m_Position.x + m_Collider.m_PixelOffset.x;
 	m_Collider.m_Dimensions.y = m_Transform.m_Position.y + m_Collider.m_PixelOffset.y;
-	m_Sprite.m_Destination.x = m_Transform.m_Position.x;
-	m_Sprite.m_Destination.y = m_Transform.m_Position.y;
+	m_Image.m_Sprite.m_Destination.x = m_Transform.m_Position.x;
+	m_Image.m_Sprite.m_Destination.y = m_Transform.m_Position.y;
 
 	m_Timer += delta_time;
 	m_FiniteStateMachine->Update();
@@ -103,7 +103,7 @@ void Enemy::UpdateAi(Vector2 goal)
 void Enemy::Draw()
 {
 	Entity::Draw();
-	m_Sprite.Draw();
+	m_Image.m_Sprite.Draw();
 }
 
 void Enemy::GoalTile()
