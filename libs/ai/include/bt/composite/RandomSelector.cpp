@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <random>
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status RandomSelector::Update() {
 			auto rng = std::default_random_engine{};

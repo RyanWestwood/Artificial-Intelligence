@@ -1,7 +1,7 @@
 #include "Sequence.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status Sequence::Update() {
 			for (auto child : m_Children) {

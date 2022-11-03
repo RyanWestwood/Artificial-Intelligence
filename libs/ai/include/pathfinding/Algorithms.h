@@ -3,8 +3,8 @@
 #include "../math/Vector2.h"
 #include "Node.h"
 
-namespace AI {
-	namespace PATH {
+namespace ai {
+	namespace path {
 
 		extern "C++" AI_API std::vector<Vector2> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector2> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);

@@ -3,6 +3,25 @@
 #include <math/Vector2.h>
 #include "engine/Texture.h"
 
+struct Collider {
+	SDL_Rect Dimensions;
+	Vector2 PixelOffset;
+};
+
+struct Transform {
+	Vector2 Position;
+	Vector2 Velocity;
+	float Rotation;
+	char Direction;
+};
+
+struct Image {
+	Sprite Texture;
+	char AnimStep;
+	char NoOfAnims;
+	SDL_RendererFlip FlipSprite;
+};
+
 class Entity {
 public:
 	Entity();
@@ -16,20 +35,12 @@ public:
 	SDL_Rect& GetCollider();
 	Vector2 GetNodePosition();
 
-	// TODO @RyanWestwood: encapsulate fields in structs to make initialization easier! Same with Enemy.h
 public:
-	Sprite m_Sprite;
-	SDL_Rect m_Collider;
-	SDL_Point m_ColliderOffset;
+	Collider m_Collider;
+	Transform m_Transform;
+	Image m_Image;
 #if LOGGING
-	Texture::TextureData m_DebugCollider;
+	texture::TextureData m_DebugCollider;
 	bool m_DebugActivate = false;
 #endif // LOGGING
-	Vector2 m_Position;
-	float m_Rotation;
-	SDL_Point m_Velocity;
-	char m_Direction;
-	char m_AnimStep;
-	char m_NoOfAnims;
-	SDL_RendererFlip m_FlipSprite;
 };

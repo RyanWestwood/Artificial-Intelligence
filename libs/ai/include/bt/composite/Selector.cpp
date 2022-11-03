@@ -1,7 +1,7 @@
 #include "Selector.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status Selector::Update() {
 			for (auto child : m_Children) {

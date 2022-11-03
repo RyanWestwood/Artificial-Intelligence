@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Globals.h"
 
-namespace Texture {
+namespace texture {
 
 	namespace {
 		std::string g_TextureDirectory = "Not yet initialized!\n";
@@ -11,7 +11,7 @@ namespace Texture {
 
 	bool Initialize()
 	{
-		g_TextureDirectory = Globals::GetAssetDirectory();
+		g_TextureDirectory = globals::GetAssetDirectory();
 		g_TextureDirectory += "textures/";
 		return true;
 	}
@@ -24,7 +24,7 @@ namespace Texture {
 		try {
 			SDL_Surface* surface = IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
 			if (surface == nullptr) throw TextureError();
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(Renderer::GetRenderer(), surface);
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer::GetRenderer(), surface);
 			if (texture == nullptr) throw TextureError();
 			SDL_Rect source = { 0,0,surface->w,surface->h };
 			SDL_FreeSurface(surface);
@@ -58,7 +58,7 @@ namespace Texture {
 			SDL_Surface* surface = SDL_CreateRGBSurface(0, 32, 32, 32, rmask, gmask, bmask, amask);
 			SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, colour.r, colour.g, colour.b, colour.a));
 			if (surface == nullptr) throw TextureError();
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(Renderer::GetRenderer(), surface);
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer::GetRenderer(), surface);
 			if (texture == nullptr) throw TextureError();
 			SDL_Rect source = { 0,0,surface->w,surface->h };
 			SDL_FreeSurface(surface);
@@ -73,7 +73,7 @@ namespace Texture {
 
 	void Draw(SDL_Texture* texture, const SDL_Rect& source, const SDL_Rect& destination)
 	{
-		SDL_RenderCopy(Renderer::GetRenderer(), texture, &source, &destination);
+		SDL_RenderCopy(renderer::GetRenderer(), texture, &source, &destination);
 	}
 } // namespace Texture
 
@@ -91,7 +91,7 @@ Sprite::~Sprite()
 
 void Sprite::Initialize(const char* filename)
 {
-	auto texture = Texture::LoadTexture(filename);
+	auto texture = texture::LoadTexture(filename);
 	m_Texture = texture.m_Texture;
 	m_Source = texture.m_Source;
 	m_Destination = { 0,0,32,32 };
@@ -99,7 +99,7 @@ void Sprite::Initialize(const char* filename)
 
 void Sprite::Initialize(SDL_Colour colour, SDL_Point source_dimensions)
 {
-	auto texture = Texture::LoadSolidColourTexture(colour, source_dimensions);
+	auto texture = texture::LoadSolidColourTexture(colour, source_dimensions);
 	m_Texture = texture.m_Texture;
 	m_Source = texture.m_Source;
 	m_Destination = { 0,0,32,32 };
@@ -107,5 +107,5 @@ void Sprite::Initialize(SDL_Colour colour, SDL_Point source_dimensions)
 
 void Sprite::Draw(const SDL_RendererFlip& flip, const float& angle, const SDL_Point& point)
 {
-	SDL_RenderCopyEx(Renderer::GetRenderer(), m_Texture, &m_Source, &m_Destination, angle, &point, flip);
+	SDL_RenderCopyEx(renderer::GetRenderer(), m_Texture, &m_Source, &m_Destination, angle, &point, flip);
 }

@@ -12,16 +12,16 @@ Player::Player() : Entity()
 void Player::Initialize()
 {
 	Entity::Initialize();
-	m_Sprite.Initialize("player.png");
-	m_Sprite.m_Source = { 0,0,16,32 };
-	m_Sprite.m_Destination = { 128,128,32,64 };
+	m_Image.Texture.Initialize("player.png");
+	m_Image.Texture.m_Source = { 0,0,16,32 };
+	m_Image.Texture.m_Destination = { 128,128,32,64 };
+	m_Image.NoOfAnims = 7;
 	m_Collider = { 0,0,28,42 };
-	m_ColliderOffset = { 2,16 };
-	m_NoOfAnims = 7;
-	m_Position = { 512,128 };
+	m_Collider.PixelOffset = { 2,16 };
+	m_Transform.Position = { 512,128 };
 
 	m_OffGlobal = std::make_shared<float>(2.5f);
-	m_Facing = std::make_shared<Globals::Direction>(Globals::Direction::None);
+	m_Facing = std::make_shared<globals::Direction>(globals::Direction::None);
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal, m_Facing);
 
@@ -33,78 +33,78 @@ void Player::Initialize()
 
 void Player::KeyUp(SDL_Scancode code, const char* message)
 {
-	if (Input::GetKeyUp(code)) {
+	if (input::GetKeyUp(code)) {
 #ifdef LOGGING
 		std::cout << message;
 #endif // LOGGING
-		Input::SetKeyUp(code, false);
+		input::SetKeyUp(code, false);
 	}	
 }
 
 void Player::Input()
 {
 	Entity::Input();
-	if (Input::GetKeyDown(SDL_SCANCODE_LEFT)) {
-		m_Velocity.x = -g_MoveSpeed;
-		m_FlipSprite = SDL_FLIP_HORIZONTAL;
+	if (input::GetKeyDown(SDL_SCANCODE_LEFT)) {
+		m_Transform.Velocity.x = -g_MoveSpeed;
+		m_Image.FlipSprite = SDL_FLIP_HORIZONTAL;
 	}
-	if (Input::GetKeyDown(SDL_SCANCODE_RIGHT)) {
-		m_Velocity.x = g_MoveSpeed;
-		m_FlipSprite = SDL_FLIP_NONE;
+	if (input::GetKeyDown(SDL_SCANCODE_RIGHT)) {
+		m_Transform.Velocity.x = g_MoveSpeed;
+		m_Image.FlipSprite = SDL_FLIP_NONE;
 	}
-	if (Input::GetKeyDown(SDL_SCANCODE_UP)) {
-		m_Velocity.y = -g_MoveSpeed;
+	if (input::GetKeyDown(SDL_SCANCODE_UP)) {
+		m_Transform.Velocity.y = -g_MoveSpeed;
 	}	
-	if (Input::GetKeyDown(SDL_SCANCODE_DOWN)) {
-		m_Velocity.y = g_MoveSpeed;
+	if (input::GetKeyDown(SDL_SCANCODE_DOWN)) {
+		m_Transform.Velocity.y = g_MoveSpeed;
 	}
 
-	if (Input::GetKeyDown(SDL_SCANCODE_A)) {
+	if (input::GetKeyDown(SDL_SCANCODE_A)) {
 		m_Sword.Swing();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
-	if (Input::GetKeyDown(SDL_SCANCODE_S)) {
+	if (input::GetKeyDown(SDL_SCANCODE_S)) {
 		m_Sword.Fire();
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
-	if (Input::GetKeyDown(SDL_SCANCODE_D)) {
+	if (input::GetKeyDown(SDL_SCANCODE_D)) {
 		Mitigation();
 		m_MitigationCooldown.Start();
 	}
-	if (Input::GetKeyDown(SDL_SCANCODE_W)) {
+	if (input::GetKeyDown(SDL_SCANCODE_W)) {
 		HealthSpell();
 		m_HealthRegenCooldown.Start();
 	}
 
-	if (Input::GetKeyUp(SDL_SCANCODE_LEFT)) {
+	if (input::GetKeyUp(SDL_SCANCODE_LEFT)) {
 #ifdef LOGGING
 		std::cout << "Key Up: Left!\n";
 #endif // LOGGING
-		m_Velocity.x = 0;
-		Input::SetKeyUp(SDL_SCANCODE_LEFT, false);
+		m_Transform.Velocity.x = 0;
+		input::SetKeyUp(SDL_SCANCODE_LEFT, false);
 	}
-	if (Input::GetKeyUp(SDL_SCANCODE_RIGHT)) {
+	if (input::GetKeyUp(SDL_SCANCODE_RIGHT)) {
 #ifdef LOGGING
 		std::cout << "Key Up: Right!\n";
 #endif // LOGGING
-		m_Velocity.x = 0;
-		Input::SetKeyUp(SDL_SCANCODE_RIGHT, false);
+		m_Transform.Velocity.x = 0;
+		input::SetKeyUp(SDL_SCANCODE_RIGHT, false);
 	}
-	if (Input::GetKeyUp(SDL_SCANCODE_UP)) {
+	if (input::GetKeyUp(SDL_SCANCODE_UP)) {
 #ifdef LOGGING
 		std::cout << "Key Up: Up!\n";
 #endif // LOGGING
-		m_Velocity.y = 0;
-		Input::SetKeyUp(SDL_SCANCODE_UP, false);
+		m_Transform.Velocity.y = 0;
+		input::SetKeyUp(SDL_SCANCODE_UP, false);
 	}
-	if (Input::GetKeyUp(SDL_SCANCODE_DOWN)) {
+	if (input::GetKeyUp(SDL_SCANCODE_DOWN)) {
 #ifdef LOGGING
 		std::cout << "Key Up: Down!\n";
 #endif // LOGGING
-		m_Velocity.y = 0;
-		Input::SetKeyUp(SDL_SCANCODE_DOWN, false);
+		m_Transform.Velocity.y = 0;
+		input::SetKeyUp(SDL_SCANCODE_DOWN, false);
 	}
 	KeyUp(SDL_SCANCODE_A, "Sword swing!\n");
 	KeyUp(SDL_SCANCODE_S, "Ranged attack!\n");
@@ -114,25 +114,25 @@ void Player::Input()
 
 void Player::Update(const float delta_time)
 {
-	if (m_Velocity.y < 0) *m_Facing = Globals::Direction::North;
-	if (m_Velocity.x > 0) *m_Facing = Globals::Direction::East;
-	if (m_Velocity.y < 0 && m_Velocity.x > 0) *m_Facing = Globals::Direction::NorthEast;
-	if (m_Velocity.y > 0) *m_Facing = Globals::Direction::South;
-	if (m_Velocity.y > 0 && m_Velocity.x > 0) *m_Facing = Globals::Direction::SouthEast;
-	if (m_Velocity.x < 0) *m_Facing = Globals::Direction::West;
-	if (m_Velocity.y > 0 && m_Velocity.x < 0) *m_Facing = Globals::Direction::SouthWest;
-	if (m_Velocity.y < 0 && m_Velocity.x < 0) *m_Facing = Globals::Direction::NorthWest;
-	if (m_Velocity.x == 0 && m_Velocity.y == 0) *m_Facing = Globals::Direction::None;
+	if (m_Transform.Velocity.y < 0) *m_Facing = globals::Direction::North;
+	if (m_Transform.Velocity.x > 0) *m_Facing = globals::Direction::East;
+	if (m_Transform.Velocity.y < 0 && m_Transform.Velocity.x > 0) *m_Facing = globals::Direction::NorthEast;
+	if (m_Transform.Velocity.y > 0) *m_Facing = globals::Direction::South;
+	if (m_Transform.Velocity.y > 0 && m_Transform.Velocity.x > 0) *m_Facing = globals::Direction::SouthEast;
+	if (m_Transform.Velocity.x < 0) *m_Facing = globals::Direction::West;
+	if (m_Transform.Velocity.y > 0 && m_Transform.Velocity.x < 0) *m_Facing = globals::Direction::SouthWest;
+	if (m_Transform.Velocity.y < 0 && m_Transform.Velocity.x < 0) *m_Facing = globals::Direction::NorthWest;
+	if (m_Transform.Velocity.x == 0 && m_Transform.Velocity.y == 0) *m_Facing = globals::Direction::None;
 
-	auto screen_dimensions = Globals::GetScreenDimensions();
-	m_Position.x = std::clamp(m_Position.x + static_cast<float>(m_Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
-	m_Position.y = std::clamp(m_Position.y + static_cast<float>(m_Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
-	m_Collider.x = m_Position.x + m_ColliderOffset.x;
-	m_Collider.y = m_Position.y + m_ColliderOffset.y;
-	m_Sprite.m_Destination.x = m_Position.x;
-	m_Sprite.m_Destination.y = m_Position.y;
+	auto screen_dimensions = globals::GetScreenDimensions();
+	m_Transform.Position.x = std::clamp(m_Transform.Position.x + static_cast<float>(m_Transform.Velocity.x) * delta_time, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
+	m_Transform.Position.y = std::clamp(m_Transform.Position.y + static_cast<float>(m_Transform.Velocity.y) * delta_time, -16.f, screen_dimensions.h - 64.f); // Offsetting image size
+	m_Collider.Dimensions.x = m_Transform.Position.x + m_Collider.PixelOffset.x;
+	m_Collider.Dimensions.y = m_Transform.Position.y + m_Collider.PixelOffset.y;
+	m_Image.Texture.m_Destination.x = m_Transform.Position.x;
+	m_Image.Texture.m_Destination.y = m_Transform.Position.y;
 
-	SDL_FPoint sword_position = { m_Position.x + ((!m_FlipSprite << 5) - 14) , m_Position.y + 2 }; // Sets the sword left or right of the player
+	SDL_FPoint sword_position = { m_Transform.Position.x + ((!m_Image.FlipSprite << 5) - 14) , m_Transform.Position.y + 2 }; // Sets the sword left or right of the player
 	m_Sword.Update(delta_time, sword_position);
 
 	*m_OffGlobal += delta_time;
@@ -144,15 +144,15 @@ void Player::Update(const float delta_time)
 
 void Player::Resume()
 {
-	Input::SetKeyDown(SDL_SCANCODE_LEFT, false);
-	Input::SetKeyDown(SDL_SCANCODE_RIGHT, false);
-	Input::SetKeyDown(SDL_SCANCODE_UP, false);
-	Input::SetKeyDown(SDL_SCANCODE_DOWN, false);
-	Input::SetKeyDown(SDL_SCANCODE_A, false);
-	Input::SetKeyDown(SDL_SCANCODE_S, false);
-	Input::SetKeyDown(SDL_SCANCODE_W, false);
-	Input::SetKeyDown(SDL_SCANCODE_D, false);
-	m_Velocity = {0,0};
+	input::SetKeyDown(SDL_SCANCODE_LEFT, false);
+	input::SetKeyDown(SDL_SCANCODE_RIGHT, false);
+	input::SetKeyDown(SDL_SCANCODE_UP, false);
+	input::SetKeyDown(SDL_SCANCODE_DOWN, false);
+	input::SetKeyDown(SDL_SCANCODE_A, false);
+	input::SetKeyDown(SDL_SCANCODE_S, false);
+	input::SetKeyDown(SDL_SCANCODE_W, false);
+	input::SetKeyDown(SDL_SCANCODE_D, false);
+	m_Transform.Velocity = {0,0};
 }
 
 void Player::UpdateAnimation()
@@ -164,8 +164,8 @@ void Player::UpdateAnimation()
 void Player::Draw()
 {
 	Entity::Draw();
-	m_Sprite.Draw(m_FlipSprite);
-	m_Sword.Draw(m_FlipSprite);
+	m_Image.Texture.Draw(m_Image.FlipSprite);
+	m_Sword.Draw(m_Image.FlipSprite);
 	m_MeleeCooldown.Draw();
 	m_RangedCooldown.Draw();
 	m_HealthRegenCooldown.Draw();

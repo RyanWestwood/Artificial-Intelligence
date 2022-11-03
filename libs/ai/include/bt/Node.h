@@ -2,8 +2,8 @@
 #include "../Dll.h"
 #include <vector>
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		enum class Status {
 			Success = 0,

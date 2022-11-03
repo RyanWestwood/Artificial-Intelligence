@@ -16,7 +16,7 @@ Sword::Sword()
 	m_Flip = SDL_FLIP_NONE;
 }
 
-void Sword::Initialize(const char* filename, std::shared_ptr<float> timer, std::shared_ptr<Globals::Direction> facing) {
+void Sword::Initialize(const char* filename, std::shared_ptr<float> timer, std::shared_ptr<globals::Direction> facing) {
 #ifdef LOGGING
 	std::cout << "Sword initialize\n";
 #endif // LOGGING

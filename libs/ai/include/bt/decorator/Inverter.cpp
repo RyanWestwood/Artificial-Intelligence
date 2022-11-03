@@ -1,7 +1,7 @@
 #include "Inverter.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status Inverter::Update() {
 			Status result = m_Child.Update();

@@ -1,7 +1,7 @@
 #include "Failer.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status Failer::Update() {
 			m_Child.Update();

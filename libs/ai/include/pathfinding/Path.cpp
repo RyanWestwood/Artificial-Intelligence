@@ -1,7 +1,7 @@
 #include "Path.h"
 
-namespace AI {
-	namespace PATH {
+namespace ai {
+	namespace path {
 
 		void Path::UpdatePath(std::vector<Vector2> waypoints, Vector2 start_pos, float turn_distance, float stopping_distance)
 		{

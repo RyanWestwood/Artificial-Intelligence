@@ -15,28 +15,28 @@ public:
 	void UpdateAnimation();
 	void Draw();
 
-	void Activate(const SDL_FPoint& position, std::shared_ptr<Globals::Direction> facing);
+	void Activate(const SDL_FPoint& position, std::shared_ptr<globals::Direction> facing);
 	void Deactivate(Projectile& projectile);
 public:
 	std::vector<Projectile> m_InactiveProjectiles;
 	std::vector<Projectile> m_ActiveProjectiles;
-	Texture::TextureData m_TextureData;
+	texture::TextureData m_TextureData;
 };
 
 class Projectile : public Entity {
 public:
-	Projectile(Texture::TextureData spritesheet, ProjectileManager* manager);
+	Projectile(texture::TextureData spritesheet, ProjectileManager* manager);
 
 	void Update(const float& delta_time);
 	void UpdateAnimation();
 	void Draw();
-	void Activate(SDL_FPoint position, std::shared_ptr<Globals::Direction> facing);
+	void Activate(SDL_FPoint position, std::shared_ptr<globals::Direction> facing);
 	void Deactivate();
 	void SetDirection(int x, int y, int angle);
 private:
 	bool m_Active;
 	int m_Angle;
-	Texture::TextureData m_Spritesheet;
+	texture::TextureData m_Spritesheet;
 	SDL_FRect m_Destination;
 	ProjectileManager* m_Manager;
 };

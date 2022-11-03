@@ -5,7 +5,7 @@
 #include "Texture.h"
 #include "../Entity.h"
 
-namespace PATHING {
+namespace pathing {
 	class Node : public Entity {
 	public:
 		Node() : Entity::Entity() {}
@@ -15,7 +15,7 @@ namespace PATHING {
 		SDL_Rect m_Destination;
 	#ifdef LOGGING
 		void Draw();
-		Texture::TextureData m_TextureData;
+		texture::TextureData m_TextureData;
 	#endif // LOGGING
 	};
 
@@ -38,7 +38,7 @@ namespace PATHING {
 	std::vector<Node>& GetMap();
 
 #ifdef LOGGING
-	void DebugPaths(Globals::Vector& tilemap_dimensions, Globals::Vector tile_size);
+	void DebugPaths(globals::Vector& tilemap_dimensions, globals::Vector tile_size);
 	void Input();
 	void Draw();
 #endif // LOGGING

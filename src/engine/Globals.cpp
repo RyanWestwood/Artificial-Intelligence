@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include <iostream>
 
-namespace Globals {
+namespace globals {
 
 	namespace {
 		extern std::string g_AssetDirectory = "Not yet initialized!\n";
@@ -36,12 +36,12 @@ namespace Globals {
 		return g_ScreenDimensions;
 	}
 
-	Globals::Vector GetTileDimensions()
+	globals::Vector GetTileDimensions()
 	{
 		return g_TileDimensions;
 	}
 
-	Globals::Vector GetTileMapDimensions()
+	globals::Vector GetTileMapDimensions()
 	{
 		return g_TileMapDimensions;
 	}

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <SDL_ttf.h>
 
-namespace Font {
+namespace font {
 	class FontError : public std::exception {
 	public:
 		const char* what() const throw() { return "Font Loading Error!\n"; }

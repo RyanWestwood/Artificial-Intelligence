@@ -1,6 +1,6 @@
 #include "Line.h"
-namespace AI {
-	namespace PATH {
+namespace ai {
+	namespace path {
 
 		Line::Line(Vector2 point_on_line, Vector2 point_perpendiculat_to_line)
 		{

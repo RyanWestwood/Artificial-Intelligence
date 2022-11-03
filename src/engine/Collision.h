@@ -1,7 +1,7 @@
 #pragma once
 #include "SDL.h"
 
-namespace COLLISION {
+namespace collision {
 
 	struct Circle {
 		SDL_Point m_Position;

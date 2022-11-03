@@ -6,19 +6,19 @@
 
 bool Engine::Initialize()
 {
-	bool globals = Globals::Initialize();
-	bool renderer = Renderer::InitializeRenderer();
-	bool texture = Texture::Initialize();
-	bool sound = Sound::InitializeSound();
-	bool font = Font::InitializeFont();
-	bool input = Input::InitialzieInput();
-	bool pathing = PATHING::Initialize();
-	Font::InitializeDefaultFont();
+	bool globals = globals::Initialize();
+	bool renderer = renderer::InitializeRenderer();
+	bool texture = texture::Initialize();
+	bool sound = sound::InitializeSound();
+	bool font = font::InitializeFont();
+	bool input = input::InitialzieInput();
+	bool pathing = pathing::Initialize();
+	font::InitializeDefaultFont();
 
 #ifdef LOGGING
 	std::cout << "\n";
-	std::cout << "Renderer: " << Renderer::GetRenderer() << "\n";
-	std::cout << "Default font: " << Font::GetDefaultFont().m_Font << "\n\nLoading...\n";
+	std::cout << "Renderer: " << renderer::GetRenderer() << "\n";
+	std::cout << "Default font: " << font::GetDefaultFont().m_Font << "\n\nLoading...\n";
 #endif // LOGGING
 
 	m_Music.Initialize("music.wav");
@@ -70,10 +70,10 @@ void Engine::Resume()
 	SDL_Event e;
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_KEYDOWN) {
-			if (Input::GetKeyDown(SDL_SCANCODE_ESCAPE)) {
+			if (input::GetKeyDown(SDL_SCANCODE_ESCAPE)) {
 				m_IsPaused = !m_IsPaused;
-				Input::SetKeyUp(SDL_SCANCODE_ESCAPE, true);
-				Input::SetKeyDown(SDL_SCANCODE_ESCAPE, false);
+				input::SetKeyUp(SDL_SCANCODE_ESCAPE, true);
+				input::SetKeyDown(SDL_SCANCODE_ESCAPE, false);
 				SDL_ShowCursor(m_IsPaused);
 #ifdef LOGGING
 				std::cout << "Resumed\n";
@@ -90,10 +90,10 @@ void Engine::Input()
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_KEYDOWN) {
 			if (e.key.keysym.scancode < 512) {
-				Input::SetKeyDown(e.key.keysym.scancode, true);
-				Input::SetKeyUp(e.key.keysym.scancode, false);
+				input::SetKeyDown(e.key.keysym.scancode, true);
+				input::SetKeyUp(e.key.keysym.scancode, false);
 			}
-			if (Input::GetKeyDown(SDL_SCANCODE_ESCAPE)) {
+			if (input::GetKeyDown(SDL_SCANCODE_ESCAPE)) {
 				m_IsPaused = !m_IsPaused;		
 				SDL_ShowCursor(m_IsPaused);
 #ifdef LOGGING
@@ -101,30 +101,32 @@ void Engine::Input()
 #endif // LOGGING
 			}
 #ifdef LOGGING
-			if (Input::GetKeyDown(SDL_SCANCODE_F1)) {
+			if (input::GetKeyDown(SDL_SCANCODE_F1)) {
+				m_HealthBar.ChangeHealth(75);
+				m_AbilityBar.ChangeProgress(50);
 				std::cout << "Key Down: F1!\n";
 			}
 #endif // LOGGING
 		}
 		else if (e.type == SDL_KEYUP) {
 			if (e.key.keysym.scancode < 512) {
-				Input::SetKeyDown(e.key.keysym.scancode, false);
-				Input::SetKeyUp(e.key.keysym.scancode, true);
+				input::SetKeyDown(e.key.keysym.scancode, false);
+				input::SetKeyUp(e.key.keysym.scancode, true);
 			}
 #ifdef LOGGING
-			if (Input::GetKeyUp(SDL_SCANCODE_F1)) {
+			if (input::GetKeyUp(SDL_SCANCODE_F1)) {
 				std::cout << "Key Up: F1!\n";
-				Input::SetKeyUp(e.key.keysym.scancode, false);
+				input::SetKeyUp(e.key.keysym.scancode, false);
 			}
 #endif // LOGGING
 		}
 	}
 	m_Player.Input();
 #ifdef LOGGING
-	PATHING::Input();
+	pathing::Input();
 	m_Enemy.Input();
 #endif // LOGGING
-	Input::SetKeyUp(SDL_SCANCODE_F3, false);
+	input::SetKeyUp(SDL_SCANCODE_F3, false);
 }
 
 void Engine::Update(const float& delta_time)
@@ -150,7 +152,7 @@ void Engine::UpdateAi(float* num)
 #endif // LOGGING
 
 	*num = 0.0;
-	PATHING::Reset();
+	pathing::Reset();
 	//for (auto tile : PATHING::GetMap()) {
 	//	if (COLLISION::BoxCollision(m_Player.GetCollider(), tile.GetCollider())) {
 	//		PATHING::SetObstacle(tile.m_Position.x, tile.m_Position.y, true);
@@ -160,12 +162,12 @@ void Engine::UpdateAi(float* num)
 	//	}
 	//}
 	m_Enemy.UpdateAi(m_Player.GetNodePosition());
-	PATHING::UpdateAi();
+	pathing::UpdateAi();
 }
 
 void Engine::Draw()
 {
-	SDL_RenderClear(Renderer::GetRenderer());
+	SDL_RenderClear(renderer::GetRenderer());
 
 	m_Tilemap.Draw();
 	m_Player.Draw();
@@ -175,8 +177,8 @@ void Engine::Draw()
 	m_AbilityBar.Draw();
 
 #ifdef LOGGING
-	PATHING::Draw();
+	pathing::Draw();
 #endif // LOGGING
 
-	SDL_RenderPresent(Renderer::GetRenderer());
+	SDL_RenderPresent(renderer::GetRenderer());
 }

@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-namespace Renderer {
+namespace renderer {
 
 	bool InitializeRenderer();
 	void UninitalizeRenderer();

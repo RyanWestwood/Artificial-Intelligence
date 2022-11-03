@@ -1,7 +1,7 @@
 #include "RepeatUntilFail.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status RepeatUntilFail::Update() {
 			while (true) {

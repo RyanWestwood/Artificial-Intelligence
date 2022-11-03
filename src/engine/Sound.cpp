@@ -1,7 +1,7 @@
 #include "Sound.h"
 #include "Globals.h"
 
-namespace Sound {
+namespace sound {
 
 	namespace {
 		std::string g_SoundDirectory = "Not yet initialized!\n";
@@ -10,10 +10,10 @@ namespace Sound {
 
 	bool InitializeSound()
 	{
-		g_SoundDirectory = Globals::GetAssetDirectory();
+		g_SoundDirectory = globals::GetAssetDirectory();
 		g_SoundDirectory += "sfx/";
 
-		g_MusicDirectory = Globals::GetAssetDirectory();
+		g_MusicDirectory = globals::GetAssetDirectory();
 		g_MusicDirectory += "music/";
 
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
@@ -77,7 +77,7 @@ SoundEffect::~SoundEffect()
 
 void SoundEffect::Initialize(const char* filename)
 {
-	m_Sound = Sound::LoadSfx(filename);
+	m_Sound = sound::LoadSfx(filename);
 }
 
 void SoundEffect::PlaySound()
@@ -97,7 +97,7 @@ Music::~Music()
 
 void Music::Initialize(const char* filename)
 {
-	m_Music = Sound::LoadMusic(filename);
+	m_Music = sound::LoadMusic(filename);
 }
 
 void Music::PlayMusic()

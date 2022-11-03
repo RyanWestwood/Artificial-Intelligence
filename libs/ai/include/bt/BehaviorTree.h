@@ -2,8 +2,8 @@
 #include "../Dll.h"
 #include "Node.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		class BehaviourTree {
 			BehaviourTree() {}

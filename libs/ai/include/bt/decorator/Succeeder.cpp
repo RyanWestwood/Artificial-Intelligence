@@ -1,7 +1,7 @@
 #include "Succeeder.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status Succeeder::Update() {
 			m_Child.Update();
