@@ -5,8 +5,8 @@
 #include "../math/Vector2.h"
 #include "Line.h"
 
-namespace AI {
-	namespace PATH {
+namespace ai {
+	namespace path {
 
 		class Path;
 		typedef std::shared_ptr<Path> PathPtr;

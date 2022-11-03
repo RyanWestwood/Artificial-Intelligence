@@ -6,6 +6,6 @@
 	#define AI_API __declspec(dllimport)
 #endif
 
-namespace AI {
+namespace ai {
 	extern "C" AI_API void HelloWorld();
 } // namespace AI

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Dll.h"
 
-namespace AI {
+namespace ai {
 	void HelloWorld() 
 	{
 		std::cout << "Hello World! From a DLL\n";

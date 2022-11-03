@@ -1,7 +1,7 @@
 #include "Node.h"
 
-namespace AI {
-	namespace PATH {
+namespace ai {
+	namespace path {
 
 		Node::Node()
 		{

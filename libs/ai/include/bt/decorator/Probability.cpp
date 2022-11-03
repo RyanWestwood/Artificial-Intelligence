@@ -1,8 +1,8 @@
 #include "Probability.h"
 #include <random>
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status Probability::Update() {
 			std::random_device dev;

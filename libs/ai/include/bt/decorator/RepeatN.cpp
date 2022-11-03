@@ -1,7 +1,7 @@
 #include "RepeatN.h"
 
-namespace AI {
-	namespace BT {
+namespace ai {
+	namespace bt {
 
 		Status RepeatN::Update() {
 			int index = 0;

@@ -6,8 +6,8 @@
 #include <stack>
 #include <math.h>
 
-namespace AI {
-	namespace PATH {
+namespace ai {
+	namespace path {
 
 	auto GoalTest = [](NodePtr current, NodePtr destination) -> bool {
 		bool x = current->GetPosition().x == destination->GetPosition().x;

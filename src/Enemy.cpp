@@ -9,7 +9,7 @@ Enemy::Enemy() : Entity()
 	m_Ammo = 5;
 	m_Timer = 1.f;
 	m_Cooldown = 1.f;
-	m_FiniteStateMachine = AI::FSM::GetStateManager();
+	m_FiniteStateMachine = ai::fsm::GetStateManager();
 	m_Image.NoOfAnims = 7;
 	m_Collider.Dimensions = { 6,4,50,56 };
 	m_Collider.PixelOffset = { 6,4 };
@@ -19,9 +19,9 @@ Enemy::Enemy() : Entity()
 	m_RotationSpeed = .5f;
 	m_StoppingDistance = 10.f;
 	m_GoalTile = { 0,0 };
-	m_SmoothedPath = AI::PATH::CreatePath();
+	m_SmoothedPath = ai::path::CreatePath();
 
-	m_IdleState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
+	m_IdleState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 5.f) {
 			std::cout << "Idle state\n";
 			m_Timer = 0.f;
@@ -29,7 +29,7 @@ Enemy::Enemy() : Entity()
 		}
 	});
 
-	m_AttackState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
+	m_AttackState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 1.f) {
 			if (m_Ammo <= 0) {
 				std::cout << "Out of ammo, changing state to Idle!\n";
@@ -49,7 +49,7 @@ Enemy::Enemy() : Entity()
 		}
 	});
 
-	m_WonderState = AI::FSM::CreateState(m_FiniteStateMachine, [&]() {
+	m_WonderState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
 		if (m_Timer >= 5.f) {
 			m_Timer = 0;
 		}
@@ -148,7 +148,7 @@ void Enemy::FollowSmoothedPath(const float delta_time)
 
 	if (following_path) {
 		if(path_index >= m_SmoothedPath->m_SlowDownIndex && m_StoppingDistance > 0){
-			AI::PATH::Line& line = m_SmoothedPath->m_TurnBoundaries.at(finish_line_index);
+			ai::path::Line& line = m_SmoothedPath->m_TurnBoundaries.at(finish_line_index);
 			float distance_from_point = line.DistanceFromPoint(position_2d) / m_StoppingDistance;
 			if(!std::isnan(distance_from_point)){
 				speed_percentage = std::clamp(distance_from_point, 0.f, 1.f);

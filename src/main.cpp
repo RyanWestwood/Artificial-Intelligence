@@ -9,7 +9,7 @@
 int main(int argc, char* args[])
 {
 	{
-		AI::HelloWorld();
+		ai::HelloWorld();
 
 #ifdef LOGGING
 		std::cout << "\nLogging Enabled:\n\n";

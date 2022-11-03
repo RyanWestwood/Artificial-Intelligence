@@ -5,8 +5,8 @@
 #include <iostream>
 #include "../Dll.h"
 
-namespace AI {
-	namespace FSM {
+namespace ai {
+	namespace fsm {
 		State::State(ManagerPtr manager, Function function)
 		{
 			m_Manager = manager;

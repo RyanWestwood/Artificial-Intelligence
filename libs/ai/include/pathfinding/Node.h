@@ -4,8 +4,8 @@
 #include "../Dll.h"
 #include "../math/Vector2.h"
 
-namespace AI {
-	namespace PATH{
+namespace ai {
+	namespace path{
 
 		class Node;
 		typedef std::shared_ptr<Node> NodePtr;

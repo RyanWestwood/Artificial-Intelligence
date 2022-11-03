@@ -2,8 +2,8 @@
 #include <memory>
 #include <functional>
 
-namespace AI {
-	namespace FSM {
+namespace ai {
+	namespace fsm {
 
 		class StateManager;
 		class State;
