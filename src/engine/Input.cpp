@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 
-namespace Input {
+namespace input {
 	namespace {
 		extern std::vector<bool> g_KeyDown{};
 		extern std::vector<bool> g_KeyUp{};

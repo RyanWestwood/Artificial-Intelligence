@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-namespace  COLLISION{
+namespace  collision{
 
 	const int DistanceSquared(Circle& a, Circle& b) {
 		int x = b.m_Position.x - a.m_Position.x;

@@ -40,7 +40,7 @@ public:
 	Transform m_Transform;
 	Image m_Image;
 #if LOGGING
-	Texture::TextureData m_DebugCollider;
+	texture::TextureData m_DebugCollider;
 	bool m_DebugActivate = false;
 #endif // LOGGING
 };

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <SDL_image.h>
 
-namespace Texture {
+namespace texture {
 	class TextureError : public std::exception {
 	public:
 		const char* what() const throw() { return "Texture Loading Error!"; }

@@ -73,7 +73,7 @@ void Enemy::Input()
 
 void Enemy::Update(const float delta_time)
 {
-	auto screen_dimensions = Globals::GetScreenDimensions();
+	auto screen_dimensions = globals::GetScreenDimensions();
 	Move(delta_time);
 	//FollowSmoothedPath(delta_time);
 
@@ -97,10 +97,9 @@ void Enemy::UpdateAi(Vector2 goal)
 {
 	// TODO @RyanWestwood : Neaten entire project to use Vector2 over SDL_Point where needed.
 	//						clean this code!
-	std::cout << "Update AI\n";
 	Vector2 start_pos = { (int)m_Transform.Position.x / 32 + 1, (int)m_Transform.Position.y / 32 + 1 };
 	Vector2 new_goal = { (int)goal.x, (int)goal.y };
-	m_Path = PATHING::CreatePath(start_pos, new_goal, PATHING::Algo::A_Star);
+	m_Path = pathing::CreatePath(start_pos, new_goal, pathing::Algo::A_Star);
 	m_SmoothedPath->UpdatePath(m_Path, start_pos, 5.f, m_StoppingDistance); // TODO: fix this.
 }
 

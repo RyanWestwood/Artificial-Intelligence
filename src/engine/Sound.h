@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
-namespace Sound {
+namespace sound {
 	class SoundError : public std::exception {
 	public:
 		const char* what() const throw(){ return "Sound Loading Error!\n"; }		

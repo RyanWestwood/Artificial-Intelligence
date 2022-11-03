@@ -29,5 +29,5 @@ public:
 	Cooldown m_MitigationCooldown;
 	std::shared_ptr<float> m_OffGlobal;
 	std::shared_ptr<float> m_Global;
-	std::shared_ptr<Globals::Direction> m_Facing;
+	std::shared_ptr<globals::Direction> m_Facing;
 };

@@ -4,7 +4,7 @@
 #include "Dll.h"
 #include <algorithm>
 
-Tile::Tile(Texture::TextureData spritesheet)
+Tile::Tile(texture::TextureData spritesheet)
 {
 	m_TextureData = spritesheet;
 	m_Destination = { 0,0,0,0 };
@@ -17,13 +17,13 @@ Tile::~Tile()
 
 void Tile::Draw()
 {
-	SDL_RenderCopy(Renderer::GetRenderer(), m_TextureData.m_Texture, &m_TextureData.m_Source, &m_Destination);
+	SDL_RenderCopy(renderer::GetRenderer(), m_TextureData.m_Texture, &m_TextureData.m_Source, &m_Destination);
 }
 
 //	TODO; @RyanWestwood - Make this read in from a file or assign the array manually
 Tilemap::Tilemap()
 {
-	auto tilemap_dimensions = Globals::GetTileMapDimensions();
+	auto tilemap_dimensions = globals::GetTileMapDimensions();
 	for (int y = 0; y < tilemap_dimensions.h; y++)
 	{
 		for (int x = 0; x < tilemap_dimensions.w; x++)
@@ -40,16 +40,16 @@ Tilemap::~Tilemap()
 
 void Tilemap::Initialize(const char* filename, int src_tile_size)
 {
-	auto texture = Texture::LoadTexture(filename);
+	auto texture = texture::LoadTexture(filename);
 	m_TextureData.m_Texture = texture.m_Texture;
 	m_TextureData.m_Source = texture.m_Source;
 	m_Destination = { 0,0,32,32 };
 
 	auto spritesheet_column = m_TextureData.m_Source.w / src_tile_size;
 	auto spritesheet_row = m_TextureData.m_Source.h / src_tile_size;
-	auto tilemap_dimensions = Globals::GetTileMapDimensions();
+	auto tilemap_dimensions = globals::GetTileMapDimensions();
 
-	auto tile_size = Globals::GetTileDimensions();
+	auto tile_size = globals::GetTileDimensions();
 	int tile_width = tile_size.w;
 	int tile_height = tile_size.h;
 

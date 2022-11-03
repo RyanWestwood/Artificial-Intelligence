@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Globals.h"
 
-namespace Font {
+namespace font {
 
 	namespace {
 		std::string g_FontDirectory = "Not yet initialized!\n";
@@ -12,7 +12,7 @@ namespace Font {
 
 	bool InitializeFont()
 	{
-		g_FontDirectory = Globals::GetAssetDirectory();
+		g_FontDirectory = globals::GetAssetDirectory();
 		g_FontDirectory += "font/";
 		if (TTF_Init() < 0) {
 			std::cout << "SDL_TTF could not initialize! SDL_TTF error: " << TTF_GetError() << "\n";
@@ -47,7 +47,7 @@ namespace Font {
 			if (font == nullptr) throw FontError();
 			SDL_Surface* surface = TTF_RenderText_Solid(font, message, color);
 			if (surface == nullptr) throw FontError();
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(Renderer::GetRenderer(), surface);
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer::GetRenderer(), surface);
 			SDL_Rect dimensions = { position.x, position.y, surface->w, surface->h };
 			SDL_FreeSurface(surface);
 			return { font, texture, dimensions };
@@ -67,7 +67,7 @@ namespace Font {
 		try {
 			SDL_Surface* surface = TTF_RenderText_Solid(font, message, color);
 			if (surface == nullptr) throw FontError();
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(Renderer::GetRenderer(), surface);
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer::GetRenderer(), surface);
 			SDL_Rect dimensions = { position.x, position.y, surface->w, surface->h };
 			SDL_FreeSurface(surface);
 			return {font, texture, dimensions};
@@ -82,7 +82,7 @@ namespace Font {
 
 	void Draw(SDL_Texture* texture, const SDL_Rect& dimensions)
 	{
-		SDL_RenderCopy(Renderer::GetRenderer(), texture, 0, &dimensions);
+		SDL_RenderCopy(renderer::GetRenderer(), texture, 0, &dimensions);
 	}
 } // namespace Font
 
@@ -105,7 +105,7 @@ Text::~Text()
 
 void Text::Initalize(const char* filename, const char* message, int font_size)
 {
-	auto font_data = Font::LoadFont(filename, font_size, message, m_Colour, m_Position);
+	auto font_data = font::LoadFont(filename, font_size, message, m_Colour, m_Position);
 	m_FontSize = font_size;
 	m_Message = message;
 	m_Font = font_data.m_Font;
@@ -115,7 +115,7 @@ void Text::Initalize(const char* filename, const char* message, int font_size)
 
 void Text::Initalize(const char* message)
 {
-	auto font_data = Font::UpdateMessage(message, Font::GetDefaultFont().m_Font, m_Colour, m_Position);
+	auto font_data = font::UpdateMessage(message, font::GetDefaultFont().m_Font, m_Colour, m_Position);
 	m_Message = message;
 	m_Font = font_data.m_Font;
 	m_Texture = font_data.m_Texture;
@@ -125,12 +125,12 @@ void Text::Initalize(const char* message)
 void Text::UpdateMessage(const char* message)
 {
 	SDL_DestroyTexture(m_Texture);
-	auto updated_message = Font::UpdateMessage(message, m_Font, m_Colour, m_Position);
+	auto updated_message = font::UpdateMessage(message, m_Font, m_Colour, m_Position);
 	m_Texture = updated_message.m_Texture;
 	m_Dimensions = updated_message.m_Dimensions;
 }
 
 void Text::Draw()
 {
-	Font::Draw(m_Texture, m_Dimensions);
+	font::Draw(m_Texture, m_Dimensions);
 }

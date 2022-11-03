@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace Globals {
+namespace globals {
 
 	enum class Direction {
 		North = 0,

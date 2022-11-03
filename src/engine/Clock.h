@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CLOCK {
+namespace timer {
 	void StartTimer();
 	void StopTimer(const char* function_name);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Input {
+namespace input {
 
 	bool InitialzieInput();
 	void SetKeyUp(int keycode, bool value);

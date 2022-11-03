@@ -18,14 +18,14 @@ Entity::Entity() {
 void Entity::Initialize()
 {
 #if LOGGING
-	m_DebugCollider = Texture::LoadSolidColourTexture({ 0,255,255,128 }, { 32,32 });
+	m_DebugCollider = texture::LoadSolidColourTexture({ 0,255,255,128 }, { 32,32 });
 #endif // LOGGING
 }
 
 void Entity::Input()
 {
 #if LOGGING
-	if (Input::GetKeyUp(SDL_SCANCODE_F3)) {
+	if (input::GetKeyUp(SDL_SCANCODE_F3)) {
 		m_DebugActivate = !m_DebugActivate;
 	}
 #endif // LOGGING
@@ -41,7 +41,7 @@ void Entity::Draw()
 {
 #if LOGGING
 	if (m_DebugActivate){
-		SDL_RenderCopy(Renderer::GetRenderer(), m_DebugCollider.m_Texture, &m_DebugCollider.m_Source, &m_Collider.Dimensions);
+		SDL_RenderCopy(renderer::GetRenderer(), m_DebugCollider.m_Texture, &m_DebugCollider.m_Source, &m_Collider.Dimensions);
 	}
 #endif // LOGGING
 }

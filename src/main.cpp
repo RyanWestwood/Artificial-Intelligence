@@ -58,9 +58,9 @@ int main(int argc, char* args[])
 		g_App.UnInitialize();
 	}
 
-	Font::UnInitializeFont();
-	Sound::UninitalizeSound();
-	Renderer::UninitalizeRenderer();
+	font::UnInitializeFont();
+	sound::UninitalizeSound();
+	renderer::UninitalizeRenderer();
 
 #if LOGGING
 	std::cout << "Application Shutdown!\n";
