@@ -4,22 +4,22 @@
 #include "engine/Texture.h"
 
 struct Collider {
-	SDL_Rect m_Dimensions;
-	Vector2 m_PixelOffset;
+	SDL_Rect Dimensions;
+	Vector2 PixelOffset;
 };
 
 struct Transform {
-	Vector2 m_Position;
-	Vector2 m_Velocity;
-	float m_Rotation;
-	char m_Direction;
+	Vector2 Position;
+	Vector2 Velocity;
+	float Rotation;
+	char Direction;
 };
 
 struct Image {
-	Sprite m_Sprite;
-	char m_AnimStep;
-	char m_NoOfAnims;
-	SDL_RendererFlip m_FlipSprite;
+	Sprite Texture;
+	char AnimStep;
+	char NoOfAnims;
+	SDL_RendererFlip FlipSprite;
 };
 
 class Entity {

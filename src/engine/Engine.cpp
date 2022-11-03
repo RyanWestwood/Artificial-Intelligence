@@ -102,6 +102,8 @@ void Engine::Input()
 			}
 #ifdef LOGGING
 			if (Input::GetKeyDown(SDL_SCANCODE_F1)) {
+				m_HealthBar.ChangeHealth(75);
+				m_AbilityBar.ChangeProgress(50);
 				std::cout << "Key Down: F1!\n";
 			}
 #endif // LOGGING

@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <fsm/StateManager.h>
+#include <pathfinding/Node.h>
 #include <pathfinding/Path.h>
 #include <math/Vector2.h>
-#include <pathfinding/Node.h>
 #include "Entity.h"
 
 class Enemy : public Entity {
@@ -31,6 +31,7 @@ public:
 	AI::FSM::ManagerPtr m_FiniteStateMachine;
 	AI::FSM::StatePtr m_AttackState;
 	AI::FSM::StatePtr m_IdleState;
+	AI::FSM::StatePtr m_WonderState;
 
 	std::vector<Vector2> m_Path;
 	float m_MoveSpeed;

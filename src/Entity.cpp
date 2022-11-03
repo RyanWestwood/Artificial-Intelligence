@@ -3,16 +3,16 @@
 #include "engine/Input.h"
 
 Entity::Entity() {
-	m_Collider.m_Dimensions = { 0,0,0,0 };
-	m_Collider.m_PixelOffset = {0, 0};
-	m_Transform.m_Position = { 0,0 };
-	m_Transform.m_Rotation = 0.f;
-	m_Transform.m_Velocity = { 0, 0 };
-	m_Transform.m_Direction = 0;
-	m_Image.m_Sprite = Sprite();
-	m_Image.m_NoOfAnims = 1;
-	m_Image.m_AnimStep = 0;
-	m_Image.m_FlipSprite = SDL_FLIP_NONE;
+	m_Collider.Dimensions = { 0,0,0,0 };
+	m_Collider.PixelOffset = {0, 0};
+	m_Transform.Position = { 0,0 };
+	m_Transform.Rotation = 0.f;
+	m_Transform.Velocity = { 0, 0 };
+	m_Transform.Direction = 0;
+	m_Image.Texture = Sprite();
+	m_Image.NoOfAnims = 1;
+	m_Image.AnimStep = 0;
+	m_Image.FlipSprite = SDL_FLIP_NONE;
 }
 
 void Entity::Initialize()
@@ -33,25 +33,25 @@ void Entity::Input()
 
 void Entity::UpdateAnimation()
 {
-	m_Image.m_AnimStep >= m_Image.m_NoOfAnims ? m_Image.m_AnimStep = 0 : m_Image.m_AnimStep++;
-	m_Image.m_Sprite.m_Source.x = m_Image.m_Sprite.m_Source.w * m_Image.m_AnimStep;
+	m_Image.AnimStep >= m_Image.NoOfAnims ? m_Image.AnimStep = 0 : m_Image.AnimStep++;
+	m_Image.Texture.m_Source.x = m_Image.Texture.m_Source.w * m_Image.AnimStep;
 }
 
 void Entity::Draw()
 {
 #if LOGGING
 	if (m_DebugActivate){
-		SDL_RenderCopy(Renderer::GetRenderer(), m_DebugCollider.m_Texture, &m_DebugCollider.m_Source, &m_Collider.m_Dimensions);
+		SDL_RenderCopy(Renderer::GetRenderer(), m_DebugCollider.m_Texture, &m_DebugCollider.m_Source, &m_Collider.Dimensions);
 	}
 #endif // LOGGING
 }
 
 SDL_Rect& Entity::GetCollider()
 {
-	return m_Collider.m_Dimensions;
+	return m_Collider.Dimensions;
 }
 
 Vector2 Entity::GetNodePosition()
 {
-	return { m_Transform.m_Position.x / 32, m_Transform.m_Position.y / 32 };
+	return { m_Transform.Position.x / 32, m_Transform.Position.y / 32 };
 }
