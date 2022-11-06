@@ -30,8 +30,10 @@ public:
 
 	ai::fsm::ManagerPtr m_FiniteStateMachine;
 	ai::fsm::StatePtr m_AttackState;
+	ai::fsm::StatePtr m_DieState;
+	ai::fsm::StatePtr m_SpawnState;
 	ai::fsm::StatePtr m_IdleState;
-	ai::fsm::StatePtr m_WonderState;
+	ai::fsm::StatePtr m_WanderState;
 
 	std::vector<Vector2> m_Path;
 	float m_MoveSpeed;
