@@ -10,17 +10,17 @@ Enemy::Enemy() : Entity()
 	m_Collider.PixelOffset = { 6,4 };
 	m_Transform.Position = { 736,256 };
 	m_Transform.Velocity = { 32.f,32.f };
+	m_Transform.RotationSpeed = .5f;
 	m_Image.NoOfAnims = 7;
-	m_RotationSpeed = .5f;
 	m_StoppingDistance = 10.f;
 	m_GoalTile = { 0,0 };
 	m_SmoothedPath = ai::path::CreatePath();
 
 	m_FiniteStateMachine = ai::fsm::GetStateManager();
-	m_Ammo = 5;
+	m_Ammo = 3;
 	m_Timer = 1.f;
 	
-	m_IdleState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
+	m_IdleState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
 		if (m_Timer >= 2.f) {
 			m_Timer = 0.f;
 #ifdef LOGGING
@@ -30,7 +30,7 @@ Enemy::Enemy() : Entity()
 		}
 	});
 
-	m_AttackState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
+	m_AttackState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
 		if (m_Timer >= 1.f) {
 			m_Timer = 0;
 #ifdef LOGGING
@@ -42,11 +42,11 @@ Enemy::Enemy() : Entity()
 #endif // LOGGING
 				m_Ammo = 3;
 				m_GoalTile = { 0.f, 0.f };
-				m_FiniteStateMachine->SetState(m_IdleState);
+				m_FiniteStateMachine->SetState(m_DieState);
 			}
 			else {
 #ifdef LOGGING
-				std::cout << "Shoot state - shoot\t -" << m_Ammo << "\n";
+				std::cout << "Shoot state - shoot\t " << m_Ammo-1 << " shots remaining" << "\n";
 #endif // LOGGING
 				m_Ammo--;
 				GoalTile();
@@ -54,7 +54,7 @@ Enemy::Enemy() : Entity()
 		}
 	});
 
-	m_WanderState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
+	m_WanderState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
 		if (m_Timer >= 5.f) {
 			m_Timer = 0;
 #ifdef LOGGING
@@ -63,16 +63,17 @@ Enemy::Enemy() : Entity()
 		}
 	});
 
-	m_DieState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
-		if (m_Timer >= 5.f) {
+	m_DieState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
+		if (m_Timer >= 1.f) {
 			m_Timer = 0;
 #ifdef LOGGING
 			std::cout << "Die state finished\nSwitching to finished state\n";
 #endif // LOGGING
+			m_FiniteStateMachine->KillManager();
 		}
 	});
 
-	m_SpawnState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
+	m_SpawnState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
 		if (m_Timer >= 2.f) {
 			m_Timer = 0;
 #ifdef LOGGING
@@ -113,7 +114,7 @@ void Enemy::Update(const float delta_time)
 	m_Image.Texture.m_Destination.y = m_Transform.Position.y;
 
 	m_Timer += delta_time;
-	m_FiniteStateMachine->Update();
+	m_FiniteStateMachine->Update(delta_time);
 }
 
 void Enemy::UpdateAnimation()
@@ -188,7 +189,7 @@ void Enemy::FollowSmoothedPath(const float delta_time)
 
 		Vector2 dir = { m_SmoothedPath->m_LookPoints[path_index] - m_Transform.Position };
 		const float angle_degrees = std::atan2f(dir.y, dir.x) * (180.0 / 3.141592653589793238463);
-		m_Transform.Rotation = std::lerp(m_Transform.Rotation, angle_degrees, m_RotationSpeed * delta_time);
+		m_Transform.Rotation = std::lerp(m_Transform.Rotation, angle_degrees, m_Transform.RotationSpeed * delta_time);
 		m_Transform.Position.x += std::cos(angle_degrees) * m_Transform.Velocity.x * speed_percentage * delta_time;
 		m_Transform.Position.y += std::sin(angle_degrees) * m_Transform.Velocity.y * speed_percentage * delta_time;
 	}

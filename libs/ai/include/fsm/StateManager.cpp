@@ -13,9 +13,9 @@ namespace ai {
 			m_Func = function;
 		}
 
-		void State::Update()
+		void State::Update(const float delta_time)
 		{
-			m_Func();
+			m_Func(delta_time);
 		}
 
 		StateManager::StateManager()
@@ -33,10 +33,15 @@ namespace ai {
 			return m_CurrentState;
 		}
 
-		void StateManager::Update()
+		void StateManager::KillManager()
+		{
+			m_CurrentState = nullptr;
+		}
+
+		void StateManager::Update(const float delta_time)
 		{
 			if (m_CurrentState) {
-				m_CurrentState->Update();
+				m_CurrentState->Update(delta_time);
 			}
 		}
 
