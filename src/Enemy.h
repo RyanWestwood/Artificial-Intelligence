@@ -19,6 +19,8 @@ public:
 	void UpdateAnimation();
 	void UpdateAi(Vector2 goal);
 	void Draw();
+
+	void Death();
 	void GoalTile();
 	void Move(const float delta_time);
 	void FollowSmoothedPath(const float delta_time);
@@ -36,9 +38,7 @@ public:
 	ai::fsm::StatePtr m_WanderState;
 
 	std::vector<Vector2> m_Path;
-	float m_MoveSpeed;
-	float m_RotationSpeed;
 	float m_StoppingDistance;
-	SDL_FPoint m_GoalTile;
+	Vector2 m_GoalTile;
 	ai::path::PathPtr m_SmoothedPath;
 };

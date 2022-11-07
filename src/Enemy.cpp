@@ -24,9 +24,9 @@ Enemy::Enemy() : Entity()
 		if (m_Timer >= 2.f) {
 			m_Timer = 0.f;
 #ifdef LOGGING
-			std::cout << "Idle state\nSwitching to attack state\n";
+			std::cout << "Idle state finished\nSwitching to wander state\n";
 #endif // LOGGING
-			m_FiniteStateMachine->SetState(m_AttackState);
+			m_FiniteStateMachine->SetState(m_WanderState);
 		}
 	});
 
@@ -42,24 +42,25 @@ Enemy::Enemy() : Entity()
 #endif // LOGGING
 				m_Ammo = 3;
 				m_GoalTile = { 0.f, 0.f };
-				m_FiniteStateMachine->SetState(m_DieState);
+				m_FiniteStateMachine->SetState(m_WanderState);
 			}
 			else {
 #ifdef LOGGING
 				std::cout << "Shoot state - shoot\t " << m_Ammo-1 << " shots remaining" << "\n";
 #endif // LOGGING
 				m_Ammo--;
-				GoalTile();
 			}
 		}
 	});
 
 	m_WanderState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
-		if (m_Timer >= 5.f) {
+		if (m_Timer >= 1.f) {
 			m_Timer = 0;
 #ifdef LOGGING
-			std::cout << "Spawn wander finished\nSwitching to 'n' state\n";
+			std::cout << "Wander state finished\nSwitching to attack state\n";
 #endif // LOGGING
+			GoalTile();
+			m_FiniteStateMachine->SetState(m_AttackState);
 		}
 	});
 
@@ -67,7 +68,7 @@ Enemy::Enemy() : Entity()
 		if (m_Timer >= 1.f) {
 			m_Timer = 0;
 #ifdef LOGGING
-			std::cout << "Die state finished\nSwitching to finished state\n";
+			std::cout << "Die state finished\nFSM STOPPED\n";
 #endif // LOGGING
 			m_FiniteStateMachine->KillManager();
 		}
@@ -83,7 +84,7 @@ Enemy::Enemy() : Entity()
 		}
 	});
 
-	m_FiniteStateMachine->SetState(m_IdleState);
+	m_FiniteStateMachine->SetState(m_SpawnState);
 }
 
 void Enemy::Initialize()
@@ -138,11 +139,16 @@ void Enemy::Draw()
 	m_Image.Texture.Draw();
 }
 
+void Enemy::Death()
+{
+	m_FiniteStateMachine->SetState(m_DieState);
+}
+
 void Enemy::GoalTile()
 {
 	if(m_Path.size() <= 1) return;
 	auto current_position = { (int)m_Transform.Position.x / 32 + 1, (int)m_Transform.Position.y / 32 + 1 };
-	m_GoalTile = SDL_FPoint{ (float)m_Path[1].x, (float)m_Path[1].y };
+	m_GoalTile = Vector2{ (float)m_Path[1].x, (float)m_Path[1].y };
 }
 
 void Enemy::Move(const float delta_time)
