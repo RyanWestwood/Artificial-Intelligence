@@ -1,3 +1,4 @@
+#pragma once
 #include "../Dll.h"
 #include <memory>
 #include <functional>
