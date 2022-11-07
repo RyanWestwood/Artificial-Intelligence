@@ -16,21 +16,55 @@ Enemy::Enemy() : Entity()
 	m_GoalTile = { 0,0 };
 	m_SmoothedPath = ai::path::CreatePath();
 
-	m_FiniteStateMachine = ai::fsm::GetStateManager();
+	m_EnemyFSM = ai::fsm::GetStateManager();
+	m_AttackFSM = ai::fsm::GetStateManager();
+	m_RunningFSM = m_EnemyFSM;
+
 	m_Ammo = 3;
 	m_Timer = 1.f;
 	
-	m_IdleState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
+	m_IdleState = ai::fsm::CreateState(m_EnemyFSM, "Idle", [&](const float delta_time) {
 		if (m_Timer >= 2.f) {
 			m_Timer = 0.f;
 #ifdef LOGGING
 			std::cout << "Idle state finished\nSwitching to wander state\n";
 #endif // LOGGING
-			m_FiniteStateMachine->SetState(m_WanderState);
+			m_EnemyFSM->SetState(m_WanderState);
+			m_Ammo = 3;
 		}
 	});
 
-	m_AttackState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
+	m_WanderState = ai::fsm::CreateState(m_EnemyFSM, "Wander", [&](const float delta_time) {
+		if (m_Timer >= 1.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Wander state finished\nSwitching to attack state\n";
+#endif // LOGGING
+			m_RunningFSM = m_AttackFSM;
+		}
+	});
+
+	m_DieState = ai::fsm::CreateState(m_EnemyFSM, "Die", [&](const float delta_time) {
+		if (m_Timer >= 1.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Die state finished\nFSM STOPPED\n";
+#endif // LOGGING
+			m_EnemyFSM->KillManager();
+		}
+	});
+
+	m_SpawnState = ai::fsm::CreateState(m_EnemyFSM, "Spawn", [&](const float delta_time) {
+		if (m_Timer >= 2.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Spawn state finished\nSwitching to idle state\n";
+#endif // LOGGING
+			m_EnemyFSM->SetState(m_IdleState);
+		}
+	});
+
+	m_AttackState = ai::fsm::CreateState(m_AttackFSM, "Attack", [&](const float delta_time) {
 		if (m_Timer >= 1.f) {
 			m_Timer = 0;
 #ifdef LOGGING
@@ -42,49 +76,21 @@ Enemy::Enemy() : Entity()
 #endif // LOGGING
 				m_Ammo = 3;
 				m_GoalTile = { 0.f, 0.f };
-				m_FiniteStateMachine->SetState(m_WanderState);
+				m_RunningFSM = m_EnemyFSM;
+				m_EnemyFSM->SetState(m_IdleState);
 			}
 			else {
 #ifdef LOGGING
-				std::cout << "Shoot state - shoot\t " << m_Ammo-1 << " shots remaining" << "\n";
+				std::cout << "Shoot state - shoot\t " << m_Ammo - 1 << " shots remaining" << "\n";
 #endif // LOGGING
 				m_Ammo--;
+				GoalTile();
 			}
 		}
 	});
 
-	m_WanderState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
-		if (m_Timer >= 1.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Wander state finished\nSwitching to attack state\n";
-#endif // LOGGING
-			GoalTile();
-			m_FiniteStateMachine->SetState(m_AttackState);
-		}
-	});
-
-	m_DieState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
-		if (m_Timer >= 1.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Die state finished\nFSM STOPPED\n";
-#endif // LOGGING
-			m_FiniteStateMachine->KillManager();
-		}
-	});
-
-	m_SpawnState = ai::fsm::CreateState(m_FiniteStateMachine, [&](const float delta_time) {
-		if (m_Timer >= 2.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Spawn state finished\nSwitching to idle state\n";
-#endif // LOGGING
-			m_FiniteStateMachine->SetState(m_IdleState);
-		}
-	});
-
-	m_FiniteStateMachine->SetState(m_SpawnState);
+	m_EnemyFSM->SetState(m_SpawnState);
+	m_AttackFSM->SetState(m_AttackState);
 }
 
 void Enemy::Initialize()
@@ -115,7 +121,7 @@ void Enemy::Update(const float delta_time)
 	m_Image.Texture.m_Destination.y = m_Transform.Position.y;
 
 	m_Timer += delta_time;
-	m_FiniteStateMachine->Update(delta_time);
+	m_RunningFSM->Update(delta_time);
 }
 
 void Enemy::UpdateAnimation()
@@ -141,7 +147,7 @@ void Enemy::Draw()
 
 void Enemy::Death()
 {
-	m_FiniteStateMachine->SetState(m_DieState);
+	m_EnemyFSM->SetState(m_DieState);
 }
 
 void Enemy::GoalTile()

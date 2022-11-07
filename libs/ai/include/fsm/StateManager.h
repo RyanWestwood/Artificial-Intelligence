@@ -1,6 +1,7 @@
 #include "../Dll.h"
 #include <memory>
 #include <functional>
+#include <string.h>
 
 namespace ai {
 	namespace fsm {
@@ -19,11 +20,12 @@ namespace ai {
 		class State : public IState {
 		public:
 			State() {};
-			State(ManagerPtr manager, Function function);
+			State(ManagerPtr manager, std::string name, Function function);
 			virtual ~State() {};
 
 			void Update(const float delta_time);
 		protected:
+			std::string m_StateName;
 			ManagerPtr m_Manager;
 			Function m_Func;
 		};
@@ -51,7 +53,7 @@ namespace ai {
 		};
 
 		extern "C++" AI_API ManagerPtr GetStateManager();
-		extern "C++" AI_API StatePtr CreateState(ManagerPtr, Function);
+		extern "C++" AI_API StatePtr CreateState(ManagerPtr, std::string, Function);
 
 	} // namespace FSM
 } // namespace AI

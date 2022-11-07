@@ -30,7 +30,9 @@ public:
 	float m_Timer;
 	float m_Cooldown;
 
-	ai::fsm::ManagerPtr m_FiniteStateMachine;
+	ai::fsm::ManagerPtr m_EnemyFSM;
+	ai::fsm::ManagerPtr m_AttackFSM;
+	ai::fsm::ManagerPtr m_RunningFSM;
 	ai::fsm::StatePtr m_AttackState;
 	ai::fsm::StatePtr m_DieState;
 	ai::fsm::StatePtr m_SpawnState;

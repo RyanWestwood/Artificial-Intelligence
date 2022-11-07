@@ -7,10 +7,11 @@
 
 namespace ai {
 	namespace fsm {
-		State::State(ManagerPtr manager, Function function)
+		State::State(ManagerPtr manager, std::string name, Function function)
 		{
 			m_Manager = manager;
 			m_Func = function;
+			m_StateName = name;
 		}
 
 		void State::Update(const float delta_time)
@@ -50,9 +51,9 @@ namespace ai {
 			return std::make_shared<StateManager>();
 		}
 
-		StatePtr CreateState(ManagerPtr manager, Function function)
+		StatePtr CreateState(ManagerPtr manager, std::string name, Function function)
 		{
-			return std::make_shared<State>(manager, function);
+			return std::make_shared<State>(manager, name, function);
 		}
 
 	} // namespace FSM
