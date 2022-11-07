@@ -25,14 +25,19 @@ public:
 	void Move(const float delta_time);
 	void FollowSmoothedPath(const float delta_time);
 
+private:
+	void CreateEnemyFsm();
+	void CreateAttackFsm();
+
 public:
 	int m_Ammo;
 	float m_Timer;
 	float m_Cooldown;
 
-	ai::fsm::ManagerPtr m_EnemyFSM;
-	ai::fsm::ManagerPtr m_AttackFSM;
-	ai::fsm::ManagerPtr m_RunningFSM;
+	ai::fsm::ManagerPtr m_EnemyFsm;
+	ai::fsm::ManagerPtr m_AttackFsm;
+	ai::fsm::ManagerPtr m_RunningFsm;
+
 	ai::fsm::StatePtr m_AttackState;
 	ai::fsm::StatePtr m_DieState;
 	ai::fsm::StatePtr m_SpawnState;

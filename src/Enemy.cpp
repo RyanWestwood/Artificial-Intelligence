@@ -16,81 +16,12 @@ Enemy::Enemy() : Entity()
 	m_GoalTile = { 0,0 };
 	m_SmoothedPath = ai::path::CreatePath();
 
-	m_EnemyFSM = ai::fsm::GetStateManager();
-	m_AttackFSM = ai::fsm::GetStateManager();
-	m_RunningFSM = m_EnemyFSM;
+	CreateEnemyFsm();
+	CreateAttackFsm();
+	m_RunningFsm = m_EnemyFsm;
 
 	m_Ammo = 3;
 	m_Timer = 1.f;
-	
-	m_IdleState = ai::fsm::CreateState(m_EnemyFSM, "Idle", [&](const float delta_time) {
-		if (m_Timer >= 2.f) {
-			m_Timer = 0.f;
-#ifdef LOGGING
-			std::cout << "Idle state finished\nSwitching to wander state\n";
-#endif // LOGGING
-			m_EnemyFSM->SetState(m_WanderState);
-			m_Ammo = 3;
-		}
-	});
-
-	m_WanderState = ai::fsm::CreateState(m_EnemyFSM, "Wander", [&](const float delta_time) {
-		if (m_Timer >= 1.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Wander state finished\nSwitching to attack state\n";
-#endif // LOGGING
-			m_RunningFSM = m_AttackFSM;
-		}
-	});
-
-	m_DieState = ai::fsm::CreateState(m_EnemyFSM, "Die", [&](const float delta_time) {
-		if (m_Timer >= 1.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Die state finished\nFSM STOPPED\n";
-#endif // LOGGING
-			m_EnemyFSM->KillManager();
-		}
-	});
-
-	m_SpawnState = ai::fsm::CreateState(m_EnemyFSM, "Spawn", [&](const float delta_time) {
-		if (m_Timer >= 2.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Spawn state finished\nSwitching to idle state\n";
-#endif // LOGGING
-			m_EnemyFSM->SetState(m_IdleState);
-		}
-	});
-
-	m_AttackState = ai::fsm::CreateState(m_AttackFSM, "Attack", [&](const float delta_time) {
-		if (m_Timer >= 1.f) {
-			m_Timer = 0;
-#ifdef LOGGING
-			std::cout << "Shoot state - shooting\n";
-#endif // LOGGING
-			if (m_Ammo <= 0) {
-#ifdef LOGGING
-				std::cout << "Shoot state - out of ammo\nSwitch to idle state\n";
-#endif // LOGGING
-				m_Ammo = 3;
-				m_GoalTile = { 0.f, 0.f };
-				m_RunningFSM = m_EnemyFSM;
-				m_EnemyFSM->SetState(m_IdleState);
-			}
-			else {
-#ifdef LOGGING
-				std::cout << "Shoot state - shoot\t " << m_Ammo - 1 << " shots remaining" << "\n";
-#endif // LOGGING
-				m_Ammo--;
-				GoalTile();
-			}
-		}
-	});
-
-	m_EnemyFSM->SetState(m_SpawnState);
-	m_AttackFSM->SetState(m_AttackState);
 }
 
 void Enemy::Initialize()
@@ -121,7 +52,7 @@ void Enemy::Update(const float delta_time)
 	m_Image.Texture.m_Destination.y = m_Transform.Position.y;
 
 	m_Timer += delta_time;
-	m_RunningFSM->Update(delta_time);
+	m_RunningFsm->Update(delta_time);
 }
 
 void Enemy::UpdateAnimation()
@@ -147,12 +78,13 @@ void Enemy::Draw()
 
 void Enemy::Death()
 {
-	m_EnemyFSM->SetState(m_DieState);
+	m_RunningFsm = m_EnemyFsm;
+	m_EnemyFsm->SetState(m_DieState);
 }
 
 void Enemy::GoalTile()
 {
-	if(m_Path.size() <= 1) return;
+	if (m_Path.size() <= 1) return;
 	auto current_position = { (int)m_Transform.Position.x / 32 + 1, (int)m_Transform.Position.y / 32 + 1 };
 	m_GoalTile = Vector2{ (float)m_Path[1].x, (float)m_Path[1].y };
 }
@@ -176,7 +108,7 @@ void Enemy::FollowSmoothedPath(const float delta_time)
 	bool following_path = true;
 	float speed_percentage = 1.f;
 
-	Vector2 position_2d = { (int)m_Transform.Position.x /32, (int)m_Transform.Position.y/32 };
+	Vector2 position_2d = { (int)m_Transform.Position.x / 32, (int)m_Transform.Position.y / 32 };
 	while (m_SmoothedPath->m_TurnBoundaries[path_index].HasCrossedLine(position_2d)) {
 		if (path_index == finish_line_index) {
 			following_path = false;
@@ -188,10 +120,10 @@ void Enemy::FollowSmoothedPath(const float delta_time)
 	}
 
 	if (following_path) {
-		if(path_index >= m_SmoothedPath->m_SlowDownIndex && m_StoppingDistance > 0){
+		if (path_index >= m_SmoothedPath->m_SlowDownIndex && m_StoppingDistance > 0) {
 			ai::path::Line& line = m_SmoothedPath->m_TurnBoundaries.at(finish_line_index);
 			float distance_from_point = line.DistanceFromPoint(position_2d) / m_StoppingDistance;
-			if(!std::isnan(distance_from_point)){
+			if (!std::isnan(distance_from_point)) {
 				speed_percentage = std::clamp(distance_from_point, 0.f, 1.f);
 			}
 			if (speed_percentage < 0.01f) {
@@ -205,4 +137,85 @@ void Enemy::FollowSmoothedPath(const float delta_time)
 		m_Transform.Position.x += std::cos(angle_degrees) * m_Transform.Velocity.x * speed_percentage * delta_time;
 		m_Transform.Position.y += std::sin(angle_degrees) * m_Transform.Velocity.y * speed_percentage * delta_time;
 	}
+}
+
+
+void Enemy::CreateEnemyFsm()
+{
+	m_EnemyFsm = ai::fsm::GetStateManager();
+
+	m_IdleState = ai::fsm::CreateState(m_EnemyFsm, "Idle", [&](const float delta_time) {
+		if (m_Timer >= 2.f) {
+			m_Timer = 0.f;
+#ifdef LOGGING
+			std::cout << "Idle state finished\nSwitching to wander state\n";
+#endif // LOGGING
+			m_EnemyFsm->SetState(m_WanderState);
+			m_Ammo = 3;
+		}
+		});
+
+	m_WanderState = ai::fsm::CreateState(m_EnemyFsm, "Wander", [&](const float delta_time) {
+		if (m_Timer >= 1.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Wander state finished\nSwitching to attack state\n";
+#endif // LOGGING
+			m_RunningFsm = m_AttackFsm;
+		}
+		});
+
+	m_DieState = ai::fsm::CreateState(m_EnemyFsm, "Die", [&](const float delta_time) {
+		if (m_Timer >= 1.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Die state finished\nFSM STOPPED\n";
+#endif // LOGGING
+			m_EnemyFsm->KillManager();
+		}
+		});
+
+	m_SpawnState = ai::fsm::CreateState(m_EnemyFsm, "Spawn", [&](const float delta_time) {
+		if (m_Timer >= 2.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Spawn state finished\nSwitching to idle state\n";
+#endif // LOGGING
+			m_EnemyFsm->SetState(m_IdleState);
+		}
+		});
+
+	m_EnemyFsm->SetState(m_SpawnState);
+}
+
+void Enemy::CreateAttackFsm()
+{
+	m_AttackFsm = ai::fsm::GetStateManager();
+
+	m_AttackState = ai::fsm::CreateState(m_AttackFsm, "Attack", [&](const float delta_time) {
+		if (m_Timer >= 1.f) {
+			m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Shoot state - shooting\n";
+#endif // LOGGING
+			if (m_Ammo <= 0) {
+#ifdef LOGGING
+				std::cout << "Shoot state - out of ammo\nSwitch to idle state\n";
+#endif // LOGGING
+				m_Ammo = 3;
+				m_GoalTile = { 0.f, 0.f };
+				m_RunningFsm = m_EnemyFsm;
+				m_EnemyFsm->SetState(m_IdleState);
+			}
+			else {
+#ifdef LOGGING
+				std::cout << "Shoot state - shoot\t " << m_Ammo - 1 << " shots remaining" << "\n";
+#endif // LOGGING
+				m_Ammo--;
+				GoalTile();
+			}
+		}
+		});
+
+	m_AttackFsm->SetState(m_AttackState);
 }
