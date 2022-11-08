@@ -4,6 +4,7 @@
 #include <pathfinding/Node.h>
 #include <pathfinding/Path.h>
 #include <math/Vector2.h>
+#include <Blackboard.h>
 #include "Entity.h"
 
 class Enemy : public Entity {
@@ -37,7 +38,8 @@ public:
 	ai::fsm::ManagerPtr m_EnemyFsm;
 	ai::fsm::ManagerPtr m_AttackFsm;
 	ai::fsm::ManagerPtr m_RunningFsm;
-
+  ai::BlackboardPtr m_Blackboard;
+  
 	ai::fsm::StatePtr m_AttackState;
 	ai::fsm::StatePtr m_DieState;
 	ai::fsm::StatePtr m_SpawnState;
