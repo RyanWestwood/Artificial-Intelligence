@@ -19,6 +19,7 @@ Enemy::Enemy() : Entity()
 	m_RotationSpeed = .5f;
 	m_StoppingDistance = 10.f;
 	m_GoalTile = { 0,0 };
+
 	m_SmoothedPath = ai::path::CreatePath();
 
 	m_IdleState = ai::fsm::CreateState(m_FiniteStateMachine, [&]() {
@@ -63,7 +64,12 @@ void Enemy::Initialize()
 	m_Image.Texture.Initialize("ad.png");
 	m_Image.Texture.m_Source = { 0,0,32,32 };
 	m_Image.Texture.m_Destination = { 128,128,64,64 };
+
+	m_Blackboard = ai::CreateBlackboard(globals::GetAssetDirectory() + "blackboards/ad.csv");
+	m_Blackboard->GetBool("test_bool", false);
+	m_Blackboard->GetFloat("test_float", 1.f);
 }
+
 #ifdef LOGGING
 void Enemy::Input()
 {
