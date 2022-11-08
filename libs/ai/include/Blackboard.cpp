@@ -17,6 +17,7 @@ namespace ai {
 	{
 		if(m_Floats.find(name) == m_Floats.end()) {
 			m_Floats.emplace(name, std::make_shared<float>(default_value));
+			WriteFile();
 		}
 		return m_Floats[name];
 	}
@@ -25,6 +26,7 @@ namespace ai {
 	{
 		if (m_Bools.find(name) == m_Bools.end()) {
 			m_Bools.emplace(name, std::make_shared<bool>(default_value));
+			WriteFile();
 		}
 		return m_Bools[name];
 	}
@@ -57,13 +59,40 @@ namespace ai {
 			}
 		}
 		else {
-			std::cout << "Could not open the file - " << m_Filename << "\n";
+			std::cerr << "Could not open the file - " << m_Filename << "\n";
 		}
+		file.close();
 	}
 
 	void Blackboard::WriteFile()
 	{
+		std::vector<std::string> row;
+		std::string line, word;
 
+		std::ofstream file(m_Filename, std::ios::out);
+		if (file.is_open())
+		{
+			std::cout << "Float dictionary writing...\n";
+			for (const auto& element : m_Floats)
+			{
+				std::stringstream ss;
+				ss << "float," << element.first << "," << *element.second << "\n";
+				std::string line = ss.str();
+				file << line;
+			}
+			std::cout << "Bool dictionary writing...\n";
+			for (const auto& element : m_Bools)
+			{
+				std::stringstream ss;
+				ss << "bool," << element.first << "," << *element.second << "\n";
+				std::string line = ss.str();
+				file << line;
+			}
+		}
+		else {
+			std::cerr << "Could not open the file - " << m_Filename << "\n";
+		}
+		file.close();
 	}
 
 	void Blackboard::PrintBoard()
