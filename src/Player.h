@@ -1,6 +1,8 @@
 #pragma once
 #include "engine/Globals.h"
+#include "engine/Font.h"
 #include "ui/Cooldown.h"
+#include "ui/Healthbar.h"
 #include "Entity.h"
 #include "Staff.h"
 #include "Sword.h"
@@ -27,6 +29,8 @@ public:
 	Cooldown m_RangedCooldown;
 	Cooldown m_HealthRegenCooldown;
 	Cooldown m_MitigationCooldown;
+	HealthBar m_HealthBar;
+	Text m_PlayerName;
 	std::shared_ptr<float> m_OffGlobal;
 	std::shared_ptr<float> m_Global;
 	std::shared_ptr<globals::Direction> m_Facing;

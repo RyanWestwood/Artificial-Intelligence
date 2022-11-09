@@ -25,10 +25,15 @@ void Player::Initialize()
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal, m_Facing);
 
-	m_MeleeCooldown.Initialize({ 16,784 }, 2);
-	m_RangedCooldown.Initialize({ 76, 784 }, 2);
-	m_MitigationCooldown.Initialize({ 136, 784 }, 15);
-	m_HealthRegenCooldown.Initialize({ 196, 784 }, 30);
+	m_MeleeCooldown.Initialize({ 651,784 }, 2);
+	m_RangedCooldown.Initialize({ 713, 784 }, 2);
+	m_MitigationCooldown.Initialize({ 775, 784 }, 15);
+	m_HealthRegenCooldown.Initialize({ 837, 784 }, 30);
+
+	m_HealthBar.Initialize({ 618,745,300,24 }, 4);
+	m_PlayerName.Initalize("CARLO");
+	m_PlayerName.m_Dimensions.x = 727;
+	m_PlayerName.m_Dimensions.y = 715;
 }
 
 void Player::KeyUp(SDL_Scancode code, const char* message)
@@ -170,4 +175,6 @@ void Player::Draw()
 	m_RangedCooldown.Draw();
 	m_HealthRegenCooldown.Draw();
 	m_MitigationCooldown.Draw();
+	m_HealthBar.Draw();
+	m_PlayerName.Draw();
 }
