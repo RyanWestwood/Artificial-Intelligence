@@ -31,14 +31,14 @@ private:
 	void CreateAttackFsm();
 
 public:
-	int m_Ammo;
-	float m_Timer;
-	float m_Cooldown;
+	ai::IntPtr m_Ammo;
+	ai::FloatPtr m_Timer;
+	ai::FloatPtr m_Cooldown;
 
 	ai::fsm::ManagerPtr m_EnemyFsm;
 	ai::fsm::ManagerPtr m_AttackFsm;
 	ai::fsm::ManagerPtr m_RunningFsm;
-  ai::BlackboardPtr m_Blackboard;
+	ai::BlackboardPtr m_Blackboard;
   
 	ai::fsm::StatePtr m_AttackState;
 	ai::fsm::StatePtr m_DieState;

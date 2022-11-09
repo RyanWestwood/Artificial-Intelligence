@@ -31,6 +31,15 @@ namespace ai {
 		return m_Bools[name];
 	}
 
+	ai::IntPtr Blackboard::GetInt(std::string name, int default_value)
+	{
+		if (m_Ints.find(name) == m_Ints.end()) {
+			m_Ints.emplace(name, std::make_shared<int>(default_value));
+			WriteFile();
+		}
+		return m_Ints[name];
+	}
+
 	void Blackboard::ReadFile()
 	{
 		std::vector<std::string> row;
@@ -55,6 +64,10 @@ namespace ai {
 					bool value = row[2] == "true" ? true : false;
 					BoolPtr value2 = std::make_shared<bool>(value);
 					m_Bools.emplace(row[1], value2);
+				}
+				if (row[0] == "int") {
+					IntPtr value = std::make_shared<int>(std::stoi(row[2]));
+					m_Ints.emplace(row[1], value);
 				}
 			}
 		}
@@ -85,6 +98,14 @@ namespace ai {
 			{
 				std::stringstream ss;
 				ss << "bool," << element.first << "," << *element.second << "\n";
+				std::string line = ss.str();
+				file << line;
+			}
+			std::cout << "Int dictionary writing...\n";
+			for (const auto& element : m_Ints)
+			{
+				std::stringstream ss;
+				ss << "int," << element.first << "," << *element.second << "\n";
 				std::string line = ss.str();
 				file << line;
 			}
