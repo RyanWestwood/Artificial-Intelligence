@@ -2,11 +2,16 @@
 #include <algorithm>
 #include "engine/Input.h"
 
-constexpr int g_MoveSpeed = 128;
-
 Player::Player() : Entity()
 {
+	m_Health = 100.f;
+	m_MitigationPower = .7f; // 30%
+	m_MitigationTimer = 10.f;
+	m_MoveSpeed = 128;
 
+	m_GlobalTime = 2;
+	m_MitigationTime = 15;
+	m_HealPotionTime = 30;
 }
 
 void Player::Initialize()
@@ -25,15 +30,15 @@ void Player::Initialize()
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal, m_Facing);
 
-	m_MeleeCooldown.Initialize({ 651,784 }, 2);
-	m_RangedCooldown.Initialize({ 713, 784 }, 2);
-	m_MitigationCooldown.Initialize({ 775, 784 }, 15);
-	m_HealthRegenCooldown.Initialize({ 837, 784 }, 30);
+	m_MeleeCooldown.Initialize({ 651,784 }, m_GlobalTime);
+	m_RangedCooldown.Initialize({ 713, 784 }, m_GlobalTime);
+	m_MitigationCooldown.Initialize({ 775, 784 }, m_MitigationTime);
+	m_HealthRegenCooldown.Initialize({ 837, 784 }, m_HealPotionTime);
 
 	m_HealthBar.Initialize({ 618,745,300,24 }, 4);
-	m_PlayerName.Initalize("CARLO");
-	m_PlayerName.m_Dimensions.x = 727;
-	m_PlayerName.m_Dimensions.y = 715;
+	m_CharacterName.Initalize("CARLO");
+	m_CharacterName.m_Dimensions.x = 727;
+	m_CharacterName.m_Dimensions.y = 715;
 }
 
 void Player::KeyUp(SDL_Scancode code, const char* message)
@@ -50,18 +55,18 @@ void Player::Input()
 {
 	Entity::Input();
 	if (input::GetKeyDown(SDL_SCANCODE_LEFT)) {
-		m_Transform.Velocity.x = -g_MoveSpeed;
+		m_Transform.Velocity.x = -m_MoveSpeed;
 		m_Image.FlipSprite = SDL_FLIP_HORIZONTAL;
 	}
 	if (input::GetKeyDown(SDL_SCANCODE_RIGHT)) {
-		m_Transform.Velocity.x = g_MoveSpeed;
+		m_Transform.Velocity.x = m_MoveSpeed;
 		m_Image.FlipSprite = SDL_FLIP_NONE;
 	}
 	if (input::GetKeyDown(SDL_SCANCODE_UP)) {
-		m_Transform.Velocity.y = -g_MoveSpeed;
+		m_Transform.Velocity.y = -m_MoveSpeed;
 	}	
 	if (input::GetKeyDown(SDL_SCANCODE_DOWN)) {
-		m_Transform.Velocity.y = g_MoveSpeed;
+		m_Transform.Velocity.y = m_MoveSpeed;
 	}
 
 	if (input::GetKeyDown(SDL_SCANCODE_A)) {
@@ -79,9 +84,14 @@ void Player::Input()
 		m_MitigationCooldown.Start();
 	}
 	if (input::GetKeyDown(SDL_SCANCODE_W)) {
-		HealthSpell();
+		HealthSpell(.03f);
 		m_HealthRegenCooldown.Start();
 	}
+#ifdef LOGGING
+	if (input::GetKeyDown(SDL_SCANCODE_Q)) {
+		Hit(.03f);
+	}
+#endif // LOGGING
 
 	if (input::GetKeyUp(SDL_SCANCODE_LEFT)) {
 #ifdef LOGGING
@@ -115,6 +125,9 @@ void Player::Input()
 	KeyUp(SDL_SCANCODE_S, "Ranged attack!\n");
 	KeyUp(SDL_SCANCODE_D, "Mitigation!\n");
 	KeyUp(SDL_SCANCODE_W, "Health potion!\n");
+#ifdef LOGGING
+	KeyUp(SDL_SCANCODE_Q, "Debug Self-Damage!\n");
+#endif // LOGGING
 }
 
 void Player::Update(const float delta_time)
@@ -145,6 +158,7 @@ void Player::Update(const float delta_time)
 	m_RangedCooldown.Update(delta_time);
 	m_HealthRegenCooldown.Update(delta_time);
 	m_MitigationCooldown.Update(delta_time);
+	m_MitigationTimer += delta_time;
 }
 
 void Player::Resume()
@@ -176,5 +190,29 @@ void Player::Draw()
 	m_HealthRegenCooldown.Draw();
 	m_MitigationCooldown.Draw();
 	m_HealthBar.Draw();
-	m_PlayerName.Draw();
+	m_CharacterName.Draw();
+}
+
+void Player::HealthSpell(float heal_amount)
+{
+	m_Health = std::clamp(m_Health + heal_amount, 0.f, 100.f);
+	m_HealthBar.ChangeHealth(m_Health);
+}
+
+void Player::Mitigation()
+{
+	m_MitigationTimer = 0.f;
+}
+
+void Player::Hit(float damage_amount)
+{
+	if (m_MitigationTimer < m_MitigationTime) {
+		m_Health = std::clamp(m_Health - (damage_amount * m_MitigationPower), 0.f, 100.f);
+	}else{
+		m_Health = std::clamp(m_Health - damage_amount, 0.f, 100.f);
+	}
+	m_HealthBar.ChangeHealth(m_Health);
+	if (m_Health <= 0.f) {
+		std::cout << "You have DIED!\n";
+	}
 }
