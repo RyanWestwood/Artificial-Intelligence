@@ -14,6 +14,18 @@ namespace ai {
 			float m_FromCost, m_ToCost, m_TotalCost;
 		};
 
+		enum class Obstacle : uint8_t {
+			Player			= 0x01,
+			Ad				= 0x02,
+			Boss			= 0x04,
+			Toxic			= 0x08,
+			Placeholder		= 0x10,
+			Placeholder1	= 0x20,
+			Placeholder2	= 0x40,
+			Placeholder3	= 0x80,
+			All				= 0xFF
+		};
+
 		class Node {
 		public:
 			Node();
@@ -37,6 +49,7 @@ namespace ai {
 			bool m_Visited;
 			NodePtr m_Parent;
 			bool m_Obstacle;
+			Obstacle m_ObstacleFlag;
 			std::vector<NodePtr> m_Neighbours;
 		};
 
