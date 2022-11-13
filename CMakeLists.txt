@@ -4,18 +4,23 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT A
 set (CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DLOGGING")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -DLOGGING")
-add_subdirectory("${PROJECT_SOURCE_DIR}/libs/ai")
 
-find_package(SDL2_IMAGE REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2)
-find_package(SDL2_MIXER REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2)
-find_package(SDL2_TTF REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1)
-find_package(SDL2 REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/SDL2-2.24.0)
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/ai")
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/sdl-2.24.2")
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/sdl-mixer-2.6.2")
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/sdl-image-2.6.2")
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/sdl-ttf-2.20.1")
+
+find_package(SDL2_IMAGE REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/sdl-image-2.6.2)
+find_package(SDL2_MIXER REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/sdl-mixer-2.6.2)
+find_package(SDL2_TTF REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/sdl-ttf-2.20.1)
+find_package(SDL2 REQUIRED PATHS ${PROJECT_SOURCE_DIR}/libs/sdl-2.24.2)
 
 include_directories(${PROJECT_SOURCE_DIR}/libs/ai/include)
-include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_image-2.6.2/include)
-include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_mixer-2.6.2/include)
-include_directories(${PROJECT_SOURCE_DIR}/libs/SDL2_ttf-2.20.1/include)
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/libs/sdl-image-2.6.2/)
+include_directories(${PROJECT_SOURCE_DIR}/libs/sdl-mixer-2.6.2/include)
+include_directories(${PROJECT_SOURCE_DIR}/libs/sdl-ttf-2.20.1)
+include_directories(${PROJECT_SOURCE_DIR}/libs/sdl-2.24.2/include)
 
 file(GLOB_RECURSE SOURCE "src/*.*")
 
