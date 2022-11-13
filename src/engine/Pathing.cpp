@@ -96,12 +96,12 @@ namespace pathing {
 		{
 			for (int x = 0; x < tilemap_dimensions.w; x++)
 			{
-				g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(false);
+				g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(ai::path::Obstacle::None);
 			}
 		}
 	}
 
-	void SetObstacle(int x, int y, bool value)
+	void SetObstacle(int x, int y, ai::path::Obstacle value)
 	{
 		auto tilemap_dimensions = globals::GetTileMapDimensions();
 		g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);

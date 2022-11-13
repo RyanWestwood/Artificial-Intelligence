@@ -14,11 +14,12 @@ namespace ai {
 			float m_FromCost, m_ToCost, m_TotalCost;
 		};
 
-		enum class Obstacle : uint8_t {
+		enum Obstacle : uint8_t {
+			None			= 0x00,
 			Player			= 0x01,
 			Ad				= 0x02,
 			Boss			= 0x04,
-			Toxic			= 0x08,
+			ToxicPool		= 0x08,
 			Placeholder		= 0x10,
 			Placeholder1	= 0x20,
 			Placeholder2	= 0x40,
@@ -29,14 +30,14 @@ namespace ai {
 		class Node {
 		public:
 			Node();
-			bool IsObstacle() { return m_Obstacle; }
+			Obstacle IsObstacle() { return m_ObstacleLayer; }
 			bool IsVisited() { return m_Visited; }
 			Vector2 GetPosition() { return m_Position; }
 			Costs GetCosts() { return m_Costs; }
 			NodePtr GetParent() { return m_Parent; }
 			std::vector<NodePtr> GetNeighbours() { return m_Neighbours; }
 
-			void SetObstacle(bool obstacle) { m_Obstacle = obstacle; }
+			void SetObstacle(Obstacle obstacle) { m_ObstacleLayer = obstacle; }
 			void SetVisited(bool visited) { m_Visited = visited; }
 			void SetPosition(Vector2 position) { m_Position = position; }
 			void SetCosts(Costs costs) { m_Costs = costs; }
@@ -47,9 +48,8 @@ namespace ai {
 		private:
 			Vector2 m_Position;
 			bool m_Visited;
+			Obstacle m_ObstacleLayer;
 			NodePtr m_Parent;
-			bool m_Obstacle;
-			Obstacle m_ObstacleFlag;
 			std::vector<NodePtr> m_Neighbours;
 		};
 

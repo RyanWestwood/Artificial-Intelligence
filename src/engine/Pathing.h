@@ -33,7 +33,7 @@ namespace pathing {
 
 	std::vector<Vector2> CreatePath(Vector2 start_node, Vector2 end_node, Algo algorithm = Algo::A_Star);
 	void Reset();
-	void SetObstacle(int x, int y, bool value);
+	void SetObstacle(int x, int y, ai::path::Obstacle value);
 	void UpdateAi();
 	std::vector<Node>& GetMap();
 
