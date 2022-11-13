@@ -1,6 +1,3 @@
-[submodule "libs/sdl2-2.24.2"]
-	path = libs/sdl2-2.24.2
-	url = https://github.com/libsdl-org/SDL.git
 [submodule "libs/sdl-image-2.6.2"]
 	path = libs/sdl-image-2.6.2
 	url = https://github.com/libsdl-org/SDL_image.git
@@ -10,3 +7,6 @@
 [submodule "libs/sdl-ttf-2.20.1"]
 	path = libs/sdl-ttf-2.20.1
 	url = https://github.com/libsdl-org/SDL_ttf.git
+[submodule "libs/sdl-2.24.2"]
+	path = libs/sdl-2.24.2
+	url = https://github.com/libsdl-org/SDL.git
