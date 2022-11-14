@@ -123,27 +123,27 @@ namespace pathing {
 			break;
 		case pathing::Algo::BFS:
 			timer::StartTimer();
-			solution_path = ai::path::BFS(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::BFS(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("BFS");
 			break;
 		case pathing::Algo::DFS:
 			timer::StartTimer();
-			solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("DFS");
 			break;
 		case pathing::Algo::GBFS:
 			timer::StartTimer();
-			solution_path = ai::path::Greedy_BFS(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::Greedy_BFS(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("Greedy BFS");
 			break;
 		case pathing::Algo::DLS:
 			timer::StartTimer();
-			solution_path = ai::path::DLS_Caller(g_NodePtrs, start_node, end_node, 10);
+			solution_path = ai::path::DLS_Caller(g_NodePtrs, start_node, end_node, layer, 10);
 			timer::StopTimer("DLS");
 			break;
 		case pathing::Algo::IDDFS:
 			timer::StartTimer();
-			solution_path = ai::path::IDDFS_Caller(g_NodePtrs, start_node, end_node, 25);
+			solution_path = ai::path::IDDFS_Caller(g_NodePtrs, start_node, end_node, layer, 25);
 			timer::StopTimer("IDDFS");
 			break;
 		default:
