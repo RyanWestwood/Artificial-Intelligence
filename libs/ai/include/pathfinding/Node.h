@@ -31,7 +31,6 @@ namespace ai {
 		public:
 			Node();
 			bool IsObstacle(Obstacle layer) { return layer & m_ObstacleLayer; }
-			bool IsObstacle() { return m_ObstacleLayer; } // TODO: Remove this!
 			bool IsVisited() { return m_Visited; }
 			Vector2 GetPosition() { return m_Position; }
 			Costs GetCosts() { return m_Costs; }

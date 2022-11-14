@@ -165,7 +165,7 @@ namespace pathing {
 		{
 			for (int x = 0; x < tilemap_dimensions.w; x++)
 			{
-				g_Nodes[x + (y * tilemap_dimensions.w)].m_TextureData = g_NodePtrs.at(x + (y * tilemap_dimensions.w))->IsObstacle() ? g_DebugObstacle : g_DefaultTexture;
+				g_Nodes[x + (y * tilemap_dimensions.w)].m_TextureData = g_NodePtrs.at(x + (y * tilemap_dimensions.w))->IsObstacle(ai::path::Obstacle::All) ? g_DebugObstacle : g_DefaultTexture;
 			}
 		}
 		for(auto& node : g_SolutionNodes){
