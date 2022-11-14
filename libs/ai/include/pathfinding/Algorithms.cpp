@@ -43,7 +43,7 @@ namespace ai {
 		return simplified_path;
 	}
 
-	std::vector<Vector2> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node) {
+	std::vector<Vector2> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, Obstacle layer) {
 
 		ResetNodeMap(nodes);
 
@@ -89,7 +89,7 @@ namespace ai {
 
 			for (NodePtr& neighbour : current_node->GetNeighbours()) {
 				auto it = std::find(frontier.begin(), frontier.end(), neighbour);
-				if (!(it != frontier.end()) && !neighbour->IsObstacle()) {
+				if (!(it != frontier.end()) && !neighbour->IsObstacle(layer)) {
 					float gPossibleLowerGoal = current_node->m_Costs.m_FromCost + Hueristic(neighbour, end_node);
 					if (gPossibleLowerGoal < neighbour->m_Costs.m_FromCost) {
 						neighbour->SetParent(current_node);

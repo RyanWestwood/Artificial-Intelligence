@@ -107,7 +107,7 @@ namespace pathing {
 		g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);
 	}
 
-	std::vector<Vector2> CreatePath(Vector2 start, Vector2 end, Algo algorithm)
+	std::vector<Vector2> CreatePath(Vector2 start, Vector2 end, Algo algorithm, ai::path::Obstacle layer)
 	{
 		auto tilemap_dimensions = globals::GetTileMapDimensions();
 
@@ -118,7 +118,7 @@ namespace pathing {
 		{
 		case pathing::Algo::A_Star:
 			timer::StartTimer();
-			solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("A_Star");
 			break;
 		case pathing::Algo::BFS:

@@ -31,7 +31,9 @@ namespace pathing {
 	bool Initialize();
 	void UnInitialize();
 
-	std::vector<Vector2> CreatePath(Vector2 start_node, Vector2 end_node, Algo algorithm = Algo::A_Star);
+	std::vector<Vector2> CreatePath(Vector2 start_node, Vector2 end_node,
+									Algo algorithm = Algo::A_Star,
+									ai::path::Obstacle layer = ai::path::Obstacle::None);
 	void Reset();
 	void SetObstacle(int x, int y, ai::path::Obstacle value);
 	void UpdateAi();

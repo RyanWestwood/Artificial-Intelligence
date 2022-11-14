@@ -6,7 +6,7 @@
 namespace ai {
 	namespace path {
 
-		extern "C++" AI_API std::vector<Vector2> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
+		extern "C++" AI_API std::vector<Vector2> A_Star(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node, Obstacle layer);
 		extern "C++" AI_API std::vector<Vector2> BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector2> Greedy_BFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
 		extern "C++" AI_API std::vector<Vector2> DFS(std::vector<NodePtr> nodes, NodePtr start_node, NodePtr end_node);
