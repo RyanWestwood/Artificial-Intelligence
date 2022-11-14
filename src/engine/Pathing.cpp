@@ -45,7 +45,6 @@ namespace pathing {
 		g_DebugTextureEndData = texture::LoadSolidColourTexture({ 0,0,255,255 }, { 32,32 });
 		g_DebugObstacle = texture::LoadSolidColourTexture({ 255,0,0,255 }, { 32,32 });
 #endif // LOGGING
-		ai::path::Obstacle pest = ai::path::Obstacle::Boss;
 		auto tilemap_dimensions = globals::GetTileMapDimensions();
 		auto tile_size = globals::GetTileDimensions();
 
