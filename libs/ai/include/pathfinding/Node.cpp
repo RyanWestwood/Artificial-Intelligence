@@ -5,7 +5,7 @@ namespace ai {
 
 		Node::Node()
 		{
-			m_Obstacle = false;
+			m_ObstacleLayer = Obstacle::None;
 			m_Visited = false;
 			m_Costs = { 0,0,0 };
 			m_Position = { 0,0 };
@@ -22,11 +22,10 @@ namespace ai {
 				for (int x = 0; x < map_width; x++)
 				{
 					auto node = std::make_shared<Node>();
-					node->SetObstacle(false);
+					node->SetObstacle(Obstacle::None);
 					node->SetVisited(false);
 					node->SetPosition({ (float)x, (float)y });
 					node->SetParent(nullptr);
-					node->SetObstacle(false);
 					map.push_back(node);
 				}
 			}
