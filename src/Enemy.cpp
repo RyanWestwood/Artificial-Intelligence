@@ -70,7 +70,7 @@ void Enemy::UpdateAi(Vector2 goal)
 	//						clean this code!
 	Vector2 start_pos = { (int)m_Transform.Position.x / 32 + 1, (int)m_Transform.Position.y / 32 + 1 };
 	Vector2 new_goal = { (int)goal.x, (int)goal.y };
-	m_Path = pathing::CreatePath(start_pos, new_goal, pathing::Algo::A_Star);
+	m_Path = pathing::CreatePath(start_pos, new_goal, pathing::Algo::A_Star, ai::path::Obstacle::Ad);
 	m_SmoothedPath->UpdatePath(m_Path, start_pos, 5.f, m_StoppingDistance); // TODO: fix this.
 }
 

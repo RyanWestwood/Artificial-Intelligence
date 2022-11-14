@@ -45,7 +45,6 @@ namespace pathing {
 		g_DebugTextureEndData = texture::LoadSolidColourTexture({ 0,0,255,255 }, { 32,32 });
 		g_DebugObstacle = texture::LoadSolidColourTexture({ 255,0,0,255 }, { 32,32 });
 #endif // LOGGING
-
 		auto tilemap_dimensions = globals::GetTileMapDimensions();
 		auto tile_size = globals::GetTileDimensions();
 
@@ -96,18 +95,18 @@ namespace pathing {
 		{
 			for (int x = 0; x < tilemap_dimensions.w; x++)
 			{
-				g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(false);
+				g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(ai::path::Obstacle::None);
 			}
 		}
 	}
 
-	void SetObstacle(int x, int y, bool value)
+	void SetObstacle(int x, int y, ai::path::Obstacle value)
 	{
 		auto tilemap_dimensions = globals::GetTileMapDimensions();
 		g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(value);
 	}
 
-	std::vector<Vector2> CreatePath(Vector2 start, Vector2 end, Algo algorithm)
+	std::vector<Vector2> CreatePath(Vector2 start, Vector2 end, Algo algorithm, ai::path::Obstacle layer)
 	{
 		auto tilemap_dimensions = globals::GetTileMapDimensions();
 
@@ -118,32 +117,32 @@ namespace pathing {
 		{
 		case pathing::Algo::A_Star:
 			timer::StartTimer();
-			solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("A_Star");
 			break;
 		case pathing::Algo::BFS:
 			timer::StartTimer();
-			solution_path = ai::path::BFS(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::BFS(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("BFS");
 			break;
 		case pathing::Algo::DFS:
 			timer::StartTimer();
-			solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("DFS");
 			break;
 		case pathing::Algo::GBFS:
 			timer::StartTimer();
-			solution_path = ai::path::Greedy_BFS(g_NodePtrs, start_node, end_node);
+			solution_path = ai::path::Greedy_BFS(g_NodePtrs, start_node, end_node, layer);
 			timer::StopTimer("Greedy BFS");
 			break;
 		case pathing::Algo::DLS:
 			timer::StartTimer();
-			solution_path = ai::path::DLS_Caller(g_NodePtrs, start_node, end_node, 10);
+			solution_path = ai::path::DLS_Caller(g_NodePtrs, start_node, end_node, layer, 10);
 			timer::StopTimer("DLS");
 			break;
 		case pathing::Algo::IDDFS:
 			timer::StartTimer();
-			solution_path = ai::path::IDDFS_Caller(g_NodePtrs, start_node, end_node, 25);
+			solution_path = ai::path::IDDFS_Caller(g_NodePtrs, start_node, end_node, layer, 25);
 			timer::StopTimer("IDDFS");
 			break;
 		default:
@@ -165,7 +164,7 @@ namespace pathing {
 		{
 			for (int x = 0; x < tilemap_dimensions.w; x++)
 			{
-				g_Nodes[x + (y * tilemap_dimensions.w)].m_TextureData = g_NodePtrs.at(x + (y * tilemap_dimensions.w))->IsObstacle() ? g_DebugObstacle : g_DefaultTexture;
+				g_Nodes[x + (y * tilemap_dimensions.w)].m_TextureData = g_NodePtrs.at(x + (y * tilemap_dimensions.w))->IsObstacle(ai::path::Obstacle::All) ? g_DebugObstacle : g_DefaultTexture;
 			}
 		}
 		for(auto& node : g_SolutionNodes){
