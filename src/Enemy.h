@@ -40,11 +40,14 @@ public:
 	ai::fsm::ManagerPtr m_RunningFsm;
 	ai::BlackboardPtr m_Blackboard;
   
-	ai::fsm::StatePtr m_AttackState;
 	ai::fsm::StatePtr m_DieState;
 	ai::fsm::StatePtr m_SpawnState;
 	ai::fsm::StatePtr m_IdleState;
 	ai::fsm::StatePtr m_WanderState;
+
+	ai::fsm::StatePtr m_AttackEntryState;
+	ai::fsm::StatePtr m_MeleeAttackState;
+	ai::fsm::StatePtr m_RangedAttackState;
 
 	std::vector<Vector2> m_Path;
 	float m_StoppingDistance;

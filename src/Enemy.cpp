@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include <algorithm>
 #include <cmath>
+#include <random>
 #include "engine/Globals.h"
 #include "engine/Pathing.h"
 
@@ -166,6 +167,7 @@ void Enemy::CreateEnemyFsm()
 			std::cout << "Wander state finished\nSwitching to attack state\n";
 #endif // LOGGING
 			m_RunningFsm = m_AttackFsm;
+			m_EnemyFsm->SetState(m_IdleState);
 		}
 		});
 
@@ -196,7 +198,29 @@ void Enemy::CreateAttackFsm()
 {
 	m_AttackFsm = ai::fsm::GetStateManager();
 
-	m_AttackState = ai::fsm::CreateState(m_AttackFsm, "Attack", [&](const float delta_time) {
+	m_AttackEntryState = ai::fsm::CreateState(m_AttackFsm, "Attack Entry Point", [&](const float delta_time) {
+		if (*m_Timer >= 1.f) {
+			*m_Timer = 0;
+			std::random_device dev;
+			std::mt19937 rng(dev());
+			std::uniform_int_distribution<int> distribution(0, 99);
+			int probability = 50;
+			int random_number = distribution(rng);
+#ifdef LOGGING
+			std::cout << "Entry state - ";
+#endif // LOGGING
+			if (random_number < probability) {
+				std::cout << "Chose ranged state! (" << random_number << ")\n";
+				m_AttackFsm->SetState(m_RangedAttackState);
+			}
+			else {
+				std::cout << "Chose melee state! (" << random_number << ")\n";
+				m_AttackFsm->SetState(m_MeleeAttackState);
+			}
+		}
+		});
+
+	m_RangedAttackState = ai::fsm::CreateState(m_AttackFsm, "Ranged Attack", [&](const float delta_time) {
 		if (*m_Timer >= 1.f) {
 			*m_Timer = 0;
 #ifdef LOGGING
@@ -209,7 +233,7 @@ void Enemy::CreateAttackFsm()
 				*m_Ammo = 3;
 				m_GoalTile = { 0.f, 0.f };
 				m_RunningFsm = m_EnemyFsm;
-				m_EnemyFsm->SetState(m_IdleState);
+				m_AttackFsm->SetState(m_AttackEntryState);
 			}
 			else {
 #ifdef LOGGING
@@ -221,5 +245,17 @@ void Enemy::CreateAttackFsm()
 		}
 		});
 
-	m_AttackFsm->SetState(m_AttackState);
+	m_MeleeAttackState = ai::fsm::CreateState(m_AttackFsm, "Melee Attack", [&](const float delta_time) {
+		if (*m_Timer >= 3.f) {
+			*m_Timer = 0;
+#ifdef LOGGING
+			std::cout << "Melee state - attacking\n";
+#endif // LOGGING
+			m_GoalTile = { 0.f, 0.f };
+			m_RunningFsm = m_EnemyFsm;
+			m_AttackFsm->SetState(m_AttackEntryState);
+		}
+		});
+
+	m_AttackFsm->SetState(m_AttackEntryState);
 }
