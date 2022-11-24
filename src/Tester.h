@@ -18,7 +18,7 @@ public:
 	void Initialize() {
 		std::cout << "\n\nBtTesting cout\n";
 
-		ai::bt::BtPtr bt = ai::bt::CreateBt(); // Stores root as BtPtr which is a shared_pointer<Node>()
+		ai::bt::BtPtr bt = ai::bt::CreateBt(); // Stores root as Node
 
 		DerviedNode derived_node;
 		derived_node.Update();	// Called derived node explicitly on the node; displays "Derived Called!"
