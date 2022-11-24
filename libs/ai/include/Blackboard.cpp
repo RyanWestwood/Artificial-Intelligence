@@ -10,7 +10,9 @@ namespace ai {
 	{
 		m_Filename = filename;
 		ReadFile();
+#ifdef LOGGING
 		PrintBoard();
+#endif // LOGGING
 	}
 
 	FloatPtr Blackboard::GetFloat(std::string name, float default_value)

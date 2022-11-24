@@ -210,11 +210,15 @@ void Enemy::CreateAttackFsm()
 			std::cout << "Entry state - ";
 #endif // LOGGING
 			if (random_number < probability) {
+#ifdef LOGGING
 				std::cout << "Chose ranged state! (" << random_number << ")\n";
+#endif // LOGGING
 				m_AttackFsm->SetState(m_RangedAttackState);
 			}
 			else {
+#ifdef LOGGING
 				std::cout << "Chose melee state! (" << random_number << ")\n";
+#endif // LOGGING
 				m_AttackFsm->SetState(m_MeleeAttackState);
 			}
 		}
