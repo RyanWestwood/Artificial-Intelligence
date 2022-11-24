@@ -15,10 +15,10 @@ namespace ai {
 			Error
 		};
 
-		//class INode {
-		//public:
-		//	virtual Status Update() = 0;
-		//};
+		class INode {
+		public:
+			virtual Status Update() = 0;
+		};
 
 		class Node {
 		public: 
