@@ -153,14 +153,14 @@ void Engine::UpdateAi(float* num)
 
 	*num = 0.0;
 	pathing::Reset();
-	//for (auto tile : PATHING::GetMap()) {
-	//	if (COLLISION::BoxCollision(m_Player.GetCollider(), tile.GetCollider())) {
-	//		PATHING::SetObstacle(tile.m_Position.x, tile.m_Position.y, true);
-	//	}
-	//	if (COLLISION::BoxCollision(m_Enemy.GetCollider(), tile.GetCollider())) {
-	//		PATHING::SetObstacle(tile.m_Position.x, tile.m_Position.y, true);
-	//	}
-	//}
+	for (auto tile : pathing::GetMap()) {
+		if (collision::BoxCollision(m_Player.GetCollider(), tile.GetCollider())) {
+			pathing::SetObstacle(tile.m_Position.x, tile.m_Position.y, ai::path::Obstacle::Player);
+		}
+		if (collision::BoxCollision(m_Enemy.GetCollider(), tile.GetCollider())) {
+			pathing::SetObstacle(tile.m_Position.x, tile.m_Position.y, ai::path::Obstacle::Ad);
+		}
+	}
 	m_Enemy.UpdateAi(m_Player.GetNodePosition());
 	pathing::UpdateAi();
 }
