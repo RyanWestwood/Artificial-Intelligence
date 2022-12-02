@@ -7,6 +7,7 @@ Entity::Entity() {
 	m_Collider.PixelOffset = {0, 0};
 	m_Transform.Position = { 0,0 };
 	m_Transform.Rotation = 0.f;
+	m_Transform.RotationSpeed = 0.f;
 	m_Transform.Velocity = { 0, 0 };
 	m_Transform.Direction = 0;
 	m_Image.Texture = Sprite();

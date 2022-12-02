@@ -12,6 +12,7 @@ struct Transform {
 	Vector2 Position;
 	Vector2 Velocity;
 	float Rotation;
+	float RotationSpeed;
 	char Direction;
 };
 

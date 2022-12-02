@@ -1,6 +1,7 @@
 #include "Clock.h"
 #include <chrono>
 #include <iostream>
+#define CLOCK 0
 
 namespace timer{
 	namespace {
@@ -16,7 +17,9 @@ namespace timer{
 		g_EndTime = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(g_EndTime - g_StartTime);
 #ifdef LOGGING
+	#if CLOCK == 1
 		std::cout << "Time taken by function (" << function_name << "): " << duration.count() << " microseconds\n";
+	#endif // CLOCK
 #endif // LOGGING
 	}
 }
