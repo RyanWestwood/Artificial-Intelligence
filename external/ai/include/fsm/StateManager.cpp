@@ -7,15 +7,16 @@
 
 namespace ai {
 	namespace fsm {
-		State::State(ManagerPtr manager, Function function)
+		State::State(ManagerPtr manager, std::string name, Function function)
 		{
 			m_Manager = manager;
 			m_Func = function;
+			m_StateName = name;
 		}
 
-		void State::Update()
+		void State::Update(const float delta_time)
 		{
-			m_Func();
+			m_Func(delta_time);
 		}
 
 		StateManager::StateManager()
@@ -33,10 +34,15 @@ namespace ai {
 			return m_CurrentState;
 		}
 
-		void StateManager::Update()
+		void StateManager::KillManager()
+		{
+			m_CurrentState = nullptr;
+		}
+
+		void StateManager::Update(const float delta_time)
 		{
 			if (m_CurrentState) {
-				m_CurrentState->Update();
+				m_CurrentState->Update(delta_time);
 			}
 		}
 
@@ -45,9 +51,9 @@ namespace ai {
 			return std::make_shared<StateManager>();
 		}
 
-		StatePtr CreateState(ManagerPtr manager, Function function)
+		StatePtr CreateState(ManagerPtr manager, std::string name, Function function)
 		{
-			return std::make_shared<State>(manager, function);
+			return std::make_shared<State>(manager, name, function);
 		}
 
 	} // namespace FSM
