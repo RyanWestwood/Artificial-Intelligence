@@ -1,5 +1,10 @@
 # Artificial-Intelligence
-`run LibraryBuilder.bat`
+
+## Pulling the repo 
+`git clone https://github.com/Birmingham-City-Uni/Artificial-Intelligence.git`
+`git submodule update --init --recursive`
+
+## Building the repo
 `run BUILD.bat`  
 
 ## Assets 
