@@ -1,4 +1,2 @@
 library_binaries/**
-libs/ai/build/**
-libs/ai/lib/**/*
-libs/ai/lib/**
+build/**

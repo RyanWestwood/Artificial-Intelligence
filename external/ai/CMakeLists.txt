@@ -5,9 +5,9 @@ file(GLOB_RECURSE SOURCE "include/*.*")
 add_library(ArtificialIntelligenceDLL SHARED ${SOURCE})
 set_target_properties(  ArtificialIntelligenceDLL
   PROPERTIES
-  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../libs/ai/lib"
-  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../libs/ai/lib"
-  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../libs/ai/lib"
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../library_binaries/lib"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../library_binaries/lib"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../library_binaries/bin"
 )
 
 function (SetFolder src dst var )
