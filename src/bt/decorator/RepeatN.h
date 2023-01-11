@@ -1,17 +1,16 @@
 #pragma once
-#include "../../Dll.h"
 #include "../Node.h"
 
 namespace ai {
 	namespace bt {
 
-		class Probability : public Decorator {
+		class RepeatN : public Decorator {
 		public:
-			Probability(int probability) : m_Probability(probability) {}
+			RepeatN(int amount_of_repitions) : m_Repitions(amount_of_repitions){}
 			Status Update();
 
 		private:
-			int m_Probability;
+			int m_Repitions;
 		};
 	} // namespace BT
 } // namespace AI

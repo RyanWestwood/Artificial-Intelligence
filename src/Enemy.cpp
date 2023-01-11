@@ -244,6 +244,7 @@ void Enemy::CreateAttackFsm()
 				std::cout << "Shoot state - shoot\t " << *m_Ammo - 1 << " shots remaining" << "\n";
 #endif // LOGGING
 				*m_Ammo = *m_Ammo - 1;
+				// TODO: Damage player with ranged procteile here!
 				GoalTile();
 			}
 		}
@@ -257,6 +258,7 @@ void Enemy::CreateAttackFsm()
 #endif // LOGGING
 			m_GoalTile = { 0.f, 0.f };
 			m_RunningFsm = m_EnemyFsm;
+			// TODO: Damage player with melee based damage from here.
 			m_AttackFsm->SetState(m_AttackEntryState);
 		}
 		});

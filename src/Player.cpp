@@ -30,10 +30,10 @@ void Player::Initialize()
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal, m_Facing);
 
-	m_MeleeCooldown.Initialize({ 651,784 }, m_GlobalTime);
-	m_RangedCooldown.Initialize({ 713, 784 }, m_GlobalTime);
-	m_MitigationCooldown.Initialize({ 775, 784 }, m_MitigationTime);
-	m_HealthRegenCooldown.Initialize({ 837, 784 }, m_HealPotionTime);
+	m_MeleeCooldown.Initialize({ 651,784 }, m_GlobalTime, "melee_icon.png"); 
+	m_RangedCooldown.Initialize({ 713, 784 }, m_GlobalTime, "projectile_icon.png");
+	m_MitigationCooldown.Initialize({ 775, 784 }, m_MitigationTime, "shield_icon.png");
+	m_HealthRegenCooldown.Initialize({ 837, 784 }, m_HealPotionTime, "health_icon.png");
 
 	m_HealthBar.Initialize({ 618,745,300,24 }, 4);
 	m_CharacterName.Initalize("CARLO");
