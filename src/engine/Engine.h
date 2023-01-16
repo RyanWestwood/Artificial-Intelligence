@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Sound.h"
-#include "Font.h"
 #include "../Tilemap.h"
 #include "../Player.h"
 #include "../Enemy.h"
@@ -23,7 +22,6 @@ public:
 	void UpdateAi(float*);
 
 public:
-	Text m_Text;
 	Music m_Music;
 	SoundEffect m_SoundEffect;
 	Tilemap m_Tilemap;

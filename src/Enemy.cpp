@@ -38,6 +38,10 @@ void Enemy::Initialize()
 
 	m_HealthBar.Initialize({ 468,30,600,24 }, 4);
 	m_AbilityBar.Initialize({ 764,70,300,12 }, 2, "TACTICAL REMOVER");
+
+	m_DisplayName.Initalize("BOB, DESTROYER OF WORLDS");
+	m_DisplayName.m_Dimensions.x = 590;
+	m_DisplayName.m_Dimensions.y = 10;
 }
 
 #ifdef LOGGING
@@ -86,6 +90,7 @@ void Enemy::Draw()
 
 	m_HealthBar.Draw();
 	m_AbilityBar.Draw();
+	m_DisplayName.Draw();
 }
 
 void Enemy::TakeDamage(unsigned short damage_amount)

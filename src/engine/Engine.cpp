@@ -26,9 +26,6 @@ bool Engine::Initialize()
 	m_Tilemap.Initialize("tilemap.png", 16);
 	m_Player.Initialize();
 	m_Enemy.Initialize();
-	m_Text.Initalize("BOB, DESTROYER OF WORLDS");
-	m_Text.m_Dimensions.x = 590;
-	m_Text.m_Dimensions.y = 10;
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -144,7 +141,9 @@ void Engine::Update(const float& delta_time)
 	if (collision::BoxCollision(m_Player.GetCollider(), m_Enemy.GetCollider())) {
 		m_Player.TakeDamage(5.f * delta_time);
 	}
-
+	
+	// TODO: @RyanWestwood, have the player take damage due to enemy attacks.
+	// have another collider??? if it collides with it take that type of damage
 	//if (collision::BoxCollision(Player, enemyattack)) {
 	//	// player takes damage
 	//}
@@ -187,7 +186,6 @@ void Engine::Draw()
 	m_Tilemap.Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
-	m_Text.Draw();
 
 #ifdef LOGGING
 	pathing::Draw();
