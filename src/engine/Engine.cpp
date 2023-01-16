@@ -29,8 +29,6 @@ bool Engine::Initialize()
 	m_Text.Initalize("BOB, DESTROYER OF WORLDS");
 	m_Text.m_Dimensions.x = 590;
 	m_Text.m_Dimensions.y = 10;
-	m_HealthBar.Initialize({ 468,30,600,24 }, 4);
-	m_AbilityBar.Initialize({ 764,70,300,12 }, 2, "TACTICAL REMOVER");
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -102,8 +100,9 @@ void Engine::Input()
 			}
 #ifdef LOGGING
 			if (input::GetKeyDown(SDL_SCANCODE_F1)) {
-				m_HealthBar.ChangeHealth(75);
-				m_AbilityBar.ChangeProgress(50);
+				// TODO: ATTACK State ability name
+				//m_AbilityBar.ChangeProgress(50);
+				m_Enemy.TakeDamage(5);
 				std::cout << "Key Down: F1!\n";
 			}
 #endif // LOGGING
@@ -133,6 +132,23 @@ void Engine::Update(const float& delta_time)
 {
 	m_Player.Update(delta_time);
 	m_Enemy.Update(delta_time);
+
+
+	for (auto bullet : m_Player.GetWeapon().GetActiveProjectiles()) {
+		if (collision::BoxCollision(bullet.GetCollider(), m_Enemy.GetCollider())) {
+			bullet.Deactivate();
+			m_Enemy.TakeDamage(2);
+		}
+	}
+
+	// TODO: @RyanWestwood
+	//if (collision::BoxCollision(Player, Enemy)) {
+	//	// player takes damage over time?
+	//}
+
+	//if (collision::BoxCollision(Player, enemyattack)) {
+	//	// player takes damage
+	//}
 }
 
 void Engine::UpdateAnimation(float* num)
@@ -172,9 +188,7 @@ void Engine::Draw()
 	m_Tilemap.Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
-	m_HealthBar.Draw();
 	m_Text.Draw();
-	m_AbilityBar.Draw();
 
 #ifdef LOGGING
 	pathing::Draw();

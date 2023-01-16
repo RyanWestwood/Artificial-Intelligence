@@ -216,3 +216,8 @@ void Player::Hit(float damage_amount)
 		std::cout << "You have DIED!\n";
 	}
 }
+
+Sword& Player::GetWeapon()
+{
+	return m_Sword;
+}

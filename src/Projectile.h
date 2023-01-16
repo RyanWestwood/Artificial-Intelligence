@@ -17,6 +17,8 @@ public:
 
 	void Activate(const SDL_FPoint& position, std::shared_ptr<globals::Direction> facing);
 	void Deactivate(Projectile& projectile);
+
+	std::vector<Projectile>& GetActiveProjectiles();
 public:
 	std::vector<Projectile> m_InactiveProjectiles;
 	std::vector<Projectile> m_ActiveProjectiles;

@@ -24,6 +24,8 @@ public:
 	void Mitigation();
 	void Hit(float damage_amount);
 
+	Sword& GetWeapon();
+
 public:
 	Sword m_Sword;
 	std::shared_ptr<float> m_OffGlobal;
