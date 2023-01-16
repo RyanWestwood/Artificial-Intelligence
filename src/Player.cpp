@@ -89,7 +89,7 @@ void Player::Input()
 	}
 #ifdef LOGGING
 	if (input::GetKeyDown(SDL_SCANCODE_Q)) {
-		Hit(.03f);
+		TakeDamage(.03f);
 	}
 #endif // LOGGING
 
@@ -204,7 +204,7 @@ void Player::Mitigation()
 	m_MitigationTimer = 0.f;
 }
 
-void Player::Hit(float damage_amount)
+void Player::TakeDamage(float damage_amount)
 {
 	if (m_MitigationTimer < m_MitigationTime) {
 		m_Health = std::clamp(m_Health - (damage_amount * m_MitigationPower), 0.f, 100.f);

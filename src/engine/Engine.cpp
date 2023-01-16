@@ -141,10 +141,9 @@ void Engine::Update(const float& delta_time)
 		}
 	}
 
-	// TODO: @RyanWestwood
-	//if (collision::BoxCollision(Player, Enemy)) {
-	//	// player takes damage over time?
-	//}
+	if (collision::BoxCollision(m_Player.GetCollider(), m_Enemy.GetCollider())) {
+		m_Player.TakeDamage(5.f * delta_time);
+	}
 
 	//if (collision::BoxCollision(Player, enemyattack)) {
 	//	// player takes damage
