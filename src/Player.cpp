@@ -79,6 +79,7 @@ void Player::Input()
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
+	//TODO: @RyanWestwood, make these use the correct countdowns to reduce repeated use. 
 	if (input::GetKeyDown(SDL_SCANCODE_D)) {
 		Mitigation();
 		m_MitigationCooldown.Start();

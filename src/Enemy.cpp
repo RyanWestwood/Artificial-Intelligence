@@ -15,7 +15,7 @@ Enemy::Enemy() : Entity()
 	m_Image.NoOfAnims = 7;
 	m_StoppingDistance = 10.f;
 	m_GoalTile = { 0,0 };
-	m_HealthAmount = 100;
+	m_Health = 100;
 
 	m_SmoothedPath = ai::path::CreatePath();
 
@@ -95,11 +95,11 @@ void Enemy::Draw()
 
 void Enemy::TakeDamage(unsigned short damage_amount)
 {
-	m_HealthAmount -= damage_amount;
-	if (m_HealthAmount <= 0) {
+	m_Health -= damage_amount;
+	if (m_Health <= 0) {
 		Death();
 	}
-	m_HealthBar.ChangeHealth(m_HealthAmount);
+	m_HealthBar.ChangeHealth(m_Health);
 }
 
 void Enemy::Death()

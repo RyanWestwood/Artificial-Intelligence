@@ -38,7 +38,7 @@ public:
 	Text m_DisplayName;
 	HealthBar m_HealthBar;
 	AbilityBar m_AbilityBar;
-	int m_HealthAmount;
+	int m_Health;
 
 	ai::IntPtr m_Ammo;
 	ai::FloatPtr m_Timer;

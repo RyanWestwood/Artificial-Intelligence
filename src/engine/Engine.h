@@ -5,6 +5,7 @@
 #include "../Tilemap.h"
 #include "../Player.h"
 #include "../Enemy.h"
+#include "../Boss.h"
 
 class Engine {
 public:
@@ -28,4 +29,5 @@ public:
 	Player m_Player;
 	bool m_IsPaused;
 	Enemy m_Enemy;
+	Boss m_Boss;
 };

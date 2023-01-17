@@ -26,6 +26,7 @@ bool Engine::Initialize()
 	m_Tilemap.Initialize("tilemap.png", 16);
 	m_Player.Initialize();
 	m_Enemy.Initialize();
+	m_Boss.Initialize();
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -121,6 +122,7 @@ void Engine::Input()
 #ifdef LOGGING
 	pathing::Input();
 	m_Enemy.Input();
+	m_Boss.Input();
 #endif // LOGGING
 	input::SetKeyUp(SDL_SCANCODE_F3, false);
 }
@@ -129,6 +131,7 @@ void Engine::Update(const float& delta_time)
 {
 	m_Player.Update(delta_time);
 	m_Enemy.Update(delta_time);
+	m_Boss.Update(delta_time);
 
 
 	for (auto bullet : m_Player.GetWeapon().GetActiveProjectiles()) {
@@ -157,6 +160,7 @@ void Engine::UpdateAnimation(float* num)
 	*num = 0.0;
 	m_Player.UpdateAnimation();
 	m_Enemy.UpdateAnimation();
+	m_Boss.UpdateAnimation();
 }
 
 void Engine::UpdateAi(float* num)
@@ -176,6 +180,7 @@ void Engine::UpdateAi(float* num)
 		}
 	}
 	m_Enemy.UpdateAi(m_Player.GetNodePosition());
+	m_Boss.UpdateAi(m_Player.GetNodePosition());
 	pathing::UpdateAi();
 }
 
@@ -186,6 +191,7 @@ void Engine::Draw()
 	m_Tilemap.Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
+	m_Boss.Draw();
 
 #ifdef LOGGING
 	pathing::Draw();
