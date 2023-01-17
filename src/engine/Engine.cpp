@@ -144,6 +144,10 @@ void Engine::Update(const float& delta_time)
 	if (collision::BoxCollision(m_Player.GetCollider(), m_Enemy.GetCollider())) {
 		m_Player.TakeDamage(5.f * delta_time);
 	}
+
+	if (collision::BoxCollision(m_Player.GetCollider(), m_Boss.GetCollider())) {
+		m_Player.TakeDamage(5.f * delta_time);
+	}
 	
 	// TODO: @RyanWestwood, have the player take damage due to enemy attacks.
 	// have another collider??? if it collides with it take that type of damage

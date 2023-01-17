@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "composite/Sequence.h"
 
 namespace ai {

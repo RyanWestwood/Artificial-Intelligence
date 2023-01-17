@@ -1,15 +1,18 @@
 #include "Sequence.h"
+#include <iostream>
 
 namespace ai {
 	namespace bt {
 
 		Status Sequence::Update(const float delta_time) {
+			Status result = Status::Error;
 			for (auto child : m_Children) {
-				if (child.Update(delta_time) == Status::Failure) {
+				result = child.Update(delta_time);
+				if (result == Status::Failure) {
 					return Status::Failure;
 				}
 			}
-			return Status::Success;
+			return result;
 		}
 	} // namespace BT
 } // namespace AI
