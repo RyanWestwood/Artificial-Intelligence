@@ -139,6 +139,11 @@ void Engine::Update(const float& delta_time)
 			bullet.Deactivate();
 			m_Enemy.TakeDamage(2);
 		}
+
+		if (collision::BoxCollision(bullet.GetCollider(), m_Boss.GetCollider())) {
+			bullet.Deactivate();
+			m_Boss.TakeDamage(2);
+		}
 	}
 
 	if (collision::BoxCollision(m_Player.GetCollider(), m_Enemy.GetCollider())) {

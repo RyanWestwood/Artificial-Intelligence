@@ -1,1 +1,3 @@
+float,melee_timer,2
+float,ranged_timer,2
 float,update_timer,1

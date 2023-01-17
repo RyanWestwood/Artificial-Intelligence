@@ -11,22 +11,49 @@ Boss::Boss() : Entity()
 	m_Health = 100;
 
 
-	ai::bt::Sequence* test = new ai::bt::Sequence();
+	ai::bt::Sequence* seq = new ai::bt::Sequence();
+	ai::bt::Node* act = new ai::bt::Node();
 	ai::bt::Node* action = new ai::bt::Node();
+	ai::bt::Node* action1 = new ai::bt::Node();
 
-	action->Initialize([&](const float delta_time) {
-		if (*m_Timer >= 1.f) {
-			std::cout << "Hello world!\n";
-			*m_Timer = 0.f;
+	act->Initialize([&](const float delta_time) {
+		if (m_Health <= 0) {
+			Death();
+#ifdef LOGGING
+			std::cout << "Died in the behavior tree!\n";
+#endif
 			return ai::bt::Status::Success;
 		}
 
 		return ai::bt::Status::Running;
 		});
 
-	test->AddChild(*action);
+	action->Initialize([&](const float delta_time) {
+		if (*m_Timer >= 1.f && *m_MeleeTimer <= 0.f) {
+			std::cout << "Melee Attack!\n";
+			*m_Timer = 0.f;
+			*m_MeleeTimer = 2.f;
+			return ai::bt::Status::Success;
+		}
 
-	m_Tree.Initialize(*test);
+		return ai::bt::Status::Running;
+		});
+
+	action1->Initialize([&](const float delta_time) {
+		if (*m_Timer >= 1.f && *m_RangedTimer <= 0.f) {
+			std::cout << "Ranged Attack!\n";
+			*m_Timer = 0.f;
+			*m_RangedTimer = 2.f;
+			return ai::bt::Status::Success;
+		}
+
+	return ai::bt::Status::Running;
+		});
+
+	seq->AddChild(*action);
+	seq->AddChild(*action1);
+
+	m_Tree.Initialize(*seq);
 }
 
 
@@ -46,6 +73,8 @@ void Boss::Initialize()
 
 	m_Blackboard = ai::CreateBlackboard(globals::GetAssetDirectory() + "blackboards/boss.csv");
 	m_Timer = m_Blackboard->GetFloat("update_timer", 1.f);
+	m_MeleeTimer = m_Blackboard->GetFloat("melee_timer", 2.f);
+	m_RangedTimer = m_Blackboard->GetFloat("ranged_timer", 2.f);	
 }
 
 void Boss::Input()
@@ -62,6 +91,8 @@ void Boss::Update(const float delta_time)
 
 	m_Tree.Update(delta_time);
 	*m_Timer += delta_time;
+	*m_RangedTimer -= delta_time;
+	*m_MeleeTimer -= delta_time;
 }
 
 void Boss::UpdateAnimation()
@@ -83,4 +114,13 @@ void Boss::Draw()
 	m_HealthBar.Draw();
 	m_AbilityBar.Draw();
 	m_DisplayName.Draw();
+}
+
+void Boss::TakeDamage(unsigned short damage_amount)
+{
+	m_Health -= damage_amount;
+	if (m_Health <= 0) {
+		Death();
+	}
+	m_HealthBar.ChangeHealth(m_Health);
 }

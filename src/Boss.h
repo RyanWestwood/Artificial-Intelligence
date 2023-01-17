@@ -22,14 +22,7 @@ public:
 	void Draw();
 
 	void Death() {}
-	void TakeDamage(unsigned short damage_amount)
-	{
-		m_Health -= damage_amount;
-		if (m_Health <= 0) {
-			Death();
-		}
-		m_HealthBar.ChangeHealth(m_Health);
-	}
+	void TakeDamage(unsigned short damage_amount);
 
 private:
 	Text m_DisplayName;
@@ -39,5 +32,7 @@ private:
 
 	ai::BlackboardPtr m_Blackboard;
 	ai::FloatPtr m_Timer;
+	ai::FloatPtr m_MeleeTimer;
+	ai::FloatPtr m_RangedTimer;
 	ai::bt::BehaviourTree m_Tree;
 };
