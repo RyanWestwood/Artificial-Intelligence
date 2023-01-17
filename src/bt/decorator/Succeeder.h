@@ -7,7 +7,7 @@ namespace ai {
 		class Succeeder : public Decorator {
 		public:
 			Succeeder() {}
-			Status Update();
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI

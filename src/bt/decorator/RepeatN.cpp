@@ -3,10 +3,10 @@
 namespace ai {
 	namespace bt {
 
-		Status RepeatN::Update() {
+		Status RepeatN::Update(const float delta_time) {
 			int index = 0;
 			do {
-				Status result = m_Child.Update();
+				Status result = m_Child.Update(delta_time);
 				if (result == Status::Failure) {
 					return Status::Failure;
 				}

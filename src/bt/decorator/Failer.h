@@ -7,7 +7,7 @@ namespace ai {
 		class Failer : public Decorator {
 		public:
 			Failer() {}
-			Status Update();
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI

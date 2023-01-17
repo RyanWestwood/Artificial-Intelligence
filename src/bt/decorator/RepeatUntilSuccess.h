@@ -7,7 +7,7 @@ namespace ai {
 		class RepeatUntilSuccess : public Decorator {
 		public:
 			RepeatUntilSuccess() {}
-			Status Update();
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI

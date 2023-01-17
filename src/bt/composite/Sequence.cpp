@@ -3,9 +3,9 @@
 namespace ai {
 	namespace bt {
 
-		Status Sequence::Update() {
+		Status Sequence::Update(const float delta_time) {
 			for (auto child : m_Children) {
-				if (child.Update() == Status::Failure) {
+				if (child.Update(delta_time) == Status::Failure) {
 					return Status::Failure;
 				}
 			}

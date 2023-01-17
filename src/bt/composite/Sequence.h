@@ -7,7 +7,7 @@ namespace ai {
 		class Sequence : public CompositeNode {
 		public:
 			Sequence() {}
-			Status Update();
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI
