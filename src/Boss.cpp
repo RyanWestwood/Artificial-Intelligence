@@ -77,10 +77,12 @@ void Boss::Initialize()
 	m_RangedTimer = m_Blackboard->GetFloat("ranged_timer", 2.f);	
 }
 
+#ifdef LOGGING
 void Boss::Input()
 {
 	Entity::Input();
 }
+#endif // LOGGING
 
 void Boss::Update(const float delta_time)
 {
