@@ -1,2 +1,3 @@
 library_binaries/**
 build/**
+test/build/**
