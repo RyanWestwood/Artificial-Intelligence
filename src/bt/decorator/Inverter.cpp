@@ -3,8 +3,8 @@
 namespace ai {
 	namespace bt {
 
-		Status Inverter::Update() {
-			Status result = m_Child.Update();
+		Status Inverter::Update(const float delta_time) {
+			Status result = m_Child.Update(delta_time);
 			if (result == Status::Success) {
 				return Status::Failure;
 			}

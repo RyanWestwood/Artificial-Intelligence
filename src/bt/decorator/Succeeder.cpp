@@ -3,8 +3,8 @@
 namespace ai {
 	namespace bt {
 
-		Status Succeeder::Update() {
-			m_Child.Update();
+		Status Succeeder::Update(const float delta_time) {
+			m_Child.Update(delta_time);
 			return Status::Success;
 		}
 	} // namespace BT

@@ -15,6 +15,7 @@ Enemy::Enemy() : Entity()
 	m_Image.NoOfAnims = 7;
 	m_StoppingDistance = 10.f;
 	m_GoalTile = { 0,0 };
+	m_Health = 100;
 
 	m_SmoothedPath = ai::path::CreatePath();
 
@@ -34,6 +35,13 @@ void Enemy::Initialize()
 	m_Cooldown = m_Blackboard->GetFloat("basic_cooldown", 3.f);
 	m_Timer = m_Blackboard->GetFloat("update_timer", 1.f);
 	m_Ammo = m_Blackboard->GetInt("ammo_size", 3);
+
+	m_HealthBar.Initialize({ 468,30,600,24 }, 4);
+	m_AbilityBar.Initialize({ 764,70,300,12 }, 2, "TACTICAL REMOVER");
+
+	m_DisplayName.Initalize("BOB, DESTROYER OF WORLDS");
+	m_DisplayName.m_Dimensions.x = 590;
+	m_DisplayName.m_Dimensions.y = 10;
 }
 
 #ifdef LOGGING
@@ -79,6 +87,19 @@ void Enemy::Draw()
 {
 	Entity::Draw();
 	m_Image.Texture.Draw();
+
+	m_HealthBar.Draw();
+	m_AbilityBar.Draw();
+	m_DisplayName.Draw();
+}
+
+void Enemy::TakeDamage(unsigned short damage_amount)
+{
+	m_Health -= damage_amount;
+	if (m_Health <= 0) {
+		Death();
+	}
+	m_HealthBar.ChangeHealth(m_Health);
 }
 
 void Enemy::Death()
@@ -244,6 +265,7 @@ void Enemy::CreateAttackFsm()
 				std::cout << "Shoot state - shoot\t " << *m_Ammo - 1 << " shots remaining" << "\n";
 #endif // LOGGING
 				*m_Ammo = *m_Ammo - 1;
+				// TODO: Damage player with ranged procteile here!
 				GoalTile();
 			}
 		}
@@ -257,6 +279,7 @@ void Enemy::CreateAttackFsm()
 #endif // LOGGING
 			m_GoalTile = { 0.f, 0.f };
 			m_RunningFsm = m_EnemyFsm;
+			// TODO: Damage player with melee based damage from here.
 			m_AttackFsm->SetState(m_AttackEntryState);
 		}
 		});

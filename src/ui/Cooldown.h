@@ -8,7 +8,7 @@ public:
 	Cooldown() {}
 
 	int GetIndex();
-	void Initialize(SDL_Point position, int timer);
+	void Initialize(SDL_Point position, int timer, const char* ability_icon = "ui_backdrop.png");
 	void Start();
 	
 	void Update(const float delta_time);

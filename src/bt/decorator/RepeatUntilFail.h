@@ -1,14 +1,13 @@
 #pragma once
-#include "../../Dll.h"
 #include "../Node.h"
 
 namespace ai {
 	namespace bt {
 
-		class RepeatUntilSuccess : public Decorator {
+		class RepeatUntilFail : public Decorator {
 		public:
-			RepeatUntilSuccess() {}
-			Status Update();
+			RepeatUntilFail() {}
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI

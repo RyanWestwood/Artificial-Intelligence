@@ -1,5 +1,4 @@
 #pragma once
-#include "../../Dll.h"
 #include "../Node.h"
 
 namespace ai {
@@ -8,7 +7,7 @@ namespace ai {
 		class Inverter : public Decorator {
 		public:
 			Inverter() {}
-			Status Update();
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI

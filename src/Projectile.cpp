@@ -12,6 +12,8 @@ Projectile::Projectile(texture::TextureData spritesheet, ProjectileManager* mana
 	m_Spritesheet.m_Source.h = 32;
 	m_Destination = { 0,0,32,32 };
 	m_Image.NoOfAnims = 7;
+	m_Collider.Dimensions.w = 32;
+	m_Collider.Dimensions.h = 32;
 }
 
 void Projectile::Activate(SDL_FPoint position, std::shared_ptr<globals::Direction> facing) {
@@ -52,6 +54,10 @@ void Projectile::Update(const float& delta_time)
 	m_Transform.Position.y += m_Transform.Velocity.y * delta_time;
 	m_Destination.x = m_Transform.Position.x;
 	m_Destination.y = m_Transform.Position.y;
+
+	m_Collider.Dimensions.x = m_Transform.Position.x;
+	m_Collider.Dimensions.y = m_Transform.Position.y;
+
 }
 
 void Projectile::UpdateAnimation()
@@ -109,4 +115,9 @@ void ProjectileManager::Deactivate(Projectile& projectile)
 	m_InactiveProjectiles.insert(m_InactiveProjectiles.end(), std::make_move_iterator(m_ActiveProjectiles.begin()),
 		std::make_move_iterator(m_ActiveProjectiles.begin() + 1));
 	m_ActiveProjectiles.erase(begin(m_ActiveProjectiles), begin(m_ActiveProjectiles) + 1);
+}
+
+std::vector<Projectile>& ProjectileManager::GetActiveProjectiles()
+{
+	return m_ActiveProjectiles;
 }

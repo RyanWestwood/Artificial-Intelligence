@@ -3,9 +3,9 @@
 namespace ai {
 	namespace bt {
 
-		Status Selector::Update() {
+		Status Selector::Update(const float delta_time) {
 			for (auto child : m_Children) {
-				if (child.Update() == Status::Success) {
+				if (child.Update(delta_time) == Status::Success) {
 					return Status::Success;
 				}
 			}

@@ -1,14 +1,13 @@
 #pragma once
-#include "../../Dll.h"
 #include "../Node.h"
 
 namespace ai {
 	namespace bt {
 
-		class RandomSequence : public CompositeNode {
+		class Sequence : public CompositeNode {
 		public:
-			RandomSequence() {}
-			Status Update();
+			Sequence() {}
+			Status Update(const float delta_time);
 		};
 	} // namespace BT
 } // namespace AI

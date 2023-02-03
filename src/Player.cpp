@@ -30,10 +30,10 @@ void Player::Initialize()
 
 	m_Sword.Initialize("tilemap.png", m_OffGlobal, m_Facing);
 
-	m_MeleeCooldown.Initialize({ 651,784 }, m_GlobalTime);
-	m_RangedCooldown.Initialize({ 713, 784 }, m_GlobalTime);
-	m_MitigationCooldown.Initialize({ 775, 784 }, m_MitigationTime);
-	m_HealthRegenCooldown.Initialize({ 837, 784 }, m_HealPotionTime);
+	m_MeleeCooldown.Initialize({ 651,784 }, m_GlobalTime, "melee_icon.png"); 
+	m_RangedCooldown.Initialize({ 713, 784 }, m_GlobalTime, "projectile_icon.png");
+	m_MitigationCooldown.Initialize({ 775, 784 }, m_MitigationTime, "shield_icon.png");
+	m_HealthRegenCooldown.Initialize({ 837, 784 }, m_HealPotionTime, "health_icon.png");
 
 	m_HealthBar.Initialize({ 618,745,300,24 }, 4);
 	m_CharacterName.Initalize("CARLO");
@@ -79,6 +79,7 @@ void Player::Input()
 		m_MeleeCooldown.Start();
 		m_RangedCooldown.Start();
 	}
+	//TODO: @RyanWestwood, make these use the correct countdowns to reduce repeated use. 
 	if (input::GetKeyDown(SDL_SCANCODE_D)) {
 		Mitigation();
 		m_MitigationCooldown.Start();
@@ -89,7 +90,7 @@ void Player::Input()
 	}
 #ifdef LOGGING
 	if (input::GetKeyDown(SDL_SCANCODE_Q)) {
-		Hit(.03f);
+		TakeDamage(.03f);
 	}
 #endif // LOGGING
 
@@ -204,7 +205,7 @@ void Player::Mitigation()
 	m_MitigationTimer = 0.f;
 }
 
-void Player::Hit(float damage_amount)
+void Player::TakeDamage(float damage_amount)
 {
 	if (m_MitigationTimer < m_MitigationTime) {
 		m_Health = std::clamp(m_Health - (damage_amount * m_MitigationPower), 0.f, 100.f);
@@ -215,4 +216,9 @@ void Player::Hit(float damage_amount)
 	if (m_Health <= 0.f) {
 		std::cout << "You have DIED!\n";
 	}
+}
+
+Sword& Player::GetWeapon()
+{
+	return m_Sword;
 }

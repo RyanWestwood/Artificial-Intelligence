@@ -1,6 +1,6 @@
 #pragma once
-#include "../Dll.h"
 #include <vector>
+#include <functional>
 
 namespace ai {
 	namespace bt {
@@ -12,10 +12,15 @@ namespace ai {
 			Error
 		};
 
+		typedef std::function<Status(const float delta_time)> Function;
+
 		class Node {
 		public:
 			Node() {}
-			Status Update() { return Status::Error; }
+			void Initialize(Function m_Func) { m_Logic = m_Func; }
+			Status Update(const float delta_time) { return m_Logic(delta_time); }
+		private:
+			Function m_Logic;
 		};
 
 		class Decorator : public Node {

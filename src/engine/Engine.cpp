@@ -26,11 +26,7 @@ bool Engine::Initialize()
 	m_Tilemap.Initialize("tilemap.png", 16);
 	m_Player.Initialize();
 	m_Enemy.Initialize();
-	m_Text.Initalize("BOB, DESTROYER OF WORLDS");
-	m_Text.m_Dimensions.x = 590;
-	m_Text.m_Dimensions.y = 10;
-	m_HealthBar.Initialize({ 468,30,600,24 }, 4);
-	m_AbilityBar.Initialize({ 764,70,300,12 }, 2, "TACTICAL REMOVER");
+	m_Boss.Initialize();
 
 #ifdef LOGGING
 	std::cout << "\n";
@@ -102,8 +98,9 @@ void Engine::Input()
 			}
 #ifdef LOGGING
 			if (input::GetKeyDown(SDL_SCANCODE_F1)) {
-				m_HealthBar.ChangeHealth(75);
-				m_AbilityBar.ChangeProgress(50);
+				// TODO: ATTACK State ability name
+				//m_AbilityBar.ChangeProgress(50);
+				m_Enemy.TakeDamage(5);
 				std::cout << "Key Down: F1!\n";
 			}
 #endif // LOGGING
@@ -125,6 +122,7 @@ void Engine::Input()
 #ifdef LOGGING
 	pathing::Input();
 	m_Enemy.Input();
+	m_Boss.Input();
 #endif // LOGGING
 	input::SetKeyUp(SDL_SCANCODE_F3, false);
 }
@@ -133,6 +131,34 @@ void Engine::Update(const float& delta_time)
 {
 	m_Player.Update(delta_time);
 	m_Enemy.Update(delta_time);
+	m_Boss.Update(delta_time);
+
+
+	for (auto bullet : m_Player.GetWeapon().GetActiveProjectiles()) {
+		if (collision::BoxCollision(bullet.GetCollider(), m_Enemy.GetCollider())) {
+			bullet.Deactivate();
+			m_Enemy.TakeDamage(2);
+		}
+
+		if (collision::BoxCollision(bullet.GetCollider(), m_Boss.GetCollider())) {
+			bullet.Deactivate();
+			m_Boss.TakeDamage(2);
+		}
+	}
+
+	if (collision::BoxCollision(m_Player.GetCollider(), m_Enemy.GetCollider())) {
+		m_Player.TakeDamage(5.f * delta_time);
+	}
+
+	if (collision::BoxCollision(m_Player.GetCollider(), m_Boss.GetCollider())) {
+		m_Player.TakeDamage(5.f * delta_time);
+	}
+	
+	// TODO: @RyanWestwood, have the player take damage due to enemy attacks.
+	// have another collider??? if it collides with it take that type of damage
+	//if (collision::BoxCollision(Player, enemyattack)) {
+	//	// player takes damage
+	//}
 }
 
 void Engine::UpdateAnimation(float* num)
@@ -143,6 +169,7 @@ void Engine::UpdateAnimation(float* num)
 	*num = 0.0;
 	m_Player.UpdateAnimation();
 	m_Enemy.UpdateAnimation();
+	m_Boss.UpdateAnimation();
 }
 
 void Engine::UpdateAi(float* num)
@@ -162,6 +189,7 @@ void Engine::UpdateAi(float* num)
 		}
 	}
 	m_Enemy.UpdateAi(m_Player.GetNodePosition());
+	m_Boss.UpdateAi(m_Player.GetNodePosition());
 	pathing::UpdateAi();
 }
 
@@ -172,9 +200,7 @@ void Engine::Draw()
 	m_Tilemap.Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
-	m_HealthBar.Draw();
-	m_Text.Draw();
-	m_AbilityBar.Draw();
+	m_Boss.Draw();
 
 #ifdef LOGGING
 	pathing::Draw();

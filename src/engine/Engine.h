@@ -2,12 +2,10 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Sound.h"
-#include "Font.h"
-#include "../ui/Healthbar.h"
-#include "../ui/AbilityBar.h"
 #include "../Tilemap.h"
 #include "../Player.h"
 #include "../Enemy.h"
+#include "../Boss.h"
 
 class Engine {
 public:
@@ -25,13 +23,11 @@ public:
 	void UpdateAi(float*);
 
 public:
-	Text m_Text;
 	Music m_Music;
 	SoundEffect m_SoundEffect;
 	Tilemap m_Tilemap;
 	Player m_Player;
 	bool m_IsPaused;
 	Enemy m_Enemy;
-	HealthBar m_HealthBar;
-	AbilityBar m_AbilityBar;
+	Boss m_Boss;
 };

@@ -22,7 +22,9 @@ public:
 
 	void HealthSpell(float heal_amount);
 	void Mitigation();
-	void Hit(float damage_amount);
+	void TakeDamage(float damage_amount);
+
+	Sword& GetWeapon();
 
 public:
 	Sword m_Sword;

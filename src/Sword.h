@@ -15,6 +15,8 @@ public:
 	void Swing();
 	void Fire();
 
+	std::vector<Projectile>& GetActiveProjectiles() { return m_Projectile.GetActiveProjectiles(); }
+
 private:
 	bool m_FireAction;
 	SDL_FPoint m_FireOffset;

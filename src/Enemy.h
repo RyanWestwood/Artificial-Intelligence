@@ -5,7 +5,10 @@
 #include <pathfinding/Path.h>
 #include <math/Vector2.h>
 #include <Blackboard.h>
+#include "engine/font.h"
 #include "Entity.h"
+#include "ui/AbilityBar.h"
+#include "ui/Healthbar.h"
 
 class Enemy : public Entity {
 public:
@@ -21,6 +24,7 @@ public:
 	void UpdateAi(Vector2 goal);
 	void Draw();
 
+	void TakeDamage(unsigned short damage_amount);
 	void Death();
 	void GoalTile();
 	void Move(const float delta_time);
@@ -31,6 +35,11 @@ private:
 	void CreateAttackFsm();
 
 public:
+	Text m_DisplayName;
+	HealthBar m_HealthBar;
+	AbilityBar m_AbilityBar;
+	int m_Health;
+
 	ai::IntPtr m_Ammo;
 	ai::FloatPtr m_Timer;
 	ai::FloatPtr m_Cooldown;

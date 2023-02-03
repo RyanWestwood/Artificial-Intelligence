@@ -29,11 +29,11 @@ int Cooldown::GetIndex()
 	return index;
 }
 
-void Cooldown::Initialize(SDL_Point position, int timer)
+void Cooldown::Initialize(SDL_Point position, int timer, const char* ability_icon)
 {
 	m_IsCountingDown = false;
 
-	m_Background.Initialize("ui_backdrop.png");
+	m_Background.Initialize(ability_icon);
 	m_Background.m_Destination = { position.x,position.y,TILE_SIZE,TILE_SIZE };
 
 	m_Foreground.Initialize("ui_foredrop.png");
