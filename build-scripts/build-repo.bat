@@ -11,7 +11,7 @@ echo Installing SDL
 cd external\sdl-2.24.2
 if not exist "build" mkdir build
 cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S ./../ -B "x64"
+cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -S ./ -B "x64"
 cmake --build x64 --config Release --parallel
 cmake --install x64 --prefix %library_binaries% --config Release 
 cd ../../..
