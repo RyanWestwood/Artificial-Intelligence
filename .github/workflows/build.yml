@@ -23,6 +23,15 @@ jobs:
       - run: |
           mkdir build
           mkdir library_binaries
+
+          cd external\ai-library
+          mkdir build
+          cd build
+          cmake ${{ matrix.config.cmake_extra_args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B "x64" -DCMAKE_PREFIX_PATH=D:/a/Artificial-Intelligence/Artificial-Intelligence/library_binaries
+          cmake --build x64 --config ${{ matrix.config.config }} --parallel
+          cmake --install x64 --prefix ./../../../library_binaries --config ${{ matrix.config.config }}
+          cd ./../../../
+
           cd external\sdl-2.24.2
           mkdir build
           cd build
