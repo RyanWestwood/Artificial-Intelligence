@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h> 
-#include <pathfinding/Algorithms.h>
+#include <ai/pathfinding/Algorithms.h>
 #include "Globals.h"
 #include "Texture.h"
 #include "../Entity.h"

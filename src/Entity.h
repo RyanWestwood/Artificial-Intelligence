@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h>
-#include <math/Vector2.h>
+#include <ai/math/Vector2.h>
 #include "engine/Texture.h"
 
 struct Collider {

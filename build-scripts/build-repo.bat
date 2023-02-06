@@ -7,6 +7,17 @@ echo Creating Home for libs
 cd %working_dir%
 if not exist "library_binaries" mkdir library_binaries
 
+echo Installing AI Library
+cd external\ai-library
+if not exist "build" mkdir build
+cd build
+cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S  %working_dir%/external/ai-library -B  %working_dir%/external/ai-library/build
+cmake --build %working_dir%/external/ai-library/build --config Release --parallel
+cmake --install %working_dir%/external/ai-library/build --prefix %library_binaries% --config Release 
+cd ../../..
+echo AI Library Installed
+pause
+
 echo Installing SDL
 cd external\sdl-2.24.2
 if not exist "build" mkdir build
