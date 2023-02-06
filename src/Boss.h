@@ -1,9 +1,9 @@
 #pragma once
+#include <ai/Blackboard.h>
 #include "engine/font.h"
 #include "Entity.h"
 #include "ui/AbilityBar.h"
 #include "ui/Healthbar.h"
-#include "Blackboard.h"
 #include "bt/BehaviorTree.h"
 #include "bt/composite/Sequence.h"
 

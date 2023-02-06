@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
-#include <fsm/StateManager.h>
-#include <pathfinding/Node.h>
-#include <pathfinding/Path.h>
-#include <math/Vector2.h>
-#include <Blackboard.h>
+#include <ai/fsm/StateManager.h>
+#include <ai/pathfinding/Node.h>
+#include <ai/pathfinding/Path.h>
+#include <ai/math/Vector2.h>
+#include <ai/Blackboard.h>
 #include "engine/font.h"
 #include "Entity.h"
 #include "ui/AbilityBar.h"

@@ -22,6 +22,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(SDL2_IMAGE_LIBRARIES "${PROJECT_SOURCE_DIR}/library_binaries/lib/SDL2_image.lib")
     set(SDL2_MIXER_LIBRARIES "${PROJECT_SOURCE_DIR}/library_binaries/lib/SDL2_mixer.lib")
     set(SDL2_TTF_LIBRARIES "${PROJECT_SOURCE_DIR}/library_binaries/lib/SDL2_ttf.lib")
+    set(AI_LIBRARY "${PROJECT_SOURCE_DIR}/library_binaries/lib/AI_LIBRARY.lib") 
     
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Release)
     file(COPY ${DLLS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build/Debug)
@@ -31,20 +32,11 @@ endif()
 
 add_executable (ArtificialIntelligence ${SOURCE})
 
-set(LIBS_DEBUG "${PROJECT_SOURCE_DIR}/library_binaries/lib/Debug/ArtificialIntelligenceDLL.lib") 
-set(LIBS_RELEASE "${PROJECT_SOURCE_DIR}/library_binaries/lib/Release/ArtificialIntelligenceDLL.lib") 
-
-add_custom_command(TARGET ArtificialIntelligence POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${PROJECT_SOURCE_DIR}/library_binaries/bin/$<CONFIGURATION>"
-        $<TARGET_FILE_DIR:ArtificialIntelligence>)
-
 target_link_libraries(ArtificialIntelligence ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_MIXER_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_TTF_LIBRARIES})
 target_link_libraries(ArtificialIntelligence ${SDL2_LIBRARIES})
-target_link_libraries(ArtificialIntelligence $<$<CONFIG:Debug>:${LIBS_DEBUG}> 
-        $<$<CONFIG:Release>:${LIBS_RELEASE}>)
+target_link_libraries(ArtificialIntelligence ${AI_LIBRARY})
 
 function (SetFolder src dst var )
     FILE(GLOB src
