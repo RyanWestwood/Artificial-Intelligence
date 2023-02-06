@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 namespace texture {
 	class TextureError : public std::exception {

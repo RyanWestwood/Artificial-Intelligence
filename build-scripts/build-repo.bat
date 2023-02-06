@@ -3,65 +3,42 @@ set working_dir=%cd%
 set library_binaries=%working_dir%/library_binaries
 set generator="-G Visual Studio 17 2022"
 
-echo Creating Home for libs
-cd %working_dir%
 if not exist "library_binaries" mkdir library_binaries
 
-echo Installing AI Library
-cd external\ai-library
-if not exist "build" mkdir build
-cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S  %working_dir%/external/ai-library -B  %working_dir%/external/ai-library/build
-cmake --build %working_dir%/external/ai-library/build --config Release --parallel
-cmake --install %working_dir%/external/ai-library/build --prefix %library_binaries% --config Release 
-cd ../../..
-echo AI Library Installed
-pause
+CALL :InstallAll Release %library_binaries%
+CALL :InstallAll Debug %library_binaries%/Debug
+CALL :InstallProject Release %library_binaries%
+CALL :InstallProject Debug %library_binaries%/Debug
 
-echo Installing SDL
-cd external\sdl-2.24.2
-if not exist "build" mkdir build
-cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S ./ -B "x64"
-cmake --build x64 --config Release --parallel
-cmake --install x64 --prefix %library_binaries% --config Release 
-cd ../../..
-echo SDL Installed
+pause 
+EXIT /B %ERRORLEVEL%
 
-echo Installing SDL_Image
-cd external\sdl-image-2.6.2
-if not exist "build" mkdir build
-cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S ./../ -B "x64" -DCMAKE_PREFIX_PATH=%library_binaries%
-cmake --build x64 --config Release --parallel
-cmake --install x64 --prefix %library_binaries% --config Release 
-cd ../../..
-echo SDL_Image Installed
+:InstallAll
+CALL :InstallLibs sdl-2.24.2 %~1 %~2
+CALL :InstallLibs sdl-image-2.6.2 %~1 %~2
+CALL :InstallLibs sdl-mixer-2.6.2 %~1 %~2
+CALL :InstallLibs sdl-ttf-2.20.1 %~1 %~2
+CALL :InstallLibs ai-library %~1 %~2
+EXIT /B 0
 
-echo Installing SDL_Mixer
-cd external\sdl-mixer-2.6.2
+:InstallLibs
+echo Installing %~1
+cd external\%~1
 if not exist "build" mkdir build
 cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S ./../ -B "x64" -DCMAKE_PREFIX_PATH=%library_binaries%
-cmake --build x64 --config Release --parallel
-cmake --install x64 --prefix %library_binaries% --config Release 
+cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=%~2 -S %working_dir%/external/%~1 -B %working_dir%/external/%~1/build -DCMAKE_PREFIX_PATH=%~3
+cmake --build . --config %~2 --parallel
+cmake --install . --prefix %~3 --config %~2 
 cd ../../..
-echo SDL_Mixer Installed
+echo %~1 Installed
+EXIT /B 0
 
-echo Installing SDL_TTF
-cd external\sdl-ttf-2.20.1
+:InstallProject
 if not exist "build" mkdir build
 cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S ./../ -B "x64" -DCMAKE_PREFIX_PATH=%library_binaries%
-cmake --build x64 --config Release --parallel
-cmake --install x64 --prefix %library_binaries% --config Release 
-cd ../../..
-echo SDL_TTF Installed
-echo All libraries are installed
-
-if not exist "build" mkdir build
-cd build
-cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=Release -S ./../ -DCMAKE_PREFIX_PATH=%library_binaries%
-cmake --build . --config Release --parallel
+cmake %generator% -A x64 -DCMAKE_BUILD_TYPE=%~1 -S ./../ -DCMAKE_PREFIX_PATH=%~2 -DMY_VARIABLE=%~1
+cmake --build . --config %~1 --parallel
+cmake --install %working_dir%/build --prefix %~2 --config %~1
+cd ../
 echo Project built successfully
-pause
+EXIT /B 0

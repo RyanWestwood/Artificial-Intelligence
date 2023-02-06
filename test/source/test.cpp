@@ -7,5 +7,6 @@ int main() {
     std::cerr << "Unexpected result: " << x << std::endl;
     return 1;
   }
+
   return 0;
 }

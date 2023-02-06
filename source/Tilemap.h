@@ -6,8 +6,6 @@
 class Tile {
 public:
 	Tile(texture::TextureData spritesheet);
-	~Tile();
-
 	void Draw();
 
 public:
@@ -27,6 +25,5 @@ public:
 public:
 	std::array<std::array<int, 48>, 27 > MAP_DATA;
 	std::vector<Tile> m_Tiles;
-	texture::TextureData m_TextureData;	
-	SDL_Rect m_Destination;
+	texture::TextureData m_TextureData;
 };
