@@ -9,7 +9,7 @@ namespace texture {
 		std::string g_TextureDirectory = "Not yet initialized!\n";
 	}
 
-	bool Initialize()
+	bool InitializeTexture()
 	{
 		g_TextureDirectory = globals::GetAssetDirectory();
 		g_TextureDirectory += "textures/";

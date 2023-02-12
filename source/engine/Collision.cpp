@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-namespace  collision{
+namespace collision{
 
 	const int DistanceSquared(Circle& a, Circle& b) {
 		int x = b.m_Position.x - a.m_Position.x;
@@ -18,7 +18,7 @@ namespace  collision{
 		return false;
 	}
 
-	bool SpeheCollision(Circle& lhs, Circle& rhs) {
+	bool SphereCollision(Circle& lhs, Circle& rhs) {
 		if (DistanceSquared(lhs, rhs) < (lhs.m_Radius + rhs.m_Radius) * (lhs.m_Radius + rhs.m_Radius))
 			return true;
 		return false;

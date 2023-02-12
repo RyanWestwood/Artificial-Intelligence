@@ -10,7 +10,6 @@ namespace font {
 
 	bool InitializeFont();
 	void UnInitializeFont();
-	void InitializeDefaultFont();
 
 	struct FontData {
 		TTF_Font* m_Font;

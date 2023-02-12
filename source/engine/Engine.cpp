@@ -6,14 +6,13 @@
 
 bool Engine::Initialize()
 {
-	bool globals = globals::Initialize();
+	bool globals = globals::InitializeGlobals();
 	bool renderer = renderer::InitializeRenderer();
-	bool texture = texture::Initialize();
+	bool texture = texture::InitializeTexture();
 	bool sound = sound::InitializeSound();
 	bool font = font::InitializeFont();
 	bool input = input::InitialzieInput();
-	bool pathing = pathing::Initialize();
-	font::InitializeDefaultFont();
+	bool pathing = pathing::InitializePathing();
 
 #ifdef LOGGING
 	std::cout << "\n";

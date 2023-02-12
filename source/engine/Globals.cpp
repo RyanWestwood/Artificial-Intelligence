@@ -11,7 +11,7 @@ namespace globals {
 		extern constexpr Vector g_TileMapDimensions = { 48, 27 };
 	}
 
-	bool Initialize() 
+	bool InitializeGlobals() 
 	{
 		g_AssetDirectory = SDL_GetBasePath();
 		std::size_t pos = g_AssetDirectory.find("Artificial");

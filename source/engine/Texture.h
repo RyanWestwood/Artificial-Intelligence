@@ -13,7 +13,7 @@ namespace texture {
 		SDL_Rect m_Source;
 	};
 
-	bool Initialize();
+	bool InitializeTexture();
 	TextureData LoadTexture(const char* filename);
 	TextureData LoadSolidColourTexture(SDL_Colour colour, SDL_Point dimensions);
 	void Draw(SDL_Texture* texture, const SDL_Rect& source, const SDL_Rect& destination);
