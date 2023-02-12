@@ -15,7 +15,7 @@ namespace globals {
 		None
 	};
 
-	bool Initialize();
+	bool InitializeGlobals();
 	std::string GetAssetDirectory();
 
 	struct Vector {

@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL.h> 
+#include <SDL2/SDL.h> 
 #include <ai/pathfinding/Algorithms.h>
 #include "Globals.h"
 #include "Texture.h"
@@ -28,7 +28,7 @@ namespace pathing {
 		IDDFS
 	};
 
-	bool Initialize();
+	bool InitializePathing();
 	void UnInitialize();
 
 	std::vector<Vector2> CreatePath(Vector2 start_node, Vector2 end_node,

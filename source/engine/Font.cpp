@@ -21,11 +21,8 @@ namespace font {
 #ifdef LOGGING
 		std::cout << "Font Initialized!\n";
 #endif // LOGGING
-		return true;
-	}
-
-	void InitializeDefaultFont() {
 		g_Font = LoadFont("font.ttf", 18, "Default", { 255,255,255,255 }, { 0,0 });
+		return true;
 	}
 
 	FontData GetDefaultFont() {

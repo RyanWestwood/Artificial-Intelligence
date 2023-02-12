@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 
 namespace font {
 	class FontError : public std::exception {
@@ -10,7 +10,6 @@ namespace font {
 
 	bool InitializeFont();
 	void UnInitializeFont();
-	void InitializeDefaultFont();
 
 	struct FontData {
 		TTF_Font* m_Font;

@@ -8,11 +8,7 @@ Tile::Tile(texture::TextureData spritesheet)
 {
 	m_TextureData = spritesheet;
 	m_Destination = { 0,0,0,0 };
-}
-
-Tile::~Tile()
-{
-
+	m_Position = { 0,0 };
 }
 
 void Tile::Draw()
@@ -28,9 +24,11 @@ Tilemap::Tilemap()
 	{
 		for (int x = 0; x < tilemap_dimensions.w; x++)
 		{
-			MAP_DATA[y][x] = (1) + (4 * 32); // x = 0-31, y = 0-31
+			MAP_DATA[y][x] = (1) + (4 * 32); // tile location on "tilemap.png"
 		}
 	}
+	m_Tiles.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
+	m_TextureData = texture::TextureData{ nullptr, SDL_Rect{0} };
 }
 
 Tilemap::~Tilemap()
@@ -43,22 +41,19 @@ void Tilemap::Initialize(const char* filename, int src_tile_size)
 	auto texture = texture::LoadTexture(filename);
 	m_TextureData.m_Texture = texture.m_Texture;
 	m_TextureData.m_Source = texture.m_Source;
-	m_Destination = { 0,0,32,32 };
 
 	auto spritesheet_column = m_TextureData.m_Source.w / src_tile_size;
 	auto spritesheet_row = m_TextureData.m_Source.h / src_tile_size;
-	auto tilemap_dimensions = globals::GetTileMapDimensions();
 
+	auto tilemap_dimensions = globals::GetTileMapDimensions();
 	auto tile_size = globals::GetTileDimensions();
-	int tile_width = tile_size.w;
-	int tile_height = tile_size.h;
 
 	for (int y = 0; y < tilemap_dimensions.h; y++)
 	{
 		for (int x = 0; x < tilemap_dimensions.w; x++)
 		{
 			Tile tile = { m_TextureData };
-			tile.m_Destination = { tile_width * x, tile_height * y, tile_width, tile_height };
+			tile.m_Destination = { tile_size.w * x, tile_size.h * y, tile_size.w, tile_size.h };
 			tile.m_TextureData.m_Source = { (MAP_DATA[y][x] % spritesheet_column) * src_tile_size, (MAP_DATA[y][x] / spritesheet_row) * src_tile_size, src_tile_size, src_tile_size };
 			tile.m_Position = { x,y };
 			m_Tiles.push_back(tile);
@@ -74,11 +69,4 @@ void Tilemap::Draw()
 	for (auto& tile : m_Tiles) {
 		tile.Draw();
 	}
-//#ifdef LOGGING
-//	if (m_DebugActivate) {
-//		for (auto& tile : m_DebugTiles) {
-//			tile.Draw();
-//		}
-//	}
-//#endif // LOGGING
 }

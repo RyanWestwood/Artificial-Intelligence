@@ -36,7 +36,7 @@ namespace pathing {
 	}
 #endif
 
-	bool Initialize()
+	bool InitializePathing()
 	{
 #ifdef LOGGING
 		g_DefaultTexture = texture::LoadSolidColourTexture({ 100,100,100,255 }, { 32,32 });
