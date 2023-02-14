@@ -24,6 +24,15 @@ public:
 	};
 };
 
+class CloseDoor : public Node {
+public:
+	CloseDoor() = default;
+	Status Update() override {
+		std::cout << "Closing door!\n\n";
+		return Status::Success;
+	};
+};
+
 class OpenDoor : public Node {
 public:
 	OpenDoor() = default;
@@ -60,14 +69,13 @@ public:
 	};
 };
 
-int main() {
-	auto root = NodeFactory::createCompositeNode<Selector>();
+auto DoorSubtree(){
 	auto door_sequence = NodeFactory::createCompositeNode<Sequence>();
-	auto window_sequence = NodeFactory::createCompositeNode<Sequence>();
 
 	auto walk_to_door = NodeFactory::createNode<WalkToDoor>();
 	auto door_open_selector = NodeFactory::createCompositeNode<Selector>();
 	auto walk_through_door = NodeFactory::createNode<WalkThroughDoor>();
+	auto closing_door = NodeFactory::createNode<CloseDoor>();
 
 	auto open_door = NodeFactory::createNode<OpenDoor>();
 	auto unlock_door_sequence = NodeFactory::createCompositeNode<Sequence>();
@@ -86,9 +94,108 @@ int main() {
 	door_sequence->AddNode(std::move(walk_to_door));
 	door_sequence->AddNode(std::move(door_open_selector));
 	door_sequence->AddNode(std::move(walk_through_door));
+	door_sequence->AddNode(std::move(closing_door));
 
-	root->AddNode(std::move(door_sequence));
-	root->AddNode(std::move(window_sequence));
+	return door_sequence;
+}
+
+class WalkToWindow : public Node {
+public:
+	WalkToWindow() = default;
+	Status Update() override {
+		std::cout << "Walking to Window!\n";
+		return Status::Success;
+	};
+};
+
+class WalkThroughWindow : public Node {
+public:
+	WalkThroughWindow() = default;
+	Status Update() override {
+		std::cout << "Walking through Window!\n";
+		return Status::Success;
+	};
+};
+
+class CloseWindow : public Node {
+public:
+	CloseWindow() = default;
+	Status Update() override {
+		std::cout << "Closing Window!\n\n";
+		return Status::Success;
+	};
+};
+
+class OpenWindow : public Node {
+public:
+	OpenWindow() = default;
+	Status Update() override {
+		std::cout << "Opening Window!\n";
+		return Status::Success;
+	};
+};
+
+class SmashWindow : public Node {
+public:
+	SmashWindow() = default;
+	Status Update() override {
+		std::cout << "Smashing Window!\n";
+		return Status::Success;
+	};
+};
+
+class UnlockWindow : public Node {
+public:
+	UnlockWindow() = default;
+	Status Update() override {
+		std::cout << "Unlocking Window!\n";
+		return Status::Success;
+	};
+};
+
+class ForceWindowOpen : public Node {
+public:
+	ForceWindowOpen() = default;
+	Status Update() override {
+		std::cout << "Forcing Window open!\n";
+		return Status::Success;
+	};
+};
+
+auto WindowSubtree() {
+	auto window_sequence = NodeFactory::createCompositeNode<Sequence>();
+
+	auto walk_to_window = NodeFactory::createNode<WalkToWindow>();
+	auto window_open_selector = NodeFactory::createCompositeNode<Selector>();
+	auto walk_through_window = NodeFactory::createNode<WalkThroughWindow>();
+	auto closing_window = NodeFactory::createNode<CloseWindow>();
+
+	auto open_window = NodeFactory::createNode<OpenWindow>();
+	auto unlock_window_sequence = NodeFactory::createCompositeNode<Sequence>();
+	auto smash_window = NodeFactory::createNode<SmashWindow>();;
+
+	auto unlock_window = NodeFactory::createNode<UnlockWindow>();;
+	auto force_window_open = NodeFactory::createNode<ForceWindowOpen>();;
+
+	unlock_window_sequence->AddNode(std::move(unlock_window));
+	unlock_window_sequence->AddNode(std::move(force_window_open));
+
+	window_open_selector->AddNode(std::move(open_window));
+	window_open_selector->AddNode(std::move(unlock_window_sequence));
+	window_open_selector->AddNode(std::move(smash_window));
+
+	window_sequence->AddNode(std::move(walk_to_window));
+	window_sequence->AddNode(std::move(window_open_selector));
+	window_sequence->AddNode(std::move(walk_through_window));
+	window_sequence->AddNode(std::move(closing_window));
+
+	return window_sequence;
+}
+
+int main() {
+	auto root = NodeFactory::createCompositeNode<Selector>();
+	root->AddNode(std::move(DoorSubtree()));
+	root->AddNode(std::move(WindowSubtree()));
 	
 	BehaviourTree tree(std::move(root));
 	tree.Update();
