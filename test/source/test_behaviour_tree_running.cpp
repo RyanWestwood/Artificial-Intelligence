@@ -1,9 +1,12 @@
+#include <ai/Blackboard.h>
 #include <ai/bt/Node.h>
 #include <ai/bt/CompositeNode.h>
 #include <ai/bt/BehaviourTree.h>
 #include <ai/bt/NodeFactory.h>
 #include <ai/bt/composite/Sequence.h>
 #include <ai/bt/composite/Selector.h>
+#include <engine/Globals.h>
+
 #include <iostream>
 #include <random>
 
@@ -18,7 +21,9 @@ class WalkToDoor : public Node {
 public:
 	WalkToDoor() = default;
 	Status Update() override {
+		if (m_Status == Status::Success) return Status::Success;
 		std::cout << "Walking to door!\n";
+		m_Status = Status::Success;
 		return Status::Success;
 	};
 };
@@ -27,15 +32,9 @@ class OpenDoor : public Node {
 public:
 	OpenDoor() = default;
 	Status Update() override {
-		if (action_time > 10) {
-			if (GetRandomProbability() < 10) {
+		if (action_time >= 10) {
 				std::cout << "Opening door!\n";
 				return Status::Success;
-			}
-			else {
-				std::cout << "Couldn't open door!\n";
-				return Status::Failure;
-			}
 		}
 		action_time++;
 		std::cout << "Attempting to open door!\n";
@@ -49,19 +48,18 @@ class CloseDoor : public Node {
 public:
 	CloseDoor() = default;
 	Status Update() override {
-		if (GetRandomProbability() < 50) {
-			std::cout << "Closing door!\n\n";
-			return Status::Success;
-		}
-		else {
-			std::cout << "Couldn't close door!\n\n";
-			return Status::Failure;
-		}
+		std::cout << "Closing door!\n	\n";
+		return Status::Success;
 	};
 };
 
-auto DoorSubtree(){
-	auto door_sequence = NodeFactory::createCompositeNode<Sequence>();
+int main() {
+
+	bool globals = globals::InitializeGlobals();
+	if (!globals) return 1;
+	auto blackboard = ai::CreateBlackboard(globals::GetAssetDirectory() + "blackboards/door_test.csv");
+
+	auto door_sequence = NodeFactory::createCompositeNode<Sequence>(blackboard);
 
 	auto walk_to_door = NodeFactory::createNode<WalkToDoor>();
 	auto open_door = NodeFactory::createNode<OpenDoor>();
@@ -71,13 +69,13 @@ auto DoorSubtree(){
 	door_sequence->AddNode(std::move(open_door));
 	door_sequence->AddNode(std::move(closing_door));
 
-	return door_sequence;
-}
+	BehaviourTree tree(std::move(door_sequence));
 
-int main() {
-	
-	BehaviourTree tree(std::move(DoorSubtree()));
-	tree.Update();
+	Status result = Status::Error;
+	do
+	{
+		result = tree.Update();
+	} while (result != Status::Success);
 
 	return 0;
 }

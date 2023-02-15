@@ -1,0 +1,3 @@
+bool,walk,false
+bool,open,false
+bool,close,false
