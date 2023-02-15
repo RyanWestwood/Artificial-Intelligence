@@ -5,13 +5,9 @@
 #include "engine/Renderer.h"
 #include "engine/Collision.h"
 
-#include <ai/Dll.h>
-
 int main(int argc, char* args[])
 {
 	{
-		ai::HelloWorld();
-
 #ifdef LOGGING
 		std::cout << "\nLogging Enabled:\n\n";
 #endif // LOGGING
