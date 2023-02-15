@@ -5,6 +5,15 @@
 #include <ai/bt/composite/Sequence.h>
 #include <ai/bt/composite/Selector.h>
 #include <iostream>
+#include <random>
+
+auto GetRandomProbability() {
+	std::random_device rd;
+	std::mt19937 gen(rd()); 
+	std::uniform_int_distribution<> distr(0, 99); 
+	return distr(gen);
+}
+
 
 class WalkToDoor : public Node {
 public:
@@ -28,8 +37,14 @@ class CloseDoor : public Node {
 public:
 	CloseDoor() = default;
 	Status Update() override {
-		std::cout << "Closing door!\n\n";
-		return Status::Success;
+		if (GetRandomProbability() < 50) {
+			std::cout << "Closing door!\n\n";
+			return Status::Success;
+		}
+		else {
+			std::cout << "Couldn't close door!\n\n";
+			return Status::Failure;
+		}
 	};
 };
 
@@ -37,8 +52,13 @@ class OpenDoor : public Node {
 public:
 	OpenDoor() = default;
 	Status Update() override {
-		std::cout << "Opening door!\n";
-		return Status::Success;
+		if(GetRandomProbability() < 10){
+			std::cout << "Opening door!\n";
+			return Status::Success;
+		}else{
+			std::cout << "Couldn't open door!\n";
+			return Status::Failure;
+		}
 	};
 };
 
@@ -55,8 +75,14 @@ class UnlockDoor : public Node {
 public:
 	UnlockDoor() = default;
 	Status Update() override {
-		std::cout << "Unlocking door!\n";
-		return Status::Success;
+		if (GetRandomProbability() < 50) {
+			std::cout << "Unlocking door!\n";
+			return Status::Success;
+		}
+		else {
+			std::cout << "Couldn't unlock door!\n";
+			return Status::Failure;
+		}
 	};
 };
 
@@ -64,8 +90,14 @@ class ForceDoorOpen : public Node {
 public:
 	ForceDoorOpen() = default;
 	Status Update() override {
-		std::cout << "Forcing door open!\n";
-		return Status::Success;
+		if (GetRandomProbability() < 50) {
+			std::cout << "Forcing door open!\n";
+			return Status::Success;
+		}
+		else {
+			std::cout << "Couldn't force door open!\n";
+			return Status::Failure;
+		}
 	};
 };
 
