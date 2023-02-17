@@ -1,13 +1,13 @@
 #pragma once
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
-namespace renderer {
+namespace renderer
+{
+  bool InitializeRenderer();
+  void UninitalizeRenderer();
 
-	bool InitializeRenderer();
-	void UninitalizeRenderer();
-
-	SDL_Renderer* GetRenderer();
-	SDL_Window* GetWindow();
-} // namespace Renderer
+  SDL_Renderer* GetRenderer();
+  SDL_Window*   GetWindow();
+} // namespace renderer

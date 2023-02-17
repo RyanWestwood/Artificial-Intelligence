@@ -1,47 +1,53 @@
 #pragma once
+#include "engine/Texture.h"
 #include <SDL2/SDL.h>
 #include <ai/math/Vector2.h>
-#include "engine/Texture.h"
 
-struct Collider {
-	SDL_Rect Dimensions;
-	Vector2 PixelOffset;
+struct Collider
+{
+  SDL_Rect Dimensions;
+  Vector2  PixelOffset;
 };
 
-struct Transform {
-	Vector2 Position;
-	Vector2 Velocity;
-	float Rotation;
-	float RotationSpeed;
-	char Direction;
+struct Transform
+{
+  Vector2 Position;
+  Vector2 Velocity;
+  float   Rotation;
+  float   RotationSpeed;
+  char    Direction;
 };
 
-struct Image {
-	Sprite Texture;
-	char AnimStep;
-	char NoOfAnims;
-	SDL_RendererFlip FlipSprite;
+struct Image
+{
+  Sprite           Texture;
+  char             AnimStep;
+  char             NoOfAnims;
+  SDL_RendererFlip FlipSprite;
 };
 
-class Entity {
+class Entity
+{
 public:
-	Entity();
+  Entity();
 
-	virtual void Initialize();
-	virtual void Input();
-	virtual void Update(const float delta_time) {}
-	virtual void UpdateAnimation();
-	virtual void Draw();
+  virtual void Initialize();
+  virtual void Input();
+  virtual void Update(const float delta_time)
+  {
+  }
+  virtual void UpdateAnimation();
+  virtual void Draw();
 
-	SDL_Rect& GetCollider();
-	Vector2 GetNodePosition();
+  SDL_Rect& GetCollider();
+  Vector2   GetNodePosition();
 
 public:
-	Collider m_Collider;
-	Transform m_Transform;
-	Image m_Image;
+  Collider  m_Collider;
+  Transform m_Transform;
+  Image     m_Image;
 #if LOGGING
-	texture::TextureData m_DebugCollider;
-	bool m_DebugActivate = false;
+  texture::TextureData m_DebugCollider;
+  bool                 m_DebugActivate = false;
 #endif // LOGGING
 };
