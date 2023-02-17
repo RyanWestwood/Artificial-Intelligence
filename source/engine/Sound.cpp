@@ -1,108 +1,123 @@
 #include "Sound.h"
 #include "Globals.h"
 
-namespace sound {
+namespace sound
+{
 
-	namespace {
-		std::string g_SoundDirectory = "Not yet initialized!\n";
-		std::string g_MusicDirectory = "Not yet initialized!\n";
-	}
+  namespace
+  {
+    std::string g_SoundDirectory = "Not yet initialized!\n";
+    std::string g_MusicDirectory = "Not yet initialized!\n";
+  } // namespace
 
-	bool InitializeSound()
-	{
-		g_SoundDirectory = globals::GetAssetDirectory();
-		g_SoundDirectory += "sfx/";
+  bool InitializeSound()
+  {
+    g_SoundDirectory = globals::GetAssetDirectory();
+    g_SoundDirectory += "sfx/";
 
-		g_MusicDirectory = globals::GetAssetDirectory();
-		g_MusicDirectory += "music/";
+    g_MusicDirectory = globals::GetAssetDirectory();
+    g_MusicDirectory += "music/";
 
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-			std::cout << "SDL_Mix could not initialize! SDL_Mix error: " << Mix_GetError() << "\n";
-			return false;
-		}
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+      std::cout << "SDL_Mix could not initialize! SDL_Mix error: " << Mix_GetError()
+                << "\n";
+      return false;
+    }
 #ifdef LOGGING
-		std::cout << "Sound Initialized!\n";
+    std::cout << "Sound Initialized!\n";
 #endif // LOGGING
-		return true;
-	}
+    return true;
+  }
 
-	void UninitalizeSound()
-	{
-		Mix_Quit();
-	}
+  void UninitalizeSound()
+  {
+    Mix_Quit();
+  }
 
-	Mix_Chunk* LoadSfx(const char* filename)
-	{
+  Mix_Chunk* LoadSfx(const char* filename)
+  {
 #ifdef LOGGING
-		std::cout << "Loading sound: " << filename << "\n";
+    std::cout << "Loading sound: " << filename << "\n";
 #endif // LOGGING
-		try {
-			Mix_Chunk* result = Mix_LoadWAV((g_SoundDirectory + std::string(filename)).c_str());
-			if (result == nullptr) throw SoundError();
-			return result;
-		}
-		catch (std::exception& e) {
-			std::cout << "An exception was thrown." << "\n";
-			std::cout << "\t" << e.what() << "\t" << Mix_GetError() << "\n";
-			return nullptr;
-		}
-	}
+    try
+    {
+      Mix_Chunk* result = Mix_LoadWAV((g_SoundDirectory + std::string(filename)).c_str());
+      if(result == nullptr)
+        throw SoundError();
+      return result;
+    }
+    catch(std::exception& e)
+    {
+      std::cout << "An exception was thrown."
+                << "\n";
+      std::cout << "\t" << e.what() << "\t" << Mix_GetError() << "\n";
+      return nullptr;
+    }
+  }
 
-	Mix_Music* LoadMusic(const char* filename) {
+  Mix_Music* LoadMusic(const char* filename)
+  {
 #ifdef LOGGING
-		std::cout << "Loading music: " << filename << "\n";
+    std::cout << "Loading music: " << filename << "\n";
 #endif // LOGGING
-		try {
-			Mix_Music* result = Mix_LoadMUS((g_MusicDirectory + std::string(filename)).c_str());
-			if (result == nullptr) throw SoundError();
-			return result;
-		}
-		catch (std::exception& e) {
-			std::cout << "An exception was thrown." << std::endl;
-			std::cout << "\t" << e.what() << "\t" << Mix_GetError() << "\n";
-			return nullptr;
-		}
-	}
-} // namespace Sound
+    try
+    {
+      Mix_Music* result = Mix_LoadMUS((g_MusicDirectory + std::string(filename)).c_str());
+      if(result == nullptr)
+        throw SoundError();
+      return result;
+    }
+    catch(std::exception& e)
+    {
+      std::cout << "An exception was thrown." << std::endl;
+      std::cout << "\t" << e.what() << "\t" << Mix_GetError() << "\n";
+      return nullptr;
+    }
+  }
+} // namespace sound
 
 SoundEffect::SoundEffect()
 {
-	m_Sound = nullptr;
+  m_Sound = nullptr;
 }
 
 SoundEffect::~SoundEffect()
 {
-	if(m_Sound) Mix_FreeChunk(m_Sound);
+  if(m_Sound)
+    Mix_FreeChunk(m_Sound);
 }
 
 void SoundEffect::Initialize(const char* filename)
 {
-	m_Sound = sound::LoadSfx(filename);
+  m_Sound = sound::LoadSfx(filename);
 }
 
 void SoundEffect::PlaySound()
 {
-	Mix_PlayChannel(-1, m_Sound, 0);
+  Mix_PlayChannel(-1, m_Sound, 0);
 }
 
 Music::Music()
 {
-	m_Music = nullptr;
+  m_Music = nullptr;
 }
 
 Music::~Music()
 {
-	if(m_Music) Mix_FreeMusic(m_Music);
+  if(m_Music)
+    Mix_FreeMusic(m_Music);
 }
 
 void Music::Initialize(const char* filename)
 {
-	m_Music = sound::LoadMusic(filename);
+  m_Music = sound::LoadMusic(filename);
 }
 
 void Music::PlayMusic()
 {
-	if (Mix_PlayingMusic() == 0) {
-		Mix_PlayMusic(m_Music, -1);
-	}
+  if(Mix_PlayingMusic() == 0)
+  {
+    Mix_PlayMusic(m_Music, -1);
+  }
 }

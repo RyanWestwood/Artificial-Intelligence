@@ -1,29 +1,31 @@
 #pragma once
+#include "engine/Texture.h"
 #include <array>
 #include <vector>
-#include "engine/Texture.h"
 
-class Tile {
+class Tile
+{
 public:
-	Tile(texture::TextureData spritesheet);
-	void Draw();
+  Tile(texture::TextureData spritesheet);
+  void Draw();
 
 public:
-	texture::TextureData m_TextureData;
-	SDL_Rect m_Destination;
-	SDL_Point m_Position;
+  texture::TextureData m_TextureData;
+  SDL_Rect             m_Destination;
+  SDL_Point            m_Position;
 };
 
-class Tilemap {
+class Tilemap
+{
 public:
-	Tilemap();
-	~Tilemap();
+  Tilemap();
+  ~Tilemap();
 
-	void Initialize(const char* filename, int src_tile_size);
-	void Draw();
+  void Initialize(const char* filename, int src_tile_size);
+  void Draw();
 
 public:
-	std::array<std::array<int, 48>, 27 > MAP_DATA;
-	std::vector<Tile> m_Tiles;
-	texture::TextureData m_TextureData;
+  std::array<std::array<int, 48>, 27> MAP_DATA;
+  std::vector<Tile>                   m_Tiles;
+  texture::TextureData                m_TextureData;
 };

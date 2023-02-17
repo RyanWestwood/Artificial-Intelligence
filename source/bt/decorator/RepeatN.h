@@ -1,16 +1,21 @@
 #pragma once
 #include "../Node.h"
 
-namespace ai {
-	namespace bt {
+namespace ai
+{
+  namespace bt
+  {
 
-		class RepeatN : public Decorator {
-		public:
-			RepeatN(int amount_of_repitions) : m_Repitions(amount_of_repitions){}
-			Status Update(const float delta_time);
+    class RepeatN : public Decorator
+    {
+    public:
+      RepeatN(int amount_of_repitions) : m_Repitions(amount_of_repitions)
+      {
+      }
+      Status Update(const float delta_time);
 
-		private:
-			int m_Repitions;
-		};
-	} // namespace BT
-} // namespace AI
+    private:
+      int m_Repitions;
+    };
+  } // namespace bt
+} // namespace ai

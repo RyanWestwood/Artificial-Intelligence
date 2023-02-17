@@ -1,41 +1,48 @@
 #pragma once
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <iostream>
 
-namespace sound {
-	class SoundError : public std::exception {
-	public:
-		const char* what() const throw(){ return "Sound Loading Error!\n"; }		
-	};
+namespace sound
+{
+  class SoundError : public std::exception
+  {
+  public:
+    const char* what() const throw()
+    {
+      return "Sound Loading Error!\n";
+    }
+  };
 
-	bool InitializeSound();
-	void UninitalizeSound();
+  bool InitializeSound();
+  void UninitalizeSound();
 
-	Mix_Chunk* LoadSfx(const char* filename);
-	Mix_Music* LoadMusic(const char* filename);
-} // namespace Sound
+  Mix_Chunk* LoadSfx(const char* filename);
+  Mix_Music* LoadMusic(const char* filename);
+} // namespace sound
 
-class SoundEffect {
+class SoundEffect
+{
 public:
-	SoundEffect();
-	~SoundEffect();
+  SoundEffect();
+  ~SoundEffect();
 
-	void Initialize(const char* filename);
-	void PlaySound();
+  void Initialize(const char* filename);
+  void PlaySound();
 
 public:
-	Mix_Chunk* m_Sound;
+  Mix_Chunk* m_Sound;
 };
 
-class Music {
+class Music
+{
 public:
-	Music();
-	~Music();
+  Music();
+  ~Music();
 
-	void Initialize(const char* filename);
-	void PlayMusic();
+  void Initialize(const char* filename);
+  void PlayMusic();
 
 public:
-	Mix_Music* m_Music;
+  Mix_Music* m_Music;
 };
