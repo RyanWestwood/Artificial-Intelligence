@@ -122,8 +122,6 @@ Text::~Text()
 {
   if(m_Texture)
     SDL_DestroyTexture(m_Texture);
-  if(m_Font)
-    TTF_CloseFont(m_Font);
 }
 
 void Text::Initalize(const char* filename, const char* message, int font_size)

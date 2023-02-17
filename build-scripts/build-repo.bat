@@ -37,7 +37,7 @@ EXIT /B 0
 :InstallProject
 if not exist "build" mkdir build
 cd build
-%cmake% %generator% -A x64 -DCMAKE_BUILD_TYPE=%~1 -S ./../ -DCMAKE_PREFIX_PATH=%~2 -DMY_VARIABLE=%~1
+%cmake% %generator% -A x64 -DCMAKE_BUILD_TYPE=%~1 -S ./../ -DCMAKE_PREFIX_PATH=%~2
 %cmake% --build . --config %~1 --parallel
 %cmake% --install %working_dir%/build --prefix %~2 --config %~1
 cd ../

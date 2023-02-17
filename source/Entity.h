@@ -1,29 +1,29 @@
 #pragma once
 #include "engine/Texture.h"
-#include <SDL2/SDL.h>
 #include <ai/math/Vector2.h>
+#include <SDL2/SDL.h>
 
 struct Collider
 {
-  SDL_Rect Dimensions;
-  Vector2  PixelOffset;
+  SDL_Rect Dimensions  = {0, 0, 0, 0};
+  Vector2  PixelOffset = {0.f, 0.f};
 };
 
 struct Transform
 {
-  Vector2 Position;
-  Vector2 Velocity;
-  float   Rotation;
-  float   RotationSpeed;
-  char    Direction;
+  Vector2 Position      = {0.f, 0.f};
+  Vector2 Velocity      = {0.f, 0.f};
+  float   Rotation      = 0.f;
+  float   RotationSpeed = 0.f;
+  char    Direction     = 0;
 };
 
 struct Image
 {
   Sprite           Texture;
-  char             AnimStep;
-  char             NoOfAnims;
-  SDL_RendererFlip FlipSprite;
+  char             AnimStep   = 0;
+  char             NoOfAnims  = 0;
+  SDL_RendererFlip FlipSprite = SDL_FLIP_NONE;
 };
 
 class Entity
@@ -33,9 +33,7 @@ public:
 
   virtual void Initialize();
   virtual void Input();
-  virtual void Update(const float delta_time)
-  {
-  }
+  virtual void Update(const float delta_time);
   virtual void UpdateAnimation();
   virtual void Draw();
 

@@ -4,6 +4,7 @@
 #include "engine/Texture.h"
 #include <functional>
 #include <vector>
+#include <memory>
 
 class Projectile;
 class ProjectileManager

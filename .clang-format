@@ -7,7 +7,7 @@ AlignOperands: false
 AllowAllArgumentsOnNextLine: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: false
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: true
 AllowShortLambdasOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: true
@@ -35,7 +35,7 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterComma
 BreakStringLiterals: true
-ColumnLimit: 90
+ColumnLimit: 0
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
@@ -46,7 +46,7 @@ IndentWidth: 2
 NamespaceIndentation: All
 PointerAlignment: Left
 ReferenceAlignment: Left
-SortIncludes: CaseSensitive
+SortIncludes: CaseInsensitive
 SortUsingDeclarations: true 
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
