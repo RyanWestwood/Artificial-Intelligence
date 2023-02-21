@@ -69,7 +69,7 @@ public:
 		door_sequence->AddNode(std::move(closing_door));
 		door_sequence->AddNode(std::move(alive_condition));
 
-		tree = BehaviourTree(std::move(door_sequence));
+		tree = ai::BehaviourTree(std::move(door_sequence));
 	}
 
 	void UpdateTree(){
@@ -77,7 +77,7 @@ public:
 	}
 
 private:
-	BehaviourTree tree;
+	ai::BehaviourTree tree;
 	std::bitset<8> tree_conditions;
 
 	int door_attempts = 0;

@@ -3,6 +3,7 @@
 #include "engine/Renderer.h"
 #include <algorithm>
 
+
 Projectile::Projectile(texture::TextureData spritesheet, ProjectileManager* manager)
 {
   m_Active                 = false;

@@ -1,8 +1,8 @@
-#include <iostream>
 #define SDL_MAIN_HANDLED
 #include "engine/Collision.h"
 #include "engine/Engine.h"
 #include "engine/Renderer.h"
+#include <iostream>
 #include <SDL2/SDL.h>
 
 int main(int argc, char* args[])
@@ -15,26 +15,23 @@ int main(int argc, char* args[])
     Engine g_App = Engine();
     if(!g_App.Initialize())
     {
-      std::cout << "Error could not init SDL!"
-                << "\n";
+      std::cout << "Error could not init SDL!\n";
     }
 
-    unsigned int g_CurrentTime = SDL_GetPerformanceCounter();
-    ;
+    unsigned int g_CurrentTime     = SDL_GetPerformanceCounter();
     unsigned int g_LastTime        = 0;
     float        g_LastAnimStep    = 0.0;
     float        g_UpdateAnimTimer = 1.f / 8;
     float        g_LastAiStep      = 0.0;
-    float        g_UpdateAiTimer   = 1.f / 4;
+    float        g_UpdateAiTimer   = .3f;
 
     while(g_App.IsRunning())
     {
       if(!g_App.IsPaused())
       {
-        g_LastTime    = g_CurrentTime;
-        g_CurrentTime = SDL_GetPerformanceCounter();
-        float deltaTime =
-          ((g_CurrentTime - g_LastTime) / (float)SDL_GetPerformanceFrequency());
+        g_LastTime      = g_CurrentTime;
+        g_CurrentTime   = SDL_GetPerformanceCounter();
+        float deltaTime = ((g_CurrentTime - g_LastTime) / (float)SDL_GetPerformanceFrequency());
 
         if(g_LastAnimStep > g_UpdateAnimTimer)
         {

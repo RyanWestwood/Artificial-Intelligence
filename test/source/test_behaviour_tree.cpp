@@ -229,7 +229,7 @@ int main() {
 	root->AddNode(std::move(DoorSubtree()));
 	root->AddNode(std::move(WindowSubtree()));
 	
-	BehaviourTree tree(std::move(root));
+	ai::BehaviourTree tree(std::move(root));
 	tree.Update();
 
 	return 0;

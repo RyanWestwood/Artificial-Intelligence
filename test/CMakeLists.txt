@@ -16,7 +16,7 @@ set(LIB_FILES
     "${LIBRARY_FILES}/SDL2_image.lib"
     "${LIBRARY_FILES}/SDL2_mixer.lib" 
     "${LIBRARY_FILES}/SDL2_ttf.lib"
-    "${LIBRARY_FILES}/AI_LIBRARY.lib"
+    "${LIBRARY_FILES}/AIL.lib"
     "${LIBRARY_FILES}/ArtificialIntelligence_static.lib"
     ) 
 
@@ -44,3 +44,5 @@ AddTest(Tilemap source/test_tilemap.cpp)
 AddTest(Blackboard source/test_blackboard.cpp)
 AddTest(BehaviourTree source/test_behaviour_tree.cpp)
 AddTest(BehaviourTreeRunning source/test_behaviour_tree_running.cpp)
+AddTest(Pathsmoothing source/test_pathsmoothing.cpp)
+AddTest(Vector2 source/test_vector2.cpp)

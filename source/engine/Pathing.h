@@ -2,8 +2,8 @@
 #include "../Entity.h"
 #include "Globals.h"
 #include "Texture.h"
+#include <ai/pf/Algorithms.h>
 #include <SDL2/SDL.h>
-#include <ai/pathfinding/Algorithms.h>
 
 namespace pathing
 {
@@ -44,17 +44,19 @@ namespace pathing
   bool InitializePathing();
   void UnInitialize();
 
-  std::vector<Vector2> CreatePath(Vector2            start_node,
-                                  Vector2            end_node,
-                                  Algo               algorithm = Algo::A_Star,
-                                  ai::path::Obstacle layer = ai::path::Obstacle::None);
-  void                 Reset();
-  void                 SetObstacle(int x, int y, ai::path::Obstacle value);
-  void                 UpdateAi();
-  std::vector<Node>&   GetMap();
+  std::vector<Vector2>
+                     CreatePath(Vector2            start_node,
+                                Vector2            end_node,
+                                Algo               algorithm = Algo::A_Star,
+                                ai::path::Obstacle layer = ai::path::Obstacle::None);
+  void               Reset();
+  void               SetObstacle(int x, int y, ai::path::Obstacle value);
+  void               UpdateAi();
+  std::vector<Node>& GetMap();
 
 #ifdef LOGGING
-  void DebugPaths(globals::Vector& tilemap_dimensions, globals::Vector tile_size);
+  void DebugPaths(globals::Vector& tilemap_dimensions,
+                  globals::Vector  tile_size);
   void Input();
   void Draw();
 #endif // LOGGING

@@ -1,18 +1,16 @@
 #pragma once
-#include "Entity.h"
-#include "bt/BehaviorTree.h"
-#include "bt/composite/Sequence.h"
-#include "engine/font.h"
-#include "ui/AbilityBar.h"
-#include "ui/Healthbar.h"
+#include "Enemy.h"
 #include <ai/Blackboard.h>
+#include <ai/bt/BehaviourTree.h>
+#include <ai/bt/composite/Sequence.h>
 
-class Boss : public Entity
+class Boss : public Enemy
 {
 public:
   Boss();
 
   void Initialize();
+  void CreateBt();
 #ifdef LOGGING
   void Input();
 #endif // LOGGING
@@ -22,20 +20,13 @@ public:
   void UpdateAi(Vector2 goal);
   void Draw();
 
-  void Death()
-  {
-  }
+  void Death();
   void TakeDamage(unsigned short damage_amount);
 
 private:
-  Text       m_DisplayName;
-  HealthBar  m_HealthBar;
-  AbilityBar m_AbilityBar;
-  int        m_Health;
-
-  ai::BlackboardPtr     m_Blackboard;
-  ai::FloatPtr          m_Timer;
-  ai::FloatPtr          m_MeleeTimer;
-  ai::FloatPtr          m_RangedTimer;
-  ai::bt::BehaviourTree m_Tree;
+  ai::BlackboardPtr m_Blackboard;
+  ai::FloatPtr      m_Timer;
+  ai::FloatPtr      m_MeleeTimer;
+  ai::FloatPtr      m_RangedTimer;
+  ai::BehaviourTree m_Tree;
 };

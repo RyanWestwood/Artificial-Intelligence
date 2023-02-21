@@ -34,6 +34,10 @@ void Entity::Input()
 #endif // LOGGING
 }
 
+void Entity::Update(const float delta_time)
+{
+}
+
 void Entity::UpdateAnimation()
 {
   m_Image.AnimStep >= m_Image.NoOfAnims ? m_Image.AnimStep = 0 : m_Image.AnimStep++;
@@ -60,5 +64,5 @@ SDL_Rect& Entity::GetCollider()
 
 Vector2 Entity::GetNodePosition()
 {
-  return {m_Transform.Position.x / 32, m_Transform.Position.y / 32};
+  return {(int)m_Transform.Position.x / 32, (int)m_Transform.Position.y / 32};
 }

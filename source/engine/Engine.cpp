@@ -205,6 +205,10 @@ void Engine::UpdateAi(float* num)
     {
       pathing::SetObstacle(tile.m_Position.x, tile.m_Position.y, ai::path::Obstacle::Ad);
     }
+    if(collision::BoxCollision(m_Boss.GetCollider(), tile.GetCollider()))
+    {
+      pathing::SetObstacle(tile.m_Position.x, tile.m_Position.y, ai::path::Obstacle::Boss);
+    }
   }
   m_Enemy.UpdateAi(m_Player.GetNodePosition());
   m_Boss.UpdateAi(m_Player.GetNodePosition());

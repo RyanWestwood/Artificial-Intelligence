@@ -1,61 +1,19 @@
 #include "Boss.h"
 #include "engine/Globals.h"
+#include "engine/Pathing.h"
+#include <ai/bt/NodeFactory.h>
 
-Boss::Boss() : Entity()
+Boss::Boss() :
+  Enemy()
 {
   m_Collider.Dimensions  = {6, 4, 50, 56};
   m_Collider.PixelOffset = {6, 4};
-  m_Transform.Position   = {736, 512};
+  m_Transform.Position   = {768, 712};
   m_Transform.Velocity   = {32.f, 32.f};
   m_Image.NoOfAnims      = 7;
   m_Health               = 100;
-
-  ai::bt::Sequence* seq     = new ai::bt::Sequence();
-  ai::bt::Node*     act     = new ai::bt::Node();
-  ai::bt::Node*     action  = new ai::bt::Node();
-  ai::bt::Node*     action1 = new ai::bt::Node();
-
-  act->Initialize([&](const float delta_time) {
-    if(m_Health <= 0)
-    {
-      Death();
-#ifdef LOGGING
-      std::cout << "Died in the behavior tree!\n";
-#endif
-      return ai::bt::Status::Success;
-    }
-
-    return ai::bt::Status::Running;
-  });
-
-  action->Initialize([&](const float delta_time) {
-    if(*m_Timer >= 1.f && *m_MeleeTimer <= 0.f)
-    {
-      std::cout << "Melee Attack!\n";
-      *m_Timer      = 0.f;
-      *m_MeleeTimer = 2.f;
-      return ai::bt::Status::Success;
-    }
-
-    return ai::bt::Status::Running;
-  });
-
-  action1->Initialize([&](const float delta_time) {
-    if(*m_Timer >= 1.f && *m_RangedTimer <= 0.f)
-    {
-      std::cout << "Ranged Attack!\n";
-      *m_Timer       = 0.f;
-      *m_RangedTimer = 2.f;
-      return ai::bt::Status::Success;
-    }
-
-    return ai::bt::Status::Running;
-  });
-
-  seq->AddChild(*action);
-  seq->AddChild(*action1);
-
-  m_Tree.Initialize(*seq);
+  m_MovementSpeed        = 64.f;
+  m_AvoidLayer           = ai::path::Ad;
 }
 
 void Boss::Initialize()
@@ -77,6 +35,8 @@ void Boss::Initialize()
   m_Timer       = m_Blackboard->GetFloat("update_timer", 1.f);
   m_MeleeTimer  = m_Blackboard->GetFloat("melee_timer", 2.f);
   m_RangedTimer = m_Blackboard->GetFloat("ranged_timer", 2.f);
+
+  // CreateBt();
 }
 
 #ifdef LOGGING
@@ -88,15 +48,13 @@ void Boss::Input()
 
 void Boss::Update(const float delta_time)
 {
-  m_Collider.Dimensions.x         = m_Transform.Position.x + m_Collider.PixelOffset.x;
-  m_Collider.Dimensions.y         = m_Transform.Position.y + m_Collider.PixelOffset.y;
-  m_Image.Texture.m_Destination.x = m_Transform.Position.x;
-  m_Image.Texture.m_Destination.y = m_Transform.Position.y;
+  Enemy::Update(delta_time);
+  Enemy::FollowPath(delta_time * m_MovementSpeed);
 
-  m_Tree.Update(delta_time);
-  *m_Timer += delta_time;
-  *m_RangedTimer -= delta_time;
-  *m_MeleeTimer -= delta_time;
+  // m_Tree.Update();
+  //*m_Timer += delta_time;
+  //*m_RangedTimer -= delta_time;
+  //*m_MeleeTimer -= delta_time;
 }
 
 void Boss::UpdateAnimation()
@@ -106,17 +64,16 @@ void Boss::UpdateAnimation()
 
 void Boss::UpdateAi(Vector2 goal)
 {
+  Enemy::UpdateAi(goal);
 }
 
 void Boss::Draw()
 {
-  Entity::Draw();
+  Enemy::Draw();
+}
 
-  m_Image.Texture.Draw();
-
-  m_HealthBar.Draw();
-  m_AbilityBar.Draw();
-  m_DisplayName.Draw();
+void Boss::Death()
+{
 }
 
 void Boss::TakeDamage(unsigned short damage_amount)
@@ -127,4 +84,50 @@ void Boss::TakeDamage(unsigned short damage_amount)
     Death();
   }
   m_HealthBar.ChangeHealth(m_Health);
+}
+
+void Boss::CreateBt()
+{
+  auto death = [&]() -> Status {
+    if(m_Health <= 0)
+    {
+      Death();
+#ifdef LOGGING
+      std::cout << "Died in the behavior tree!\n";
+#endif
+      return Status::Success;
+    }
+    return Status::Running;
+  };
+
+  auto melee = [&]() -> Status {
+    if(*m_Timer >= 1.f && *m_MeleeTimer <= 0.f)
+    {
+      std::cout << "Melee Attack!\n";
+      *m_Timer      = 0.f;
+      *m_MeleeTimer = 2.f;
+      return Status::Success;
+    }
+    return Status::Running;
+  };
+
+  auto range = [&]() -> Status {
+    if(*m_Timer >= 1.f && *m_RangedTimer <= 0.f)
+    {
+      std::cout << "Ranged Attack!\n";
+      *m_Timer       = 0.f;
+      *m_RangedTimer = 2.f;
+      return Status::Success;
+    }
+    return Status::Running;
+  };
+
+  auto sequence = NodeFactory::createCompositeNode<Sequence>(m_Blackboard);
+  auto action1  = NodeFactory::createNode<Node>(m_Blackboard, death);
+  auto action2  = NodeFactory::createNode<Node>(m_Blackboard, melee);
+  auto action3  = NodeFactory::createNode<Node>(m_Blackboard, range);
+
+  sequence->AddNode(std::move(action2));
+  sequence->AddNode(std::move(action3));
+  m_Tree = ai::BehaviourTree(std::move(sequence));
 }

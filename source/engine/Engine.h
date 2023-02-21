@@ -1,6 +1,6 @@
 #pragma once
+#include "../Ad.h"
 #include "../Boss.h"
-#include "../Enemy.h"
 #include "../Player.h"
 #include "../Tilemap.h"
 #include "Renderer.h"
@@ -24,11 +24,11 @@ public:
   void UpdateAi(float*);
 
 public:
+  bool        m_IsPaused;
   Music       m_Music;
   SoundEffect m_SoundEffect;
   Tilemap     m_Tilemap;
   Player      m_Player;
-  bool        m_IsPaused;
-  Enemy       m_Enemy;
+  Ad          m_Enemy;
   Boss        m_Boss;
 };
