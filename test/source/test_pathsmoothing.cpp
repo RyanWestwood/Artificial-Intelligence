@@ -11,14 +11,12 @@ int main()
   bool renderer = renderer::InitializeRenderer();
   bool texture  = texture::InitializeTexture();
   bool pathing  = pathing::InitializePathing();
-  if(!globals || !renderer || !texture || !pathing)
-    return 1;
+  if(!globals || !renderer || !texture || !pathing) return 1;
 
   Vector2 start_node{0, 0};
   Vector2 end_node{3, 15};
 
-  std::vector<Vector2> path =
-    pathing::CreatePath(start_node, end_node, pathing::Algo::A_Star);
+  std::vector<Vector2> path = pathing::CreatePath(start_node, end_node, pathing::Algo::A_Star);
 
   for(auto& elem : path)
   {
