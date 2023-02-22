@@ -56,7 +56,7 @@ public:
 			return Status::Success;
 		};
 
-		auto blackboard = ai::CreateBlackboard(globals::GetAssetDirectory() + "blackboards/door_test.csv");
+		auto blackboard = ai::Blackboard(globals::GetAssetDirectory() + "blackboards/door_test.csv");
 		auto door_sequence = NodeFactory::createCompositeNode<Sequence>(blackboard);
 
 		auto alive_condition = NodeFactory::createNode<Node>(blackboard, while_not_dead);
