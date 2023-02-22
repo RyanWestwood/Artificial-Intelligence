@@ -10,7 +10,8 @@ namespace pathing
   class Node : public Entity
   {
   public:
-    Node() : Entity::Entity()
+    Node() :
+      Entity::Entity()
     {
       m_Position    = {0.f, 0.f};
       m_Destination = {0, 0, 0, 0};
@@ -24,7 +25,7 @@ namespace pathing
 
   public:
     SDL_FPoint m_Position;
-    SDL_Rect   m_Destination;
+    SDL_FRect  m_Destination;
 #ifdef LOGGING
     void                 Draw();
     texture::TextureData m_TextureData;
@@ -44,19 +45,18 @@ namespace pathing
   bool InitializePathing();
   void UnInitialize();
 
-  std::vector<Vector2>
-                     CreatePath(Vector2            start_node,
-                                Vector2            end_node,
-                                Algo               algorithm = Algo::A_Star,
-                                ai::path::Obstacle layer = ai::path::Obstacle::None);
-  void               Reset();
-  void               SetObstacle(int x, int y, ai::path::Obstacle value);
-  void               UpdateAi();
-  std::vector<Node>& GetMap();
+  std::vector<Vector2> CreatePath(Vector2            start_node,
+                                  Vector2            end_node,
+                                  Algo               algorithm = Algo::A_Star,
+                                  ai::path::Obstacle layer     = ai::path::Obstacle::None);
+  void                 Reset();
+  void                 SetObstacle(int x, int y, ai::path::Obstacle value);
+  void                 UpdateAi();
+  std::vector<Node>&   GetMap();
 
 #ifdef LOGGING
-  void DebugPaths(globals::Vector& tilemap_dimensions,
-                  globals::Vector  tile_size);
+  void DebugPaths(Vector2 tilemap_dimensions,
+                  Vector2 tile_size);
   void Input();
   void Draw();
 #endif // LOGGING

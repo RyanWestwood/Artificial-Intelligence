@@ -52,9 +52,9 @@ void Ad::Input()
 
 void Ad::Update(const float delta_time)
 {
-  Enemy::Update(delta_time);
   Enemy::FollowPath(delta_time);
 
+  Enemy::Update(delta_time);
   //*m_Timer += delta_time;
   //m_RunningFsm->Update(delta_time);
 }

@@ -35,6 +35,10 @@ void Enemy::Update(const float delta_time)
   m_Collider.Dimensions.y         = m_Transform.Position.y + m_Collider.PixelOffset.y;
   m_Image.Texture.m_Destination.x = m_Transform.Position.x;
   m_Image.Texture.m_Destination.y = m_Transform.Position.y;
+
+  auto screen_dimensions = globals::GetScreenDimensions();
+  m_Transform.Position.x = std::clamp(m_Transform.Position.x, 0.f, screen_dimensions.w - 32.f);   // Offsetting image size
+  m_Transform.Position.y = std::clamp(m_Transform.Position.y, 0.f, screen_dimensions.h - 64.f); // Offsetting image size
 }
 
 void Enemy::FollowPath(float delta_time)

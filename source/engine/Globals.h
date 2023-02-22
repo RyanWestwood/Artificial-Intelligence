@@ -1,4 +1,5 @@
 #pragma once
+#include <ai/math/Vector2.h>
 #include <string>
 
 namespace globals
@@ -20,12 +21,8 @@ namespace globals
   bool        InitializeGlobals();
   std::string GetAssetDirectory();
 
-  struct Vector
-  {
-    int w, h;
-  };
-  Vector GetScreenDimensions();
-  Vector GetTileDimensions();
-  Vector GetTileMapDimensions();
+  Vector2 GetScreenDimensions();
+  Vector2 GetTileDimensions();
+  Vector2 GetTileMapDimensions();
 
 } // namespace globals

@@ -8,9 +8,9 @@ namespace globals
   namespace
   {
     extern std::string      g_AssetDirectory    = "Not yet initialized!\n";
-    extern constexpr Vector g_ScreenDimensions  = {1536, 864};
-    extern constexpr Vector g_TileDimensions    = {32, 32};
-    extern constexpr Vector g_TileMapDimensions = {48, 27};
+    extern const Vector2 g_ScreenDimensions  = Vector2(1536, 864);
+    extern const Vector2 g_TileDimensions    = Vector2(32, 32);
+    extern const Vector2 g_TileMapDimensions = Vector2(48, 27);
   } // namespace
 
   bool InitializeGlobals()
@@ -34,17 +34,17 @@ namespace globals
     return g_AssetDirectory;
   }
 
-  Vector GetScreenDimensions()
+  Vector2 GetScreenDimensions()
   {
     return g_ScreenDimensions;
   }
 
-  globals::Vector GetTileDimensions()
+  Vector2 GetTileDimensions()
   {
     return g_TileDimensions;
   }
 
-  globals::Vector GetTileMapDimensions()
+  Vector2 GetTileMapDimensions()
   {
     return g_TileMapDimensions;
   }
