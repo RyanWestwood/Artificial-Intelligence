@@ -32,10 +32,10 @@ public:
   ai::FloatPtr m_Timer;
   ai::FloatPtr m_Cooldown;
 
+  ai::Blackboard   m_Blackboard;
   ai::fsm::ManagerPtr m_EnemyFsm;
   ai::fsm::ManagerPtr m_AttackFsm;
   ai::fsm::ManagerPtr m_RunningFsm;
-  ai::BlackboardPtr   m_Blackboard;
 
   ai::fsm::StatePtr m_DieState;
   ai::fsm::StatePtr m_SpawnState;

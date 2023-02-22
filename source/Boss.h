@@ -24,7 +24,7 @@ public:
   void TakeDamage(unsigned short damage_amount);
 
 private:
-  ai::BlackboardPtr m_Blackboard;
+  ai::Blackboard    m_Blackboard;
   ai::FloatPtr      m_Timer;
   ai::FloatPtr      m_MeleeTimer;
   ai::FloatPtr      m_RangedTimer;

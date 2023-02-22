@@ -30,11 +30,10 @@ void Boss::Initialize()
   m_DisplayName.m_Dimensions.x = 590;
   m_DisplayName.m_Dimensions.y = 10;
 
-  m_Blackboard =
-    ai::CreateBlackboard(globals::GetAssetDirectory() + "blackboards/boss.csv");
-  m_Timer       = m_Blackboard->GetFloat("update_timer", 1.f);
-  m_MeleeTimer  = m_Blackboard->GetFloat("melee_timer", 2.f);
-  m_RangedTimer = m_Blackboard->GetFloat("ranged_timer", 2.f);
+  m_Blackboard  = ai::Blackboard(globals::GetAssetDirectory() + "blackboards/boss.csv");
+  m_Timer       = m_Blackboard.GetFloat("update_timer", 1.f);
+  m_MeleeTimer  = m_Blackboard.GetFloat("melee_timer", 2.f);
+  m_RangedTimer = m_Blackboard.GetFloat("ranged_timer", 2.f);
 
   // CreateBt();
 }

@@ -30,10 +30,10 @@ void Ad::Initialize()
   m_Image.Texture.m_Source      = {0, 0, 32, 32};
   m_Image.Texture.m_Destination = {128, 128, 64, 64};
 
-  m_Blackboard = ai::CreateBlackboard(globals::GetAssetDirectory() + "blackboards/ad.csv");
-  m_Cooldown   = m_Blackboard->GetFloat("basic_cooldown", 3.f);
-  m_Timer      = m_Blackboard->GetFloat("update_timer", 1.f);
-  m_Ammo       = m_Blackboard->GetInt("ammo_size", 3);
+  m_Blackboard = ai::Blackboard(globals::GetAssetDirectory() + "blackboards/ad.csv");
+  m_Cooldown   = m_Blackboard.GetFloat("basic_cooldown", 3.f);
+  m_Timer      = m_Blackboard.GetFloat("update_timer", 1.f);
+  m_Ammo       = m_Blackboard.GetInt("ammo_size", 3);
 
   m_HealthBar.Initialize({468, 30, 600, 24}, 4);
   m_AbilityBar.Initialize({764, 70, 300, 12}, 2, "TACTICAL REMOVER");
