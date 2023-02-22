@@ -2,7 +2,6 @@
 
 int main()
 {
-
   Vector2 vec{10.f, 10.f};
   auto    mag  = vec.Magnitude();
   auto    mag2 = Vector2::Magnitude({10, 10});
@@ -12,7 +11,10 @@ int main()
   std::cout << mag2 << "\n";
 
   auto a = Vector2::MoveTowards({10, 10}, {0, 0}, 1);
-  std::cout << a;
+  std::cout << a << "\n";
 
-  return 0;
+  auto angle = Vector2::GetAngleBetween({1, 0}, {0, 0});
+  std::cout << angle  << "\n";
+
+    return 0;
 }
