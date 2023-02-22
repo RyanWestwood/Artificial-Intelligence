@@ -49,7 +49,7 @@ void Boss::Input()
 void Boss::Update(const float delta_time)
 {
   Enemy::Update(delta_time);
-  Enemy::FollowPath(delta_time * m_MovementSpeed);
+  Enemy::FollowPath(delta_time);
 
   // m_Tree.Update();
   //*m_Timer += delta_time;

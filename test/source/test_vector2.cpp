@@ -13,8 +13,11 @@ int main()
   auto a = Vector2::MoveTowards({10, 10}, {0, 0}, 1);
   std::cout << a << "\n";
 
-  auto angle = Vector2::GetAngleBetween({1, 0}, {0, 0});
-  std::cout << angle  << "\n";
+  auto angle = Vector2::GetAngleBetween({768, 384}, {768, 712});
+  std::cout << angle << "\n";
 
-    return 0;
+  auto angle2 = Vector2::GetAngleBetween({0, 712 - 384}, {0, 0});
+  std::cout << angle2 << "\n";
+
+  return 0;
 }

@@ -1,11 +1,20 @@
 #include "Enemy.h"
 #include "engine/Pathing.h"
+#include <algorithm>
+#include <numeric>
 
 Enemy::Enemy() :
   Entity()
 {
-  m_Health = 0;
-  m_SearchAlgo = pathing::Algo::A_Star;
+  m_Health           = 0;
+  m_SearchAlgo       = pathing::Algo::A_Star;
+  m_AvoidLayer       = ai::path::None;
+  m_MovementSpeed    = 0.f;
+  m_FollowingPath    = false;
+  m_PathIndex        = 0;
+  m_TurnDistance     = 5.f;
+  m_TurnSpeed        = 5.f;
+  m_StoppingDistance = 10.f;
 }
 
 void Enemy::Initialize()
@@ -28,7 +37,7 @@ void Enemy::Update(const float delta_time)
   m_Image.Texture.m_Destination.y = m_Transform.Position.y;
 }
 
-void Enemy::FollowPath(float movement_amount)
+void Enemy::FollowPath(float delta_time)
 {
   if(m_Path.empty()) return;
   if(m_CachedStartPos == m_Path.front())
@@ -49,7 +58,48 @@ void Enemy::FollowPath(float movement_amount)
     current_waypoint.x *= 32;
     current_waypoint.y *= 32;
   }
-  m_Transform.Position = Vector2::MoveTowards(m_Transform.Position, current_waypoint, movement_amount);
+  m_Transform.Position = Vector2::MoveTowards(m_Transform.Position, current_waypoint, delta_time * m_MovementSpeed);
+}
+
+void Enemy::FollowSmoothedPath(const float delta_time)
+{
+  if(m_Path.empty()) return;
+
+  Vector2 current_position = m_Transform.Position;
+  float   speed_percentage = 1.f;
+
+  if(m_FollowingPath)
+  {
+    while(m_SmoothedPath.m_TurnBoundaries[m_PathIndex].HasCrossedLine(current_position))
+    {
+      if(m_PathIndex == m_SmoothedPath.m_FinishLineIndex)
+      {
+        m_FollowingPath = false;
+        return;
+      }
+      else
+      {
+        m_PathIndex++;
+      }
+    }
+  }
+  if(m_FollowingPath)
+  {
+    if(m_PathIndex >= m_SmoothedPath.m_SlowDownIndex && m_StoppingDistance > 0)
+    {
+      speed_percentage = std::clamp(m_SmoothedPath.m_TurnBoundaries[m_SmoothedPath.m_FinishLineIndex].DistanceFromPoint(current_position) / m_StoppingDistance, 0.0f, 1.0f);
+      if(speed_percentage < 0.01f)
+      {
+        m_FollowingPath = false;
+      }
+    }
+    auto goal_position   = m_SmoothedPath.m_LookPoints[m_PathIndex] * 32;
+    auto target_rotation = Vector2::GetAngleBetween(m_Transform.Position, goal_position);
+    auto interpolate_rotation = std::lerp(m_Transform.Rotation, target_rotation, delta_time * m_TurnSpeed);
+    auto clamped_rotation     = std::clamp(interpolate_rotation, -360.f, 360.f);
+    m_Transform.Rotation      = clamped_rotation;
+    m_Transform.Position.MoveForward(m_Transform.Rotation, delta_time * m_MovementSpeed);
+  }
 }
 
 void Enemy::UpdateAnimation()
@@ -60,7 +110,10 @@ void Enemy::UpdateAnimation()
 void Enemy::UpdateAi(Vector2 goal)
 {
   m_CachedStartPos = GetNodePosition();
-  m_Path = pathing::CreatePath(m_CachedStartPos, goal, m_SearchAlgo, m_AvoidLayer);
+  m_Path           = pathing::CreatePath(m_CachedStartPos, goal, m_SearchAlgo, m_AvoidLayer);
+  m_SmoothedPath   = Path(m_Path, m_Transform.Position, 5, 5);
+  m_FollowingPath  = true;
+  m_PathIndex      = 0;
 }
 
 void Enemy::Draw()
@@ -80,4 +133,3 @@ void Enemy::TakeDamage(unsigned short damage_amount)
 void Enemy::Death()
 {
 }
-

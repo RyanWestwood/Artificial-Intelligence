@@ -18,7 +18,6 @@ Ad::Ad() :
   m_MovementSpeed           = 64.f;
   m_AvoidLayer              = ai::path::Boss;
 
-
   CreateEnemyFsm();
   CreateAttackFsm();
   m_RunningFsm = m_EnemyFsm;
@@ -54,7 +53,7 @@ void Ad::Input()
 void Ad::Update(const float delta_time)
 {
   Enemy::Update(delta_time);
-  Enemy::FollowPath(delta_time * m_MovementSpeed);
+  Enemy::FollowPath(delta_time);
 
   //*m_Timer += delta_time;
   //m_RunningFsm->Update(delta_time);
