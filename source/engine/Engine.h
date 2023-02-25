@@ -23,6 +23,9 @@ public:
   void UpdateAnimation(float*);
   void UpdateAi(float*);
 
+public: // Utils
+  Player& GetPlayer();
+
 public:
   bool        m_IsPaused;
   Music       m_Music;
