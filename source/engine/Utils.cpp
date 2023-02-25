@@ -10,10 +10,10 @@ namespace utils
   bool InitializeUtils(Engine* engine)
   {
     g_Engine = engine;
-    return g_Engine ? true : false;
+    return g_Engine;
   }
 
-  Player& GetPlayerObject()
+  Player& GetPlayer()
   {
     return g_Engine->GetPlayer();
   }

@@ -5,6 +5,6 @@ namespace utils
 {
   bool InitializeUtils(Engine* engine);
 
-  Player& GetPlayerObject();
+  Player& GetPlayer();
 
 } // namespace utils
