@@ -27,8 +27,9 @@ public:
   virtual void UpdateAi(Vector2 goal);
   virtual void Draw();
 
-  virtual void TakeDamage(unsigned short damage_amount);
+  virtual bool TakeDamage(float damage_amount);
   virtual void Death();
+
   virtual void FollowPath(const float delta_time);
   virtual void FollowSmoothedPath(const float delta_time);
 
@@ -36,7 +37,8 @@ public:
   Text       m_DisplayName;
   HealthBar  m_HealthBar;
   AbilityBar m_AbilityBar;
-  int        m_Health;
+  float      m_Health;
+  float      m_MaxHealth;
 
   float                m_MovementSpeed;
   std::vector<Vector2> m_Path;

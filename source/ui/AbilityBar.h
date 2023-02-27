@@ -15,7 +15,7 @@ public:
 private:
   Sprite m_Foreground;
   Sprite m_Background;
-  int    m_AbilityTimerPercentage;
+  int    m_BarWidth;
   int    m_Border;
   Text   m_Name;
 };

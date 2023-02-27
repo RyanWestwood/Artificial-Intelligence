@@ -53,10 +53,9 @@ void Ad::Input()
 void Ad::Update(const float delta_time)
 {
   Enemy::FollowPath(delta_time);
-
   Enemy::Update(delta_time);
   //*m_Timer += delta_time;
-  //m_RunningFsm->Update(delta_time);
+  // m_RunningFsm->Update(delta_time);
 }
 
 void Ad::UpdateAnimation()
@@ -74,14 +73,14 @@ void Ad::Draw()
   Enemy::Draw();
 }
 
-void Ad::TakeDamage(unsigned short damage_amount)
+bool Ad::TakeDamage(float damage_amount)
 {
-  m_Health -= damage_amount;
-  if(m_Health <= 0)
+  if(Enemy::TakeDamage(damage_amount))
   {
     Death();
+    return true;
   }
-  m_HealthBar.ChangeHealth(m_Health);
+  return false;
 }
 
 void Ad::Death()
@@ -188,8 +187,8 @@ void Ad::CreateAttackFsm()
 #ifdef LOGGING
         std::cout << "Shoot state - out of ammo\nSwitch to idle state\n";
 #endif // LOGGING
-        *m_Ammo      = 3;
-        //m_GoalTile   = {0.f, 0.f};
+        *m_Ammo = 3;
+        // m_GoalTile   = {0.f, 0.f};
         m_RunningFsm = m_EnemyFsm;
         m_AttackFsm->SetState(m_AttackEntryState);
       }
@@ -201,7 +200,7 @@ void Ad::CreateAttackFsm()
 #endif // LOGGING
         *m_Ammo = *m_Ammo - 1;
         // TODO: Damage player with ranged procteile here!
-        //GoalTile();
+        // GoalTile();
       }
     }
   });
@@ -213,7 +212,7 @@ void Ad::CreateAttackFsm()
 #ifdef LOGGING
       std::cout << "Melee state - attacking\n";
 #endif // LOGGING
-      //m_GoalTile   = {0.f, 0.f};
+      // m_GoalTile   = {0.f, 0.f};
       m_RunningFsm = m_EnemyFsm;
       // TODO: Damage player with melee based damage from here.
       m_AttackFsm->SetState(m_AttackEntryState);

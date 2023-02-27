@@ -13,6 +13,6 @@ public:
 private:
   Sprite m_Foreground;
   Sprite m_Background;
-  int    m_Health;
   int    m_Border;
+  int    m_BarWidth;
 };

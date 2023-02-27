@@ -14,6 +14,8 @@ void AbilityBar::Initialize(SDL_Rect position, int border, const char* ability_n
                                 position.y + border,
                                 position.w - (2 * border),
                                 position.h - (2 * border)};
+  m_BarWidth                 = m_Background.m_Destination.w - (2 * m_Border);
+
   m_Name.Initalize("font.ttf", ability_name, 12);
   m_Name.m_Dimensions.x = position.x - m_Name.m_Dimensions.w;
   m_Name.m_Dimensions.y = position.y;
@@ -28,9 +30,7 @@ void AbilityBar::Draw()
 
 void AbilityBar::ChangeProgress(int ability_percentage)
 {
-  m_AbilityTimerPercentage     = ability_percentage;
-  auto initial_width           = m_Background.m_Destination.w - (2 * m_Border);
-  m_Foreground.m_Destination.w = (initial_width / 100.f) * m_AbilityTimerPercentage;
+  m_Foreground.m_Destination.w = (m_BarWidth / 100.f) * ability_percentage;
 }
 
 void AbilityBar::ChangeName()

@@ -6,7 +6,8 @@
 Enemy::Enemy() :
   Entity()
 {
-  m_Health           = 0;
+  m_Health           = 100.f;
+  m_MaxHealth        = 100.f;
   m_SearchAlgo       = pathing::Algo::A_Star;
   m_AvoidLayer       = ai::path::None;
   m_MovementSpeed    = 0.f;
@@ -130,8 +131,12 @@ void Enemy::Draw()
   m_DisplayName.Draw();
 }
 
-void Enemy::TakeDamage(unsigned short damage_amount)
+bool Enemy::TakeDamage(float damage_amount)
 {
+  m_Health = std::clamp(m_Health - damage_amount, 0.f, m_MaxHealth);
+  float percentage = (m_Health / m_MaxHealth) * 100.f;
+  m_HealthBar.ChangeHealth((int)percentage);
+  return m_Health <= 0;
 }
 
 void Enemy::Death()
