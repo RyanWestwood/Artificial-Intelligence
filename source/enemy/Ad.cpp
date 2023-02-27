@@ -1,6 +1,6 @@
 #include "Ad.h"
-#include "engine/Globals.h"
-#include "engine/Pathing.h"
+#include "../engine/Globals.h"
+#include "../engine/Pathing.h"
 #include <algorithm>
 #include <cmath>
 #include <random>

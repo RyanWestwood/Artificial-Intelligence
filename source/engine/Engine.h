@@ -1,6 +1,6 @@
 #pragma once
-#include "../Ad.h"
-#include "../Boss.h"
+#include "../enemy/Ad.h"
+#include "../enemy/Boss.h"
 #include "../Player.h"
 #include "../Tilemap.h"
 #include "Renderer.h"

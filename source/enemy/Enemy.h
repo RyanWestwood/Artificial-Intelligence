@@ -1,9 +1,9 @@
 #pragma once
-#include "engine/Font.h"
-#include "engine/Pathing.h"
-#include "Entity.h"
-#include "ui/AbilityBar.h"
-#include "ui/Healthbar.h"
+#include "../engine/Font.h"
+#include "../engine/Pathing.h"
+#include "../Entity.h"
+#include "../ui/AbilityBar.h"
+#include "../ui/Healthbar.h"
 #include <ai/math/Vector2.h>
 #include <ai/pf/Node.h>
 #include <ai/pf/Path.h>

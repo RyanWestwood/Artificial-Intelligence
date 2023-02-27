@@ -1,6 +1,6 @@
 #include "Boss.h"
-#include "engine/Globals.h"
-#include "engine/Pathing.h"
+#include "../engine/Globals.h"
+#include "../engine/Pathing.h"
 #include <ai/bt/NodeFactory.h>
 
 Boss::Boss() :

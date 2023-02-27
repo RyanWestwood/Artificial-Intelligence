@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "engine/Pathing.h"
+#include "../engine/Pathing.h"
 #include <algorithm>
 #include <numeric>
 
@@ -37,7 +37,7 @@ void Enemy::Update(const float delta_time)
   m_Image.Texture.m_Destination.y = m_Transform.Position.y;
 
   auto screen_dimensions = globals::GetScreenDimensions();
-  m_Transform.Position.x = std::clamp(m_Transform.Position.x, 0.f, screen_dimensions.w - 32.f);   // Offsetting image size
+  m_Transform.Position.x = std::clamp(m_Transform.Position.x, 0.f, screen_dimensions.w - 32.f); // Offsetting image size
   m_Transform.Position.y = std::clamp(m_Transform.Position.y, 0.f, screen_dimensions.h - 64.f); // Offsetting image size
 }
 
@@ -97,8 +97,8 @@ void Enemy::FollowSmoothedPath(const float delta_time)
         m_FollowingPath = false;
       }
     }
-    auto goal_position   = m_SmoothedPath.m_LookPoints[m_PathIndex] * 32;
-    auto target_rotation = Vector2::GetAngleBetween(m_Transform.Position, goal_position);
+    auto goal_position        = m_SmoothedPath.m_LookPoints[m_PathIndex] * 32;
+    auto target_rotation      = Vector2::GetAngleBetween(m_Transform.Position, goal_position);
     auto interpolate_rotation = std::lerp(m_Transform.Rotation, target_rotation, delta_time * m_TurnSpeed);
     auto clamped_rotation     = std::clamp(interpolate_rotation, -360.f, 360.f);
     m_Transform.Rotation      = clamped_rotation;
