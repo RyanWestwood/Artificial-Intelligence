@@ -14,7 +14,6 @@ void RaidWide::Initialize()
   m_Image.Texture.m_Source      = {0, 0, 64, 64};
   m_Image.Texture.m_Destination = {128, 128, 96, 96};
   m_Image.NoOfAnims             = 8;
-  m_Active                      = true;
 }
 
 void RaidWide::Activate()
