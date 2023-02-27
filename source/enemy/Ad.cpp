@@ -14,7 +14,8 @@ Ad::Ad() :
   m_Transform.Velocity      = {32.f, 32.f};
   m_Transform.RotationSpeed = .5f;
   m_Image.NoOfAnims         = 7;
-  m_Health                  = 100;
+  m_Health                  = 100.f;
+  m_MaxHealth               = 100.f;
   m_MovementSpeed           = 64.f;
   m_AvoidLayer              = ai::path::Boss;
 
