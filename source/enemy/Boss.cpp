@@ -1,6 +1,7 @@
 #include "Boss.h"
 #include "../engine/Globals.h"
 #include "../engine/Pathing.h"
+#include "../engine/Utils.h"
 #include <ai/bt/NodeFactory.h>
 
 Boss::Boss() :
@@ -36,7 +37,7 @@ void Boss::Initialize()
   m_MeleeTimer  = m_Blackboard.GetFloat("melee_timer", 2.f);
   m_RangedTimer = m_Blackboard.GetFloat("ranged_timer", 2.f);
 
-  // CreateBt();
+  CreateBt();
 }
 
 #ifdef LOGGING
@@ -51,9 +52,10 @@ void Boss::Update(const float delta_time)
   Enemy::FollowPath(delta_time);
 
   Enemy::Update(delta_time);
-  // m_Tree.Update();
-  //*m_Timer += delta_time;
-  //*m_RangedTimer -= delta_time;
+
+  m_Tree.Update();
+  *m_Timer += delta_time;
+  *m_RangedTimer -= delta_time;
   //*m_MeleeTimer -= delta_time;
 }
 
@@ -106,28 +108,33 @@ void Boss::CreateBt()
       std::cout << "Melee Attack!\n";
       *m_Timer      = 0.f;
       *m_MeleeTimer = 2.f;
+
       return Status::Success;
     }
     return Status::Running;
   };
 
   auto range = [&]() -> Status {
+    std::cout << "Counting down Ranged Attack!\n";
+    m_AbilityBar.ChangeName("RANGED ATTACK");
+    m_AbilityBar.ChangeProgress((*m_RangedTimer / 2.f) * 100);
     if(*m_Timer >= 1.f && *m_RangedTimer <= 0.f)
     {
       std::cout << "Ranged Attack!\n";
       *m_Timer       = 0.f;
       *m_RangedTimer = 2.f;
-      return Status::Success;
+      utils::GetPlayer().TakeDamage(5.f);
+      return Status::Running; // TODO; Change this back to success when finshed.
     }
     return Status::Running;
   };
 
   auto sequence = NodeFactory::createCompositeNode<Sequence>(m_Blackboard);
-  auto action1  = NodeFactory::createNode<Node>(m_Blackboard, death);
-  auto action2  = NodeFactory::createNode<Node>(m_Blackboard, melee);
-  auto action3  = NodeFactory::createNode<Node>(m_Blackboard, range);
+  // auto action1  = NodeFactory::createNode<Node>(m_Blackboard, death);
+  // auto action2  = NodeFactory::createNode<Node>(m_Blackboard, melee);
+  auto action3 = NodeFactory::createNode<Node>(m_Blackboard, range);
 
-  sequence->AddNode(std::move(action2));
+  // sequence->AddNode(std::move(action2));
   sequence->AddNode(std::move(action3));
   m_Tree = ai::BehaviourTree(std::move(sequence));
 }
