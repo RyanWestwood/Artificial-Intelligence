@@ -20,7 +20,7 @@ public:
   void UpdateAi(Vector2 goal);
   void Draw();
 
-  bool TakeDamage(float damage_amount);
+  void TakeDamage(float damage_amount);
   void Death();
 
 private:

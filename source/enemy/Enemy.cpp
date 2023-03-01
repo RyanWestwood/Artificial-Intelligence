@@ -131,12 +131,11 @@ void Enemy::Draw()
   m_DisplayName.Draw();
 }
 
-bool Enemy::TakeDamage(float damage_amount)
+void Enemy::TakeDamage(float damage_amount)
 {
   m_Health = std::clamp(m_Health - damage_amount, 0.f, m_MaxHealth);
   float percentage = (m_Health / m_MaxHealth) * 100.f;
   m_HealthBar.ChangeHealth((int)percentage);
-  return m_Health <= 0;
 }
 
 void Enemy::Death()

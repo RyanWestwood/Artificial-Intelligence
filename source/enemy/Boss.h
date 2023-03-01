@@ -4,6 +4,8 @@
 #include <ai/bt/BehaviourTree.h>
 #include <ai/bt/composite/Sequence.h>
 
+#include <bitset>
+
 class Boss : public Enemy
 {
 public:
@@ -29,4 +31,6 @@ private:
   ai::FloatPtr      m_MeleeTimer;
   ai::FloatPtr      m_RangedTimer;
   ai::BehaviourTree m_Tree;
+
+  std::bitset<8> tree_conditions;
 };

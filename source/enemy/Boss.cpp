@@ -3,6 +3,7 @@
 #include "../engine/Pathing.h"
 #include "../engine/Utils.h"
 #include <ai/bt/NodeFactory.h>
+#include <algorithm>
 
 Boss::Boss() :
   Enemy()
@@ -56,7 +57,7 @@ void Boss::Update(const float delta_time)
   m_Tree.Update();
   *m_Timer += delta_time;
   *m_RangedTimer -= delta_time;
-  //*m_MeleeTimer -= delta_time;
+  *m_MeleeTimer -= delta_time;
 }
 
 void Boss::UpdateAnimation()
@@ -80,61 +81,73 @@ void Boss::Death()
 
 void Boss::TakeDamage(unsigned short damage_amount)
 {
-  m_Health -= damage_amount;
-  if(m_Health <= 0)
-  {
-    Death();
-  }
-  m_HealthBar.ChangeHealth(m_Health);
+  Enemy::TakeDamage(damage_amount);
 }
 
 void Boss::CreateBt()
 {
-  auto death = [&]() -> Status {
+  auto alive_action = [&]() -> Status {
     if(m_Health <= 0)
     {
-      Death();
+       Death();
 #ifdef LOGGING
       std::cout << "Died in the behavior tree!\n";
 #endif
-      return Status::Success;
+      return Status::Failure;
     }
+    return Status::Success;
+  };
+
+  auto reset_action = [&]() -> Status {
+    tree_conditions.reset();
     return Status::Running;
   };
 
   auto melee = [&]() -> Status {
-    if(*m_Timer >= 1.f && *m_MeleeTimer <= 0.f)
+    if(tree_conditions[0]) return Status::Success;
+    // std::cout << "Counting down Melee Attack!\n";
+    m_AbilityBar.ChangeName("MELEE ATTACK");
+    m_AbilityBar.ChangeProgress((*m_MeleeTimer / 2.f) * 100);
+    if(*m_Timer >= 2.f && *m_MeleeTimer <= 0.f)
     {
       std::cout << "Melee Attack!\n";
-      *m_Timer      = 0.f;
-      *m_MeleeTimer = 2.f;
-
+      utils::GetPlayer().TakeDamage(10.f);
+      *m_Timer       = 0.f;
+      *m_MeleeTimer  = 2.f;
+      *m_RangedTimer = 2.f;
+      tree_conditions.set(0);
       return Status::Success;
     }
     return Status::Running;
   };
 
-  auto range = [&]() -> Status {
-    std::cout << "Counting down Ranged Attack!\n";
+  auto raid_wide = [&]() -> Status {
+    // std::cout << "Counting down Ranged Attack!\n";
+    if(tree_conditions[1]) return Status::Success;
     m_AbilityBar.ChangeName("RANGED ATTACK");
     m_AbilityBar.ChangeProgress((*m_RangedTimer / 2.f) * 100);
-    if(*m_Timer >= 1.f && *m_RangedTimer <= 0.f)
+    if(*m_Timer >= 2.f && *m_RangedTimer <= 0.f)
     {
-      std::cout << "Ranged Attack!\n";
+      std::cout << "RaidWide Attack!\n";
+      utils::GetPlayer().TakeDamage(5.f);
       *m_Timer       = 0.f;
       *m_RangedTimer = 2.f;
-      utils::GetPlayer().TakeDamage(5.f);
+      *m_MeleeTimer  = 2.f;
+      tree_conditions.set(1);
       return Status::Running; // TODO; Change this back to success when finshed.
     }
     return Status::Running;
   };
 
-  auto sequence = NodeFactory::createCompositeNode<Sequence>(m_Blackboard);
-  // auto action1  = NodeFactory::createNode<Node>(m_Blackboard, death);
-  // auto action2  = NodeFactory::createNode<Node>(m_Blackboard, melee);
-  auto action3 = NodeFactory::createNode<Node>(m_Blackboard, range);
+  auto sequence         = NodeFactory::createCompositeNode<Sequence>(m_Blackboard);
+  auto melee_action     = NodeFactory::createNode<Node>(m_Blackboard, melee);
+  auto raid_wide_action = NodeFactory::createNode<Node>(m_Blackboard, raid_wide);
+  auto check_alive      = NodeFactory::createNode<Node>(m_Blackboard, alive_action);
+  auto reset_actions    = NodeFactory::createNode<Node>(m_Blackboard, reset_action);
 
-  // sequence->AddNode(std::move(action2));
-  sequence->AddNode(std::move(action3));
+  sequence->AddNode(std::move(check_alive));
+  sequence->AddNode(std::move(melee_action));
+  sequence->AddNode(std::move(raid_wide_action));
+  sequence->AddNode(std::move(reset_actions));
   m_Tree = ai::BehaviourTree(std::move(sequence));
 }

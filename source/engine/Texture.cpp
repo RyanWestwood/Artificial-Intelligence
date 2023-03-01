@@ -129,6 +129,5 @@ void Sprite::Draw(const SDL_RendererFlip& flip,
                   const float&            angle,
                   const SDL_Point&        point)
 {
-  SDL_RenderCopyEx(
-    renderer::GetRenderer(), m_Texture, &m_Source, &m_Destination, angle, &point, flip);
+  SDL_RenderCopyEx(renderer::GetRenderer(), m_Texture, &m_Source, &m_Destination, angle, &point, flip);
 }

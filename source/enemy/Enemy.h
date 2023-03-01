@@ -27,7 +27,7 @@ public:
   virtual void UpdateAi(Vector2 goal);
   virtual void Draw();
 
-  virtual bool TakeDamage(float damage_amount);
+  virtual void TakeDamage(float damage_amount);
   virtual void Death();
 
   virtual void FollowPath(const float delta_time);

@@ -74,14 +74,13 @@ void Ad::Draw()
   Enemy::Draw();
 }
 
-bool Ad::TakeDamage(float damage_amount)
+void Ad::TakeDamage(float damage_amount)
 {
-  if(Enemy::TakeDamage(damage_amount))
+  Enemy::TakeDamage(damage_amount);
+  if(m_Health <= 0)
   {
     Death();
-    return true;
   }
-  return false;
 }
 
 void Ad::Death()
