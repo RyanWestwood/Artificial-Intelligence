@@ -35,7 +35,7 @@ namespace pathing
 #ifdef LOGGING
   void Node::Draw()
   {
-    SDL_RenderCopy(renderer::GetRenderer(),
+    SDL_RenderCopyF(renderer::GetRenderer(),
                    m_TextureData.m_Texture,
                    &m_TextureData.m_Source,
                    &m_Destination);
@@ -164,8 +164,8 @@ namespace pathing
   }
 
 #ifdef LOGGING
-  void DebugPaths(globals::Vector& tilemap_dimensions,
-                  globals::Vector  tile_size)
+  void DebugPaths(Vector2 tilemap_dimensions,
+                  Vector2  tile_size)
   {
     for(int y = 0; y < tilemap_dimensions.h; y++)
     {

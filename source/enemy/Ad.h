@@ -20,7 +20,7 @@ public:
   void UpdateAi(Vector2 goal);
   void Draw();
 
-  void TakeDamage(unsigned short damage_amount);
+  void TakeDamage(float damage_amount);
   void Death();
 
 private:
@@ -32,10 +32,10 @@ public:
   ai::FloatPtr m_Timer;
   ai::FloatPtr m_Cooldown;
 
+  ai::Blackboard   m_Blackboard;
   ai::fsm::ManagerPtr m_EnemyFsm;
   ai::fsm::ManagerPtr m_AttackFsm;
   ai::fsm::ManagerPtr m_RunningFsm;
-  ai::BlackboardPtr   m_Blackboard;
 
   ai::fsm::StatePtr m_DieState;
   ai::fsm::StatePtr m_SpawnState;

@@ -12,7 +12,7 @@ Tile::Tile(texture::TextureData spritesheet)
 
 void Tile::Draw()
 {
-  SDL_RenderCopy(renderer::GetRenderer(),
+  SDL_RenderCopyF(renderer::GetRenderer(),
                  m_TextureData.m_Texture,
                  &m_TextureData.m_Source,
                  &m_Destination);

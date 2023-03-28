@@ -2,6 +2,7 @@
 #include "engine/Collision.h"
 #include "engine/Engine.h"
 #include "engine/Renderer.h"
+#include "engine/Utils.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -15,7 +16,13 @@ int main(int argc, char* args[])
     Engine g_App = Engine();
     if(!g_App.Initialize())
     {
-      std::cout << "Error could not init SDL!\n";
+      std::cerr << "Error could not init SDL!\n";
+      return 1;
+    }
+    if(!utils::InitializeUtils(&g_App))
+    {
+      std::cerr << "Error: Could not initialize utils!\n";
+      return 1;
     }
 
     unsigned int g_CurrentTime     = SDL_GetPerformanceCounter();

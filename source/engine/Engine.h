@@ -1,6 +1,6 @@
 #pragma once
-#include "../Ad.h"
-#include "../Boss.h"
+#include "../enemy/Ad.h"
+#include "../enemy/Boss.h"
 #include "../Player.h"
 #include "../Tilemap.h"
 #include "Renderer.h"
@@ -22,6 +22,9 @@ public:
   void Update(const float&);
   void UpdateAnimation(float*);
   void UpdateAi(float*);
+
+public: // Utils
+  Player& GetPlayer();
 
 public:
   bool        m_IsPaused;

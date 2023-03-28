@@ -4,6 +4,8 @@
 #include <ai/bt/BehaviourTree.h>
 #include <ai/bt/composite/Sequence.h>
 
+#include <bitset>
+
 class Boss : public Enemy
 {
 public:
@@ -24,9 +26,11 @@ public:
   void TakeDamage(unsigned short damage_amount);
 
 private:
-  ai::BlackboardPtr m_Blackboard;
+  ai::Blackboard    m_Blackboard;
   ai::FloatPtr      m_Timer;
   ai::FloatPtr      m_MeleeTimer;
   ai::FloatPtr      m_RangedTimer;
   ai::BehaviourTree m_Tree;
+
+  std::bitset<8> tree_conditions;
 };

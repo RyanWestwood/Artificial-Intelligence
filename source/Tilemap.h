@@ -11,7 +11,7 @@ public:
 
 public:
   texture::TextureData m_TextureData;
-  SDL_Rect             m_Destination;
+  SDL_FRect            m_Destination;
   SDL_Point            m_Position;
 };
 
