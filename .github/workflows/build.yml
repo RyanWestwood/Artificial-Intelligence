@@ -31,7 +31,7 @@ jobs:
 
       - name: Install library function
         run: |
-          InstallLibs() {
+          InstallLibs {
             echo "Hello, $1 and $2!"
           }
       - name: Build Dependencies
