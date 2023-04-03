@@ -29,6 +29,11 @@ jobs:
         run: |
           git submodule update --init --recursive
 
+      - name: Install library function
+        run: |
+          InstallLibs() {
+            echo "Hello, $1 and $2!"
+          }
       - name: Build Dependencies
         run: |
           mkdir build; mkdir library_binaries 
@@ -37,3 +42,4 @@ jobs:
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
+          InstallLibs "Ryan" "W"
