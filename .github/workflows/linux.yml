@@ -1,4 +1,4 @@
-name: Build Tests
+name: Build (Linux)
 on: [pull_request]
 jobs:
   Build:
