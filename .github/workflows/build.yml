@@ -1,5 +1,9 @@
 name: Build Tests
 on: [pull_request]
+my_function: &my_function_definition
+  run: |
+    echo "Hello, world!"
+
 jobs:
   Build:
     name: ${{ matrix.config.name }}
@@ -29,11 +33,9 @@ jobs:
         run: |
           git submodule update --init --recursive
 
-      - name: Install library function
-        run: |
-          function install_libs() {
-            echo "Hello, $1 and $2!"
-          }
+      - name: Run my function
+        <<: *my_function_definition
+
       - name: Build Dependencies
         run: |
           mkdir build; mkdir library_binaries 
@@ -42,4 +44,3 @@ jobs:
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
-          install_libs 'Ryan' 'W'
