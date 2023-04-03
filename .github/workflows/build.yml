@@ -42,4 +42,4 @@ jobs:
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
-          InstallLibs "Ryan" "W"
+          InstallLibs('Ryan', 'W')
