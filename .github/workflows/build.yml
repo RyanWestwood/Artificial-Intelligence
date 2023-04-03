@@ -31,9 +31,9 @@ jobs:
 
       - name: Install library function
         run: |
-          :InstallLibs
+          function install_libs() {
             echo "Hello, $1 and $2!"
-          EXIT /B 0
+          }
       - name: Build Dependencies
         run: |
           mkdir build; mkdir library_binaries 
