@@ -1,9 +1,5 @@
 name: Build Tests
 on: [pull_request]
-my_function: &my_function_definition
-  run: |
-    echo "Hello, world!"
-
 jobs:
   Build:
     name: ${{ matrix.config.name }}
@@ -32,9 +28,6 @@ jobs:
       - name: Install Dependencies
         run: |
           git submodule update --init --recursive
-
-      - name: Run my function
-        <<: *my_function_definition
 
       - name: Build Dependencies
         run: |
