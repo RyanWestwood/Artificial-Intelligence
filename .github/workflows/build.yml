@@ -31,8 +31,8 @@ jobs:
 
       - name: Build Dependencies
         run: |
-          mkdir build && mkdir library_binaries 
-          cd external\ai-library && mkdir build && cd build
+          mkdir build; mkdir library_binaries 
+          cd external\ai-library; mkdir build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
