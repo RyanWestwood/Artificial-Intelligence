@@ -18,7 +18,7 @@ jobs:
             name: "Windows/X64/",
             os: Windows,
             config: Release,
-            args: -G Ninja -A x64,
+            args: -G Ninja,
             prefixpath: "C:/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
           }
     steps:
