@@ -13,9 +13,10 @@ jobs:
             os: Ubuntu,
             config: Release,
             args: -G Ninja,
+            prefixpath: "C:/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
           }
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3    
         
       - name: Install Dependencies
@@ -25,8 +26,42 @@ jobs:
       - name: Build Dependencies
         run: |
           mkdir build; mkdir library_binaries 
-          cd external\ai-library; mkdir build; cd build
+          cd external/ai-library; mkdir build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
+
+          mkdir build; mkdir library_binaries 
+          cd external/sdl-2.24.2; mkdir build; cd build
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake --build . --config ${{ matrix.config.config }} --parallel
+          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
+          cd ./../../../
+
+          mkdir build; mkdir library_binaries 
+          cd external/sdl-image-2.6.2; mkdir build; cd build
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake --build . --config ${{ matrix.config.config }} --parallel
+          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
+          cd ./../../../
+
+          mkdir build; mkdir library_binaries 
+          cd external/sdl-mixer-2.6.2; mkdir build; cd build
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake --build . --config ${{ matrix.config.config }} --parallel
+          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
+          cd ./../../../
+
+          mkdir build; mkdir library_binaries 
+          cd external/sdl-ttf-2.20.1; mkdir build; cd build
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake --build . --config ${{ matrix.config.config }} --parallel
+          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
+          cd ./../../../
+
+      - name: Build Project
+        run: |
+          cd build
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake --build . --config ${{ matrix.config.config }} --parallel

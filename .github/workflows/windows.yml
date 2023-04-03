@@ -60,7 +60,8 @@ jobs:
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
+      - name: Build Project
+        run: |
           cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
-          echo Project built successfully
