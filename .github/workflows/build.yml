@@ -37,3 +37,10 @@ jobs:
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
+
+      - name: Remove Build files
+        run: |
+          rm -rf build
+          rm -rf library_binaries
+          rm -rf library_binaries
+          rm -rf external/*
