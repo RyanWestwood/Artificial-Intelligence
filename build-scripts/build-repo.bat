@@ -2,7 +2,7 @@ cd ../
 set working_dir=%cd%
 set library_binaries=%working_dir%/library_binaries
 set cmake="cmake"
-set generator="-G Visual Studio 17 2022"
+set generator="-G Ninja"
 
 if not exist "library_binaries" mkdir library_binaries
 
