@@ -25,36 +25,36 @@ jobs:
 
       - name: Build Dependencies
         run: |
-          mkdir -p -force build; mkdir -p -force library_binaries 
-          cd external\ai-library; mkdir -p -force build; cd build
+          mkdir -force build; mkdir -force library_binaries 
+          cd external\ai-library; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
-          mkdir -p -force build;
-          cd external\sdl-2.24.2; mkdir -p -force build; cd build
+          mkdir -force build;
+          cd external\sdl-2.24.2; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
-          mkdir -p -force build;
-          cd external\sdl-image-2.6.2; mkdir -p -force build; cd build
+          mkdir -force build;
+          cd external\sdl-image-2.6.2; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
-          mkdir -p -force build;
-          cd external\sdl-mixer-2.6.2; mkdir -p -force build; cd build
+          mkdir -force build;
+          cd external\sdl-mixer-2.6.2; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
-          mkdir -p -force build;
-          cd external\sdl-ttf-2.20.1; mkdir -p -force build; cd build
+          mkdir -force build;
+          cd external\sdl-ttf-2.20.1; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
