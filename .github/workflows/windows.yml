@@ -47,6 +47,16 @@ jobs:
 
           cd external\sdl-mixer-2.6.2; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          set -- \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSDL2MIXER_FLAC=ON \
+            -DSDL2MIXER_FLAC_LIBFLAC=ON \
+            -DSDL2MIXER_VORBIS=VORBISFILE \
+            -DSDL2MIXER_OPUS=ON \
+            -DSDL2MIXER_MP3_MPG123=ON \
+            -DSDL2MIXER_MOD_MODPLUG=ON \
+            -DCMAKE_INSTALL_PREFIX=prefix_cmake \
           cmake --build . --config ${{ matrix.config.config }} -DSDL2MIXER_VENDORED=ON --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
