@@ -47,7 +47,7 @@ jobs:
 
           cd external\sdl-mixer-2.6.2; mkdir -force build; cd build
           cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
-          cmake --build . --config ${{ matrix.config.config }} --parallel
+          cmake --build . --config ${{ matrix.config.config }} -DSDL2MIXER_VENDORED=ON --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
