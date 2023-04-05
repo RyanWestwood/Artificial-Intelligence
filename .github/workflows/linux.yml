@@ -13,7 +13,7 @@ jobs:
             os: Ubuntu,
             config: Release,
             args: -G Ninja,
-            prefixpath: "C:/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
+            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
           }
     steps:
       - name: Checkout Code
