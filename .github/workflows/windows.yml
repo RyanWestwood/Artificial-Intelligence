@@ -3,14 +3,13 @@ on: [pull_request]
 jobs:
   Build:
     name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+    runs-on: Windows
     strategy:
       fail-fast: false
       matrix:
         config: 
           - {
             name: "MSVC",
-            os: Windows,
             config: Release,
             args: -G "Visual Studio 16 2019",
             prefixpath: "C:/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
@@ -25,40 +24,18 @@ jobs:
 
       - name: Build Dependencies
         run: |
-          mkdir -force build; mkdir -force library_binaries 
-
-          cd external\ai-library; mkdir -force build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
-          cmake --build . --config ${{ matrix.config.config }} --parallel
-          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
-          cd ./../../../
-
-          cd external\sdl-2.24.2; mkdir -force build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
-          cmake --build . --config ${{ matrix.config.config }} --parallel
-          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
-          cd ./../../../
-
-          cd external\sdl-image-2.6.2; mkdir -force build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
-          cmake --build . --config ${{ matrix.config.config }} --parallel
-          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
-          cd ./../../../
-
-          cd external\sdl-mixer-2.6.2; mkdir -force build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
-          cmake --build . --config ${{ matrix.config.config }} --parallel
-          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
-          cd ./../../../
-
-          cd external\sdl-ttf-2.20.1; mkdir -force build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B . -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
-          cmake --build . --config ${{ matrix.config.config }} --parallel
-          cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
-          cd ./../../../
+          mkdir -p build; mkdir -p library_binaries
+          dependencies=("ai-library" "sdl-2.24.2" "sdl-image-2.6.2" "sdl-mixer-2.6.2" "sdl-ttf-2.20.1")
+          for dep in "${dependencies[@]}"; do
+            cd external/$dep; mkdir -p build; cd build
+            cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ../ -B ../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
+            cmake --build . --config ${{ matrix.config.config }} --parallel
+            cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
+            cd ../../..
+          done
 
       - name: Build Project
         run: |
           cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
