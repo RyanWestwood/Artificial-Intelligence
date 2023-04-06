@@ -7,8 +7,8 @@ namespace timer
 {
   namespace
   {
-    std::chrono::steady_clock::time_point g_StartTime;
-    std::chrono::steady_clock::time_point g_EndTime;
+    std::chrono::high_resolution_clock::time_point g_StartTime;
+    std::chrono::high_resolution_clock::time_point g_EndTime;
   } // namespace
 
   void StartTimer()
