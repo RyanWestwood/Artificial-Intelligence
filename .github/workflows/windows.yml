@@ -12,7 +12,7 @@ jobs:
             name: "Windows/X64/",
             os: Windows,
             config: Release,
-            args: -G Ninja,
+            args: -G "Visual Studio 16 2019",
             prefixpath: "C:/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
           }
     steps:
