@@ -9,7 +9,7 @@ jobs:
       matrix:
         config: 
           - {
-            name: "Windows/X64/",
+            name: "MSVC",
             os: Windows,
             config: Release,
             args: -G "Visual Studio 16 2019",
