@@ -13,7 +13,16 @@ jobs:
             os: Ubuntu,
             config: Release,
             args: -G Ninja,
-            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
+            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries",
+            compiler: -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+          }
+          - {
+            name: "Linux/X64/",
+            os: Ubuntu,
+            config: Release,
+            args: -G Ninja,
+            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries",
+            compiler: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
           }
     steps:
       - name: Checkout Code
@@ -27,35 +36,35 @@ jobs:
         run: |
           mkdir -p build; mkdir -p library_binaries 
           cd external/ai-library; mkdir -p build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
           mkdir -p build;
           cd external/sdl-2.24.2; mkdir -p build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
           mkdir -p build;
           cd external/sdl-image-2.6.2; mkdir -p build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
           mkdir -p build;
           cd external/sdl-mixer-2.6.2; mkdir -p build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
 
           mkdir -p build;
           cd external/sdl-ttf-2.20.1; mkdir -p build; cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -B ./../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
           cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
           cd ./../../../
@@ -63,5 +72,5 @@ jobs:
       - name: Build Project
         run: |
           cd build
-          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }}
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ./../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
           cmake --build . --config ${{ matrix.config.config }} --parallel
