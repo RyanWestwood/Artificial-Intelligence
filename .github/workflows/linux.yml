@@ -1,0 +1,53 @@
+name: Build (Linux)
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  Build:
+    name: ${{ matrix.config.name }}
+    runs-on: Ubuntu
+    strategy:
+      fail-fast: false
+      matrix:
+        config: 
+          - {
+            name: "GNU GCC",
+            config: Release,
+            args: -G Ninja,
+            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries",
+            compiler: -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+          }
+          - {
+            name: "LLVM Clang",
+            config: Release,
+            args: -G Ninja,
+            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries",
+            compiler: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+          }
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3    
+        
+      - name: Install Dependencies
+        run: |
+          git submodule update --init --recursive
+
+      - name: Build Dependencies
+        run: |
+          mkdir -p build; mkdir -p library_binaries
+          dependencies=("ai-library" "sdl-2.24.2" "sdl-image-2.6.2" "sdl-mixer-2.6.2" "sdl-ttf-2.20.1")
+          for dep in "${dependencies[@]}"; do
+            cd external/$dep; mkdir -p build; cd build
+            cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ../ -B ../build -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
+            cmake --build . --config ${{ matrix.config.config }} --parallel
+            cmake --install . --prefix ${{ matrix.config.prefixpath }} --config ${{ matrix.config.config }}
+            cd ../../..
+          done
+
+      - name: Build Project
+        run: |
+          cd build
+          cmake ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -S ../ -DCMAKE_PREFIX_PATH=${{ matrix.config.prefixpath }} ${{ matrix.config.compiler }}
+          cmake --build . --config ${{ matrix.config.config }} --parallel
