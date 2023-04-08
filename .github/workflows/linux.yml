@@ -16,14 +16,14 @@ jobs:
             name: "GNU GCC",
             config: Release,
             args: -G Ninja,
-            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries",
+            prefixpath: "/home/docker/actions-runner/_work/Carlos-Dungeon-Crusade/Carlos-Dungeon-Crusade/library_binaries",
             compiler: -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
           }
           - {
             name: "LLVM Clang",
             config: Release,
             args: -G Ninja,
-            prefixpath: "/home/docker/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries",
+            prefixpath: "/home/docker/actions-runner/_work/Carlos-Dungeon-Crusade/Carlos-Dungeon-Crusade/library_binaries",
             compiler: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
           }
     steps:

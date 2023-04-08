@@ -16,7 +16,7 @@ jobs:
             name: "MSVC",
             config: Release,
             args: -G "Visual Studio 16 2019",
-            prefixpath: "C:/actions-runner/_work/Artificial-Intelligence/Artificial-Intelligence/library_binaries"
+            prefixpath: "C:/actions-runner/_work/Carlos-Dungeon-Crusade/Carlos-Dungeon-Crusade/library_binaries"
           }
     steps:
       - name: Checkout code
