@@ -1,11 +1,39 @@
-# Artificial-Intelligence
+# Carlo's Dungeon Crusade
+Carlo's Dungeon Crusade is a free-to-play, open-source, 2D, single-player game written in C++ where you play as a hero battling through various dungeons to defeat powerful bosses.
 
-## Pulling the repo 
-`git clone https://github.com/Birmingham-City-Uni/Artificial-Intelligence.git && cd Artificial-Intelligence && git submodule update --init --recursive`
+## Getting Started
+### Prerequisites
+You will need to have the following installed on your system:  
 
-## Building the repo
-`run build-scripts/build-repo.bat`  
+* C++ compiler (such as GCC, Clang, MSVC)  
+* CMake
 
-## Assets 
-Art - https://0x72.itch.io/dungeontileset-ii
-Explosions - https://www.spriters-resource.com/fullview/20560/
+### Installation  
+1. Clone the repository:  
+`git clone https://github.com/RyanWestwood/Carlos-Dungeon-Crusade && cd Carlos-Dungeon-Crusade && git submodule update --init --recursive`
+2. Build the project using your C++ compiler.
+3. You're ready to play!
+
+## Playing the Game
+In Carlo's Dungeon Crusade, you control a hero as they move through various dungeons. Your goal is to defeat all the bosses to win the game.
+
+### Controls
+* Move left: `Left Arrow` or `A`
+* Move right: `Right Arrow` or `D`
+* Jump: `Space`
+* Attack: `Left Mouse Button`
+
+### Gameplay
+* Navigate through the dungeon, defeating enemies along the way.
+* Collect coins to upgrade your weapons and armor.
+* Defeat the boss at the end of each dungeon to progress to the next level.
+## Contributing
+We welcome contributions from the community. To contribute to this project, follow these steps:  
+
+1. Fork the repository.
+2. Create a new branch for your changes: git checkout -b feature/my-new-feature
+3. Make your changes and commit them: git commit -am 'Add some feature'
+4. Push your changes to your fork: git push origin feature/my-new-feature
+5. Submit a pull request to the main repository.
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
