@@ -1,4 +1,7 @@
-# Carlo's Dungeon Crusade
+# Carlo's Dungeon Crusade  
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/55410510/230748802-9e2cfef2-1d5f-4cb1-a603-d9badc65fac7.png" alt="Carlo's Dungeon Crusade Icon">
+</p>
 Carlo's Dungeon Crusade is a free-to-play, open-source, 2D, single-player game written in C++ where you play as a hero battling through various dungeons to defeat powerful bosses.
 
 ## Getting Started
