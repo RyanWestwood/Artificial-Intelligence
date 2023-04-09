@@ -14,7 +14,8 @@ You will need to have the following installed on your system:
 ### Installation  
 1. Clone the repository:  
 `git clone https://github.com/RyanWestwood/Carlos-Dungeon-Crusade && cd Carlos-Dungeon-Crusade && git submodule update --init --recursive`
-2. Build the project using your C++ compiler.
+2. Build the project using:  
+`./build-scripts/build-repo.bat`
 3. You're ready to play!
 
 ## Playing the Game
