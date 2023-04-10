@@ -22,7 +22,7 @@ Art - https://www.spriters-resource.com/fullview/20560/
 3. You're ready to play!
 
 ## Playing the Game
-In Carlo's Dungeon Crusade, you control a hero as they move through various dungeons. Your goal is to defeat all the bosses to win the game.
+In Carlo's Dungeon Crusade, you control a hero as they move through the dungeon. Your goal is to defeat all the bosses to win the game.
 
 ### Controls
 * Move left: `Left Arrow`
@@ -33,11 +33,7 @@ In Carlo's Dungeon Crusade, you control a hero as they move through various dung
 * Ranged Attack: `S`
 * Mitigation Potion: `D`
 * Health Potion: `W`
-
-### Gameplay
-* Navigate through the dungeon, defeating enemies along the way.
-* Collect coins to upgrade your weapons and armor.
-* Defeat the boss at the end of each dungeon to progress to the next level.
+ 
 ## Contributing
 We welcome contributions from the community. To contribute to this project, follow these steps:  
 
