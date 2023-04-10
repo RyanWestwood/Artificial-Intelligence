@@ -16,7 +16,7 @@ namespace globals
   bool InitializeGlobals()
   {
     g_AssetDirectory = SDL_GetBasePath();
-    std::size_t pos  = g_AssetDirectory.find("Artificial");
+    std::size_t pos  = g_AssetDirectory.find("Carlos-Dungeon-Crusade");
     while(g_AssetDirectory[pos] != 92)
     {
       pos++;

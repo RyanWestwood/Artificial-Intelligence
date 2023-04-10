@@ -5,12 +5,15 @@
 Carlo's Dungeon Crusade is a free-to-play, open-source, 2D, single-player game written in C++ where you play as a hero battling through various dungeons to defeat powerful bosses.
 
 ## Getting Started
-### Prerequisites
+### Tools
 You will need to have the following installed on your system:  
 
 * C++ compiler (such as GCC, Clang, MSVC)  
 * CMake
 
+### Assets
+Art - https://0x72.itch.io/dungeontileset-ii 
+Art - https://www.spriters-resource.com/fullview/20560/
 ### Installation  
 1. Clone the repository:  
 `git clone https://github.com/RyanWestwood/Carlos-Dungeon-Crusade && cd Carlos-Dungeon-Crusade && git submodule update --init --recursive`
@@ -22,10 +25,14 @@ You will need to have the following installed on your system:
 In Carlo's Dungeon Crusade, you control a hero as they move through various dungeons. Your goal is to defeat all the bosses to win the game.
 
 ### Controls
-* Move left: `Left Arrow` or `A`
-* Move right: `Right Arrow` or `D`
-* Jump: `Space`
-* Attack: `Left Mouse Button`
+* Move left: `Left Arrow`
+* Move right: `Right Arrow`
+* Move up: `Up Arrow` 
+* Move down: `Down Arrow`
+* Melee Attack: `A`
+* Ranged Attack: `S`
+* Mitigation Potion: `D`
+* Health Potion: `W`
 
 ### Gameplay
 * Navigate through the dungeon, defeating enemies along the way.
