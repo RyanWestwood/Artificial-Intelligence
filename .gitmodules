@@ -10,6 +10,6 @@
 [submodule "external/sdl-2.24.2"]
 	path = external/sdl-2.24.2
 	url = https://github.com/libsdl-org/SDL.git
-[submodule "external/ai-library"]
-	path = external/ai-library
-	url = https://github.com/RyanWestwood/Artificial-Intelligence-DLL.git
+[submodule "external/ail-1.0.0"]
+	path = external/ail-1.0.0
+	url = https://github.com/RyanWestwood/AI-Library
