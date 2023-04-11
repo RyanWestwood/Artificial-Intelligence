@@ -4,8 +4,8 @@ set library_binaries=%working_dir%/library_binaries
 set cmake="cmake"
 set generator="-G Visual Studio 17 2022"
 
-CALL :InstallLibs ai-library Release %library_binaries%
-CALL :InstallLibs ai-library Debug %library_binaries%/Debug
+CALL :InstallLibs ail-1.0.0 Release %library_binaries%
+CALL :InstallLibs ail-1.0.0 Debug %library_binaries%/Debug
 CALL :InstallProject Release %library_binaries%
 CALL :InstallProject Debug %library_binaries%/Debug
 

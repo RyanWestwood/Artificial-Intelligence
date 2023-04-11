@@ -19,7 +19,7 @@ CALL :InstallLibs sdl-2.24.2 %~1 %~2
 CALL :InstallLibs sdl-image-2.6.2 %~1 %~2
 CALL :InstallLibs sdl-mixer-2.6.2 %~1 %~2
 CALL :InstallLibs sdl-ttf-2.20.1 %~1 %~2
-CALL :InstallLibs ai-library %~1 %~2
+CALL :InstallLibs ail-1.0.0 %~1 %~2
 EXIT /B 0
 
 :InstallLibs
