@@ -36,6 +36,7 @@ namespace pathing
   {
     A_Star = 0,
     BFS,
+    BDS,
     DFS,
     GBFS,
     DLS,

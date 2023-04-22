@@ -36,9 +36,9 @@ namespace pathing
   void Node::Draw()
   {
     SDL_RenderCopyF(renderer::GetRenderer(),
-                   m_TextureData.m_Texture,
-                   &m_TextureData.m_Source,
-                   &m_Destination);
+                    m_TextureData.m_Texture,
+                    &m_TextureData.m_Source,
+                    &m_Destination);
   }
 #endif
 
@@ -127,6 +127,7 @@ namespace pathing
     ai::path::NodePtr    start_node = g_NodePtrs.at(start.x + (start.y * tilemap_dimensions.w));
     ai::path::NodePtr    end_node   = g_NodePtrs.at(end.x + (end.y * tilemap_dimensions.w));
     std::vector<Vector2> solution_path;
+    // TODO: Make this a vector with algo as index. 
     switch(algorithm)
     {
       case pathing::Algo::A_Star:
@@ -144,10 +145,24 @@ namespace pathing
         solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node, layer);
         timer::StopTimer("DFS");
         break;
+      case pathing::Algo::DLS:
+        timer::StartTimer();
+        solution_path = ai::path::DLS(g_NodePtrs, start_node, end_node, layer);
+        timer::StopTimer("DLS");
+        break;
       case pathing::Algo::GBFS:
         timer::StartTimer();
-        solution_path =
-          ai::path::Greedy_BFS(g_NodePtrs, start_node, end_node, layer);
+        solution_path = ai::path::GBFS(g_NodePtrs, start_node, end_node, layer);
+        timer::StopTimer("Greedy BFS");
+        break;
+      case pathing::Algo::IDDFS:
+        timer::StartTimer();
+        solution_path = ai::path::IDDFS(g_NodePtrs, start_node, end_node, layer);
+        timer::StopTimer("Greedy BFS");
+        break;
+      case pathing::Algo::BDS:
+        timer::StartTimer();
+        solution_path = ai::path::BDS(g_NodePtrs, start_node, end_node, layer);
         timer::StopTimer("Greedy BFS");
         break;
       default: break;
@@ -165,7 +180,7 @@ namespace pathing
 
 #ifdef LOGGING
   void DebugPaths(Vector2 tilemap_dimensions,
-                  Vector2  tile_size)
+                  Vector2 tile_size)
   {
     for(int y = 0; y < tilemap_dimensions.h; y++)
     {
