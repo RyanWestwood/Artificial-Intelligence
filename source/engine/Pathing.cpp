@@ -7,6 +7,11 @@
 #include "Input.h"
 #endif // LOGGING
 
+#define SEARCH_ALGORITHM_CASE(algorithm)                                          \
+  case SearchAlgorithm::algorithm:                                                \
+    solution_path = ai::path::algorithm(g_NodePtrs, start_node, end_node, layer); \
+    break;
+
 namespace pathing
 {
   namespace
@@ -129,27 +134,13 @@ namespace pathing
     timer::StartTimer();
     switch(algorithm)
     {
-      case SearchAlgorithm::A_Star:
-        solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node, layer);
-        break;
-      case SearchAlgorithm::BestFirst:
-        solution_path = ai::path::BestFirst(g_NodePtrs, start_node, end_node, layer);
-        break;
-      case SearchAlgorithm::BiDirectional:
-        solution_path = ai::path::BiDirectional(g_NodePtrs, start_node, end_node, layer);
-        break;
-      case SearchAlgorithm::DepthFirst:
-        solution_path = ai::path::DepthFirst(g_NodePtrs, start_node, end_node, layer);
-        break;
-      case SearchAlgorithm::DepthLimited:
-        solution_path = ai::path::DepthLimited(g_NodePtrs, start_node, end_node, layer);
-        break;
-      case SearchAlgorithm::GreedyBestFirst:
-        solution_path = ai::path::GreedyBestFirst(g_NodePtrs, start_node, end_node, layer);
-        break;
-      case SearchAlgorithm::IterativeDeepeningDepthFirst:
-        solution_path = ai::path::IterativeDeepeningDepthFirst(g_NodePtrs, start_node, end_node, layer);
-        break;
+      SEARCH_ALGORITHM_CASE(A_Star)
+      SEARCH_ALGORITHM_CASE(BestFirst)
+      SEARCH_ALGORITHM_CASE(BiDirectional)
+      SEARCH_ALGORITHM_CASE(DepthFirst)
+      SEARCH_ALGORITHM_CASE(DepthLimited)
+      SEARCH_ALGORITHM_CASE(GreedyBestFirst)
+      SEARCH_ALGORITHM_CASE(IterativeDeepeningDepthFirst)
     }
     timer::StopTimer("SearchAlgorithm");
 
