@@ -32,14 +32,14 @@ namespace pathing
 #endif // LOGGING
   };
 
-  enum class Algo
+  enum class Algo : uint8_t
   {
     A_Star = 0,
-    BFS,
     BDS,
+    BFS,
     DFS,
-    GBFS,
     DLS,
+    GBFS,
     IDDFS
   };
 
