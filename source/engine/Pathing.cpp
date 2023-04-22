@@ -105,8 +105,7 @@ namespace pathing
     {
       for(int x = 0; x < tilemap_dimensions.w; x++)
       {
-        g_NodePtrs.at(x + (y * tilemap_dimensions.w))
-          ->SetObstacle(ai::path::Obstacle::None);
+        g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(ai::path::Obstacle::None);
       }
     }
   }
@@ -119,7 +118,7 @@ namespace pathing
 
   std::vector<Vector2> CreatePath(Vector2            start,
                                   Vector2            end,
-                                  Algo               algorithm,
+                                  SearchAlgorithm    algorithm,
                                   ai::path::Obstacle layer)
   {
     auto tilemap_dimensions = globals::GetTileMapDimensions();
@@ -127,46 +126,33 @@ namespace pathing
     ai::path::NodePtr    start_node = g_NodePtrs.at(start.x + (start.y * tilemap_dimensions.w));
     ai::path::NodePtr    end_node   = g_NodePtrs.at(end.x + (end.y * tilemap_dimensions.w));
     std::vector<Vector2> solution_path;
-    // TODO: Make this a vector with algo as index. 
+    timer::StartTimer();
     switch(algorithm)
     {
-      case pathing::Algo::A_Star:
-        timer::StartTimer();
+      case SearchAlgorithm::A_Star:
         solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("A_Star");
         break;
-      case pathing::Algo::BFS:
-        timer::StartTimer();
-        solution_path = ai::path::BFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("BFS");
+      case SearchAlgorithm::BestFirst:
+        solution_path = ai::path::BestFirst(g_NodePtrs, start_node, end_node, layer);
         break;
-      case pathing::Algo::DFS:
-        timer::StartTimer();
-        solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("DFS");
+      case SearchAlgorithm::BiDirectional:
+        solution_path = ai::path::BiDirectional(g_NodePtrs, start_node, end_node, layer);
         break;
-      case pathing::Algo::DLS:
-        timer::StartTimer();
-        solution_path = ai::path::DLS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("DLS");
+      case SearchAlgorithm::DepthFirst:
+        solution_path = ai::path::DepthFirst(g_NodePtrs, start_node, end_node, layer);
         break;
-      case pathing::Algo::GBFS:
-        timer::StartTimer();
-        solution_path = ai::path::GBFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("Greedy BFS");
+      case SearchAlgorithm::DepthLimited:
+        solution_path = ai::path::DepthLimited(g_NodePtrs, start_node, end_node, layer);
         break;
-      case pathing::Algo::IDDFS:
-        timer::StartTimer();
-        solution_path = ai::path::IDDFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("Greedy BFS");
+      case SearchAlgorithm::GreedyBestFirst:
+        solution_path = ai::path::GreedyBestFirst(g_NodePtrs, start_node, end_node, layer);
         break;
-      case pathing::Algo::BDS:
-        timer::StartTimer();
-        solution_path = ai::path::BDS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("Greedy BFS");
+      case SearchAlgorithm::IterativeDeepeningDepthFirst:
+        solution_path = ai::path::IterativeDeepeningDepthFirst(g_NodePtrs, start_node, end_node, layer);
         break;
-      default: break;
     }
+    timer::StopTimer("SearchAlgorithm");
+
 #ifdef LOGGING
     g_SolutionNodes.insert(std::end(g_SolutionNodes),
                            std::begin(solution_path),
@@ -175,6 +161,7 @@ namespace pathing
     g_EndNodes.emplace_back(end);
     DebugPaths(tilemap_dimensions, globals::GetTileDimensions());
 #endif // LOGGING
+
     return solution_path;
   }
 
