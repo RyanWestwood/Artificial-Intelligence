@@ -17,7 +17,7 @@ set(LIB_FILES
     "${LIBRARY_FILES}/SDL2_mixer.lib" 
     "${LIBRARY_FILES}/SDL2_ttf.lib"
     "${LIBRARY_FILES}/AIL.lib"
-    "${LIBRARY_FILES}/ArtificialIntelligence_static.lib"
+    "${LIBRARY_FILES}/Carlos-Dungeon-Crusade-Tests.lib"
     ) 
 
 file(GLOB DLLS "${BINARY_FILES}/*.dll")
