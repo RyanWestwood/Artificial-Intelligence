@@ -63,8 +63,7 @@ namespace pathing
     g_Nodes.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
     g_SolutionNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
 
-    g_NodePtrs =
-      ai::path::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h);
+    g_NodePtrs = ai::path::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h);
     for(int y = 0; y < tilemap_dimensions.h; y++)
     {
       for(int x = 0; x < tilemap_dimensions.w; x++)
