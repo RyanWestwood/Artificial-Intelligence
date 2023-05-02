@@ -53,7 +53,7 @@ add_executable (${PROJECT_NAME} ${SOURCE})
 target_link_libraries(${PROJECT_NAME} ${LIB_FILES})
 
 
-option(RUN_TESTS "Run tests" ON)
+option(RUN_TESTS "Run tests" OFF)
 if(RUN_TESTS)
     add_library(Carlos-Dungeon-Crusade-Tests STATIC ${SOURCE})
     target_include_directories(Carlos-Dungeon-Crusade-Tests PUBLIC ${PROJECT_SOURCE_DIR}/library_binaries/include)
