@@ -1,13 +1,13 @@
 #include "Globals.h"
-#include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL2/SDL.h>
 
 namespace globals
 {
 
   namespace
   {
-    extern std::string      g_AssetDirectory    = "Not yet initialized!\n";
+    extern std::string   g_AssetDirectory    = "Not yet initialized!\n";
     extern const Vector2 g_ScreenDimensions  = Vector2(1536, 864);
     extern const Vector2 g_TileDimensions    = Vector2(32, 32);
     extern const Vector2 g_TileMapDimensions = Vector2(48, 27);
