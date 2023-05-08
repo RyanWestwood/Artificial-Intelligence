@@ -44,7 +44,7 @@ public:
   std::vector<Vector2> m_Path;
   Vector2              m_CachedStartPos;
   Obstacle             m_AvoidLayer;
-  pathing::Algo        m_SearchAlgo;
+  SearchAlgorithm        m_SearchAlgo;
 
   // Updating to smoothed
   bool  m_FollowingPath;

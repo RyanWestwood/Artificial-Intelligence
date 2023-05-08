@@ -89,7 +89,7 @@ void Boss::CreateBt()
   auto alive_action = [&]() -> Status {
     if(m_Health <= 0)
     {
-       Death();
+      Death();
 #ifdef LOGGING
       std::cout << "Died in the behavior tree!\n";
 #endif
@@ -110,7 +110,9 @@ void Boss::CreateBt()
     m_AbilityBar.ChangeProgress((*m_MeleeTimer / 2.f) * 100);
     if(*m_Timer >= 2.f && *m_MeleeTimer <= 0.f)
     {
+#ifdef LOGGING
       std::cout << "Melee Attack!\n";
+#endif
       utils::GetPlayer().TakeDamage(10.f);
       *m_Timer       = 0.f;
       *m_MeleeTimer  = 2.f;
@@ -128,7 +130,9 @@ void Boss::CreateBt()
     m_AbilityBar.ChangeProgress((*m_RangedTimer / 2.f) * 100);
     if(*m_Timer >= 2.f && *m_RangedTimer <= 0.f)
     {
+#ifdef LOGGING
       std::cout << "RaidWide Attack!\n";
+#endif
       utils::GetPlayer().TakeDamage(5.f);
       *m_Timer       = 0.f;
       *m_RangedTimer = 2.f;

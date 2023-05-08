@@ -6,13 +6,11 @@
 class Tile
 {
 public:
-  Tile(texture::TextureData spritesheet);
-  void Draw();
+  Tile(SDL_FRect, SDL_Point);
 
 public:
-  texture::TextureData m_TextureData;
-  SDL_FRect            m_Destination;
-  SDL_Point            m_Position;
+  SDL_FRect m_Destination;
+  SDL_Point m_Position;
 };
 
 class Tilemap
@@ -28,4 +26,5 @@ public:
   std::array<std::array<int, 48>, 27> MAP_DATA;
   std::vector<Tile>                   m_Tiles;
   texture::TextureData                m_TextureData;
+  SDL_Texture*                        m_Map;
 };

@@ -25,14 +25,19 @@ namespace texture
 #endif // LOGGING
     try
     {
-      SDL_Surface* surface =
-        IMG_Load((g_TextureDirectory + std::string(filename)).c_str());
+      std::string  filepath = g_TextureDirectory + std::string(filename);
+      SDL_Surface* surface  = IMG_Load(filepath.c_str());
       if(surface == nullptr)
+      {
         throw TextureError();
-      SDL_Texture* texture =
-        SDL_CreateTextureFromSurface(renderer::GetRenderer(), surface);
+      }
+
+      SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer::GetRenderer(), surface);
       if(texture == nullptr)
+      {
         throw TextureError();
+      }
+
       SDL_Rect source = {0, 0, surface->w, surface->h};
       SDL_FreeSurface(surface);
       return {texture, source};
@@ -66,8 +71,7 @@ namespace texture
 #endif // LOGGING
     try
     {
-      SDL_Surface* surface =
-        SDL_CreateRGBSurface(0, 32, 32, 32, rmask, gmask, bmask, amask);
+      SDL_Surface* surface = SDL_CreateRGBSurface(0, 32, 32, 32, rmask, gmask, bmask, amask);
       SDL_FillRect(surface,
                    NULL,
                    SDL_MapRGBA(surface->format, colour.r, colour.g, colour.b, colour.a));

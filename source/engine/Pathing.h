@@ -32,22 +32,12 @@ namespace pathing
 #endif // LOGGING
   };
 
-  enum class Algo
-  {
-    A_Star = 0,
-    BFS,
-    DFS,
-    GBFS,
-    DLS,
-    IDDFS
-  };
-
   bool InitializePathing();
   void UnInitialize();
 
   std::vector<Vector2> CreatePath(Vector2            start_node,
                                   Vector2            end_node,
-                                  Algo               algorithm = Algo::A_Star,
+                                  SearchAlgorithm    algorithm = SearchAlgorithm::A_Star,
                                   ai::path::Obstacle layer     = ai::path::Obstacle::None);
   void                 Reset();
   void                 SetObstacle(int x, int y, ai::path::Obstacle value);

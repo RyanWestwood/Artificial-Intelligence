@@ -41,6 +41,13 @@ We welcome contributions from the community. To contribute to this project, foll
 2. Create a new branch for your changes: git checkout -b feature/my-new-feature
 3. Make your changes and commit them: git commit -am 'Add some feature'
 4. Push your changes to your fork: git push origin feature/my-new-feature
-5. Submit a pull request to the main repository.
+5. Submit a pull request to the main repository.  
+
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License - see the LICENSE.md file for details.  
+
+## Uses  
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/55410510/230521922-f843f5fe-e611-461b-bf37-99f0dc22e4cf.png" alt="Bulid Buddy">  
+    <img src="https://user-images.githubusercontent.com/55410510/233758470-3593449f-cf70-4ae0-9bbc-1b3e111ccf71.png" alt="AI Library">
+</p>

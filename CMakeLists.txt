@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.8)
-project(ArtificialIntelligence VERSION 1.0)
+project(Carlos-Dungeon-Crusade VERSION 1.0)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 set (CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DLOGGING")
@@ -52,14 +52,18 @@ endforeach()
 add_executable (${PROJECT_NAME} ${SOURCE})
 target_link_libraries(${PROJECT_NAME} ${LIB_FILES})
 
-add_library(ArtificialIntelligence_static STATIC ${SOURCE})
-target_include_directories(ArtificialIntelligence_static PUBLIC ${PROJECT_SOURCE_DIR}/library_binaries/include)
-target_link_libraries(ArtificialIntelligence_static ${LIB_FILES})
 
-install(
-    TARGETS ArtificialIntelligence_static EXPORT AI_STATIC_APP
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    RUNTIME DESTINATION bin
-    PUBLIC_HEADER DESTINATION include
-    )
+option(RUN_TESTS "Run tests" OFF)
+if(RUN_TESTS)
+    add_library(Carlos-Dungeon-Crusade-Tests STATIC ${SOURCE})
+    target_include_directories(Carlos-Dungeon-Crusade-Tests PUBLIC ${PROJECT_SOURCE_DIR}/library_binaries/include)
+    target_link_libraries(Carlos-Dungeon-Crusade-Tests ${LIB_FILES})
+
+    install(
+        TARGETS Carlos-Dungeon-Crusade-Tests EXPORT AI_STATIC_APP
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        PUBLIC_HEADER DESTINATION include
+        )
+endif()

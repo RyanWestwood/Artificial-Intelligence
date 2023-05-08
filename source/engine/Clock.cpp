@@ -1,6 +1,7 @@
 #include "Clock.h"
 #include <chrono>
 #include <iostream>
+#include <numeric>
 #define CLOCK 0
 
 namespace timer
@@ -18,13 +19,11 @@ namespace timer
 
   void StopTimer(const char* function_name)
   {
-    g_EndTime = std::chrono::high_resolution_clock::now();
-    auto duration =
-      std::chrono::duration_cast<std::chrono::microseconds>(g_EndTime - g_StartTime);
+    g_EndTime     = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(g_EndTime - g_StartTime);
 #ifdef LOGGING
 #if CLOCK == 1
-    std::cout << "Time taken by function (" << function_name << "): " << duration.count()
-              << " microseconds\n";
+    std::cout << "Time taken by function (" << function_name << "): " << duration.count() << " microseconds\n";
 #endif // CLOCK
 #endif // LOGGING
   }

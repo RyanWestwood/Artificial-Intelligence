@@ -8,7 +8,7 @@ Enemy::Enemy() :
 {
   m_Health           = 100.f;
   m_MaxHealth        = 100.f;
-  m_SearchAlgo       = pathing::Algo::A_Star;
+  m_SearchAlgo       = SearchAlgorithm::A_Star;
   m_AvoidLayer       = ai::path::None;
   m_MovementSpeed    = 0.f;
   m_FollowingPath    = false;
@@ -133,7 +133,7 @@ void Enemy::Draw()
 
 void Enemy::TakeDamage(float damage_amount)
 {
-  m_Health = std::clamp(m_Health - damage_amount, 0.f, m_MaxHealth);
+  m_Health         = std::clamp(m_Health - damage_amount, 0.f, m_MaxHealth);
   float percentage = (m_Health / m_MaxHealth) * 100.f;
   m_HealthBar.ChangeHealth((int)percentage);
 }

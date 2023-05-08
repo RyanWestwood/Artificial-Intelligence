@@ -7,6 +7,11 @@
 #include "Input.h"
 #endif // LOGGING
 
+#define SEARCH_ALGORITHM_CASE(algorithm)                                          \
+  case SearchAlgorithm::algorithm:                                                \
+    solution_path = ai::path::algorithm(g_NodePtrs, start_node, end_node, layer); \
+    break;
+
 namespace pathing
 {
   namespace
@@ -36,9 +41,9 @@ namespace pathing
   void Node::Draw()
   {
     SDL_RenderCopyF(renderer::GetRenderer(),
-                   m_TextureData.m_Texture,
-                   &m_TextureData.m_Source,
-                   &m_Destination);
+                    m_TextureData.m_Texture,
+                    &m_TextureData.m_Source,
+                    &m_Destination);
   }
 #endif
 
@@ -58,8 +63,7 @@ namespace pathing
     g_Nodes.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
     g_SolutionNodes.reserve(tilemap_dimensions.w * tilemap_dimensions.h);
 
-    g_NodePtrs =
-      ai::path::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h);
+    g_NodePtrs = ai::path::CreateNodeMap(tilemap_dimensions.w, tilemap_dimensions.h);
     for(int y = 0; y < tilemap_dimensions.h; y++)
     {
       for(int x = 0; x < tilemap_dimensions.w; x++)
@@ -105,8 +109,7 @@ namespace pathing
     {
       for(int x = 0; x < tilemap_dimensions.w; x++)
       {
-        g_NodePtrs.at(x + (y * tilemap_dimensions.w))
-          ->SetObstacle(ai::path::Obstacle::None);
+        g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(ai::path::Obstacle::None);
       }
     }
   }
@@ -119,7 +122,7 @@ namespace pathing
 
   std::vector<Vector2> CreatePath(Vector2            start,
                                   Vector2            end,
-                                  Algo               algorithm,
+                                  SearchAlgorithm    algorithm,
                                   ai::path::Obstacle layer)
   {
     auto tilemap_dimensions = globals::GetTileMapDimensions();
@@ -127,31 +130,19 @@ namespace pathing
     ai::path::NodePtr    start_node = g_NodePtrs.at(start.x + (start.y * tilemap_dimensions.w));
     ai::path::NodePtr    end_node   = g_NodePtrs.at(end.x + (end.y * tilemap_dimensions.w));
     std::vector<Vector2> solution_path;
+    timer::StartTimer();
     switch(algorithm)
     {
-      case pathing::Algo::A_Star:
-        timer::StartTimer();
-        solution_path = ai::path::A_Star(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("A_Star");
-        break;
-      case pathing::Algo::BFS:
-        timer::StartTimer();
-        solution_path = ai::path::BFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("BFS");
-        break;
-      case pathing::Algo::DFS:
-        timer::StartTimer();
-        solution_path = ai::path::DFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("DFS");
-        break;
-      case pathing::Algo::GBFS:
-        timer::StartTimer();
-        solution_path =
-          ai::path::Greedy_BFS(g_NodePtrs, start_node, end_node, layer);
-        timer::StopTimer("Greedy BFS");
-        break;
-      default: break;
+      SEARCH_ALGORITHM_CASE(A_Star)
+      SEARCH_ALGORITHM_CASE(BestFirst)
+      SEARCH_ALGORITHM_CASE(BiDirectional)
+      SEARCH_ALGORITHM_CASE(DepthFirst)
+      SEARCH_ALGORITHM_CASE(DepthLimited)
+      SEARCH_ALGORITHM_CASE(GreedyBestFirst)
+      SEARCH_ALGORITHM_CASE(IterativeDeepeningDepthFirst)
     }
+    timer::StopTimer("SearchAlgorithm");
+
 #ifdef LOGGING
     g_SolutionNodes.insert(std::end(g_SolutionNodes),
                            std::begin(solution_path),
@@ -160,12 +151,13 @@ namespace pathing
     g_EndNodes.emplace_back(end);
     DebugPaths(tilemap_dimensions, globals::GetTileDimensions());
 #endif // LOGGING
+
     return solution_path;
   }
 
 #ifdef LOGGING
   void DebugPaths(Vector2 tilemap_dimensions,
-                  Vector2  tile_size)
+                  Vector2 tile_size)
   {
     for(int y = 0; y < tilemap_dimensions.h; y++)
     {
