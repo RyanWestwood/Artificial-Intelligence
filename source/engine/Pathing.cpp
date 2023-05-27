@@ -16,11 +16,11 @@ namespace pathing
 {
   namespace
   {
-    extern std::vector<ai::path::NodePtr> g_NodePtrs{};
-    extern std::vector<Node>              g_Nodes{};
-    extern std::vector<Vector2>           g_SolutionNodes{};
-    extern std::vector<Vector2>           g_StartNodes{};
-    extern std::vector<Vector2>           g_EndNodes{};
+    extern std::vector<ai::path::Node*> g_NodePtrs{};
+    extern std::vector<Node>            g_Nodes{};
+    extern std::vector<Vector2>         g_SolutionNodes{};
+    extern std::vector<Vector2>         g_StartNodes{};
+    extern std::vector<Vector2>         g_EndNodes{};
 
     texture::TextureData g_DefaultTexture;
 #ifdef LOGGING
@@ -104,13 +104,9 @@ namespace pathing
 
   void Reset()
   {
-    auto tilemap_dimensions = globals::GetTileMapDimensions();
-    for(int y = 0; y < tilemap_dimensions.h; y++)
+    for(auto& node : g_NodePtrs)
     {
-      for(int x = 0; x < tilemap_dimensions.w; x++)
-      {
-        g_NodePtrs.at(x + (y * tilemap_dimensions.w))->SetObstacle(ai::path::Obstacle::None);
-      }
+      node->SetObstacle(ai::path::Obstacle::None);
     }
   }
 
@@ -127,8 +123,8 @@ namespace pathing
   {
     auto tilemap_dimensions = globals::GetTileMapDimensions();
 
-    ai::path::NodePtr    start_node = g_NodePtrs.at(start.x + (start.y * tilemap_dimensions.w));
-    ai::path::NodePtr    end_node   = g_NodePtrs.at(end.x + (end.y * tilemap_dimensions.w));
+    ai::path::Node*    start_node = g_NodePtrs[start.x + (start.y * tilemap_dimensions.w)];
+    ai::path::Node*    end_node   = g_NodePtrs[end.x + (end.y * tilemap_dimensions.w)];
     std::vector<Vector2> solution_path;
     timer::StartTimer();
     switch(algorithm)
